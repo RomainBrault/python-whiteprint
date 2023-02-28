@@ -1,28 +1,45 @@
-# This GitHub Actions job will build the user guide and publish it to the
-# gh-pages branch each time the master branch is updated. This branch is
-# configured to be served automatically using GitHub Pages.
-name: pages
+name: Pages
+
+env:
+  PYTHON_VERSION: "3.11"
 
 on:
   push:
-    branches: [master]
-
-env:
-  POETRY_VERSION: "1.3.2"
-  PYTHON_VERSION: "3.10"
+    branches: [main]
 
 jobs:
-  deploy:
+  docs:
+    name: Build documentation & check links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install poetry
-        run: pipx install poetry==${POETRY_VERSION}
-      - uses: actions/setup-python@v4
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v4.5.0
+        id: setup-python
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: poetry
-      - name: Install Nox and doc dependencies
-        run: poetry install --only nox,docs
+          check-latest: true
+
+      - name: Upgrade pip
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip --version
+
+      - name: Install Poetry
+        run: |
+          pipx install --pip-args=--constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Install Nox
+        run: |
+          pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
+          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry typeguard rich
+          nox --version
+
+      - name: Build documentation
+        run: nox --force-color --session=docs-check-urls
+
       - name: Publish Docs
-        run: poetry run nox -s docs_github_pages
+        run: nox --force-color --session=docs-github-pages
