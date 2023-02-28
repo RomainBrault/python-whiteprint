@@ -3,7 +3,7 @@
 
 # Except the following.
 !src
-!LICENSE.txt
+!LICENSE.md
 !pyproject.toml
 !poetry.lock
 !README.md
