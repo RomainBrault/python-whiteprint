@@ -1,13 +1,22 @@
-name: container
+name: Container
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Build Container Image
-        uses: docker/build-push-action@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build Container Image And Push
+        uses: docker/build-push-action@v4
         with:
-          push: false
+          context: .
+          file: Containerfile
+          push: true

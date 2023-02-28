@@ -11,3 +11,7 @@ __pycache__
 *.egg-info
 .coverage
 .coverage.*
+profile.*
+coverage.*
+DEPENDENCIES.md
+!docs/DEPENDENCIES.md

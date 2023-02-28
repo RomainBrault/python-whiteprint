@@ -1,71 +1,49 @@
-# `fact` User Guide
+# User Guide
 
 !!! info
 
-    For more information on how this was built and deployed, as well as other Python best
-    practices, see [`python-blueprint`](https://github.com/johnthagen/python-blueprint).
+    For more information on how this was built and deployed, as well as other
+    Python best practices, see
+    [`python-whiteprint`](https://github.com/RomainBrault/python-whiteprint).
 
 !!! info
 
-    This user guide is purely an illustrative example that shows off several features of 
-    [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) and included Markdown
+    This user guide is purely an illustrative example that shows off several
+    features of [Material for
+    MkDocs](https://squidfunk.github.io/mkdocs-material/) and included Markdown
     extensions[^1].
 
-[^1]: See `python-blueprint`'s `mkdocs.yml` for how to enable these features.
+[^1]: See `python-whiteprint`'s `mkdocs.yml` for how to enable these features.
 
 ## Installation
 
-First, [install Poetry](https://python-poetry.org/docs/#installation):
-
-=== "Linux/macOS"
-
-    ```bash
-    curl -sSL https://install.python-poetry.org | python3 -
-    ```
-
-=== "Windows"
-
-    ```powershell
-    (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
-    ```
-
-Then install the `fact` package and its dependencies:
+To install from the sources, after obtaining a copy of them on
+[GitHub](https://github.com/RomainBrault/python-whiteprint).
 
 ```bash
-poetry install
+pip install .
 ```
 
-Activate the virtual environment created automatically by Poetry:
-
-```bash
-poetry shell
-```
+For development purposes, you can use
+[Poetry](https://python-poetry.org/docs/#installation) to install the project
+from the sources. More information is available in the
+[CONTRIBUTING](CONTRIBUTING.md) guide.
 
 ## Quick Start
 
-To use `fact` within your project, import the `factorial` function and execute it like:
+This project is an example of a simple
+[Typer](https://github.com/tiangolo/typer) [command-line
+interface](https://en.wikipedia.org/wiki/Command-line_interface) (CLI).
 
 ```python
-from fact.lib import factorial
+from python_whiterprint import hello_world
 
-assert factorial(3) == 6 # (1)!
+assert hello_world.hello_world() == "Hello, World!"
 ```
 
 1. This assertion will be `True`
 
 !!! tip
 
-    Within PyCharm, use ++tab++ to auto-complete suggested imports while typing.
-
-### Expected Results
-
-<div class="center-table" markdown>
-
-| Input | Output |
-|:-----:|:------:|
-|   1   |   1    |
-|   2   |   2    |
-|   3   |   6    |
-|   4   |   24   | 
-
-</div>
+    Within PyCharm, use ++tab++ to auto-complete suggested imports while
+    typing.
