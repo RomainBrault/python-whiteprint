@@ -73,25 +73,14 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Fake Build Container Image And Push
-        uses: docker/build-push-action@v4
-        if: "! needs.check-version.outputs.tag"
-        with:
-          context: .
-          file: Containerfile
-          build-args: |
-            BUILD_DATE=${{ github.event.repository.updated_at }}
-            VERSION=${{ needs.metadata.outputs.version }}
-            REVISION=${{ github.sha }}
-            TAG=${{ steps.metadata.outputs.tags }}
-          tags: ${{ steps.metadata.outputs.tags }}
-          labels: ${{ steps.metadata.outputs.labels }}
-          push: false
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Build Container Image And Push
         uses: docker/build-push-action@v4
-        if: needs.check-version.outputs.tag
         with:
           context: .
           file: Containerfile
@@ -101,5 +90,5 @@ jobs:
             REVISION=${{ github.sha }}
             TAG=${{ steps.metadata.outputs.tags }}
           tags: ${{ steps.metadata.outputs.tags }}
+          push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.metadata.outputs.labels }}
-          push: true
