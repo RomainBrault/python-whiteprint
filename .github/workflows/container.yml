@@ -74,7 +74,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build Container Image And Push
+      - name: Fake Build Container Image And Push
         uses: docker/build-push-action@v4
         if: "! needs.check-version.outputs.tag"
         with:
