@@ -131,4 +131,4 @@ LABEL org.opencontainers.image.authors='Romain Brault <mail@romainbrault.com>' \
       org.opencontainers.image.title='python-whiteprint' \
       org.opencontainers.image.description='A cookiecutter for quick creation of Python projects.' \
       org.opencontainers.image.ref.name=${TAG} \
-      org.opencontainers.image.ref.name='docker.io/python:${PYTHON_VERSION}-${BASE_OS}' \
+      org.opencontainers.image.base.name='docker.io/python:${PYTHON_VERSION}-${BASE_OS}' \
