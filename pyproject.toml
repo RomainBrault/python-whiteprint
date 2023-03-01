@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python_whiteprint"
-version = "0.3.0"
+version = "0.4.0"
 description = "Example Python project using best practices"
 authors = [
     "Romain Brault <mail@romainbrault.com>",
