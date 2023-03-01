@@ -120,7 +120,7 @@ ARG REVISION
 ARG TAG
 
 LABEL org.opencontainers.image.authors='Romain Brault <mail@romainbrault.com>' \
-      org.opencontainers.image.url='' \
+      org.opencontainers.image.url='https://github.com/RomainBrault/python-whiteprint/pkgs/container/python-whiteprint' \
       org.opencontainers.image.documentation='https://romainbrault.github.io/python-whiteprint/' \
       org.opencontainers.image.source='https://github.com/RomainBrault/python-whiteprint.git' \
       org.opencontainers.image.vendor='Romain Brault' \
@@ -131,4 +131,4 @@ LABEL org.opencontainers.image.authors='Romain Brault <mail@romainbrault.com>' \
       org.opencontainers.image.title='python-whiteprint' \
       org.opencontainers.image.description='A cookiecutter for quick creation of Python projects.' \
       org.opencontainers.image.ref.name=${TAG} \
-      org.opencontainers.image.base.name='docker.io/python:${PYTHON_VERSION}-${BASE_OS}' \
+      org.opencontainers.image.base.name='docker.io/python:'${PYTHON_VERSION}'-'${BASE_OS}
