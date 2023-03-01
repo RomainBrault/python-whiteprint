@@ -15,3 +15,7 @@ updates:
     versioning-strategy: lockfile-only
     allow:
       - dependency-type: "all"
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: weekly

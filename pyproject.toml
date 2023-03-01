@@ -65,6 +65,9 @@ xenon = "*"
 ipdb = "*"
 pdbpp = "*"
 
+[tool.poetry.group.localization.dependencies]
+Babel = "*"
+
 [tool.poetry.group.type_check.dependencies]
 mypy = "*"
 # As of mypy 0.900, mypy no longer bundles the stubs for third-party libraries

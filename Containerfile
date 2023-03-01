@@ -22,7 +22,7 @@ ARG VIRTUAL_ENV=/opt/venv
 FROM docker.io/python:${PYTHON_VERSION}-${BASE_OS} AS python_builder
 
 # Pin Poetry to a specific version to make container builds reproducible.
-ARG POETRY_VERSION=1.3.2
+ARG POETRY_VERSION=1.4.0
 
 # Set ENV variables that make Python more friendly to running inside a
 # container.
