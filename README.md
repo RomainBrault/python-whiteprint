@@ -20,6 +20,21 @@ linting, and type checking tooling.
 
 Yes.
 
+This project build upon the excellent [cookiecutter-hypermodern-python] by
+@cjolowicz as well as [python-blueprint] by @johnthagen.
+
+You might want to check these project as they might be more adapted to your
+needs.
+
 ## Differences compared to [cookiecutter-hypermodern-python]
 
+[ ] Tweaks in the generated project (Typer instead of click, beartype,
+different documentation, etc.)
+[ ] More Github Actions and Community Standards and Community Standards
+[ ] Ruff instead of Flake8
+[ ] OCI Container images
+[ ] Basic GitLab support
+[ ] Latex template with python integration
+
 [cookiecutter-hypermodern-python]: https://cookiecutter-hypermodern-python.readthedocs.io/en/2022.6.3.post1/
+[python-blueprint]: https://github.com/johnthagen/python-blueprint
