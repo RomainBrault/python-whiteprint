@@ -2,15 +2,15 @@
 import enum
 import importlib
 
-import typeguard
-import typer
+from beartype import beartype
+from click import exceptions
+from typer import main, params
 
 
-app = typer.main.Typer(add_completion=False)
-"""The Command Line Interface."""
+app = main.Typer(add_completion=False)
+"""The command-line interface."""
 
 
-@typeguard.typechecked
 class LogLevel(str, enum.Enum):
     """Logging levels.
 
@@ -26,7 +26,7 @@ class LogLevel(str, enum.Enum):
     NOTSET = "NOTSET"
 
 
-@typeguard.typechecked
+@beartype
 def _cb_version(*, value: bool) -> None:
     """A typer callback that prints the package's version.
 
@@ -46,10 +46,10 @@ def _cb_version(*, value: bool) -> None:
             __package__,
         )
         console.DEFAULT.print(version.__version__)
-        raise typer.Exit
+        raise exceptions.Exit
 
 
-@typeguard.typechecked
+@beartype
 def _configure_logging(level: LogLevel) -> None:
     """Configure Rich logging handler.
 
@@ -57,26 +57,23 @@ def _configure_logging(level: LogLevel) -> None:
         level: The logging verbosity level.
 
     Example:
-        ```pycon
         >>> from python_whiteprint.cli import LogLevel
         >>>
         >>> _configure_logging(LogLevel.INFO)
         None
 
-        ```
-
     See Also:
         https://rich.readthedocs.io/en/stable/logging.html
     """
     importlib.import_module("logging").basicConfig(
-        level=level.value,
+        level=level.value.upper(),
         format="%(message)s",
         datefmt="[%X]",
         handlers=[
             importlib.import_module("rich.logging").RichHandler(
                 rich_tracebacks=True,
                 tracebacks_suppress=[
-                    importlib.import_module("typeguard"),
+                    importlib.import_module("beartype"),
                     importlib.import_module("click"),
                     importlib.import_module("typer"),
                 ],
@@ -85,7 +82,7 @@ def _configure_logging(level: LogLevel) -> None:
     )
 
 
-_version_option = typer.Option(
+_version_option = params.Option(
     False,
     "--version",
     callback=_cb_version,
@@ -96,15 +93,17 @@ _version_option = typer.Option(
     ),
 )
 """The typer option serving as default value for the CLI's version flag."""
-_default_log_level = typer.Option(
+_default_log_level = params.Option(
     LogLevel.INFO,
+    "--log-level",
     case_sensitive=False,
     help="Logging verbosity.",
+    envvar="WHITEPRINT_LOG_LEVEL",
 )
 """The default logging level of the CLI."""
 
 
-@typeguard.typechecked
+@beartype
 @app.command(name="main")
 def _main(
     log_level: LogLevel = _default_log_level,
@@ -120,3 +119,11 @@ def _main(
         __package__,
     )
     hello_world.hello_world()
+
+
+_click_app = main.get_command(app)
+"""A click command-line interface.
+
+A click app is exposed for auto-documentation purpose with sphinx-click. It
+must be defined after the CLI is fully constructed.
+"""

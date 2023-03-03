@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python_whiteprint"
-version = "0.3.0"
+version = "0.4.0"
 description = "Example Python project using best practices"
 authors = [
     "Romain Brault <mail@romainbrault.com>",
@@ -38,7 +38,7 @@ classifiers = [
 python = ">=3.8, <3.12"
 rich = ">=12.5.0"
 typer = { version = ">=0.7.0", extras = ["all"] }
-typeguard = ">=2.13.3"
+beartype = ">=0.12.0"
 
 [tool.poetry.group.test.dependencies]
 xdoctest = "*"
@@ -81,6 +81,7 @@ python-lsp-server = {extras = ["pylint"], version = "*"}
 
 [tool.poetry.group.fmt.dependencies]
 black = "*"
+blacken-docs = "*"
 isort = "*"
 pyupgrade = "*"
 ruff = "*"
@@ -94,14 +95,14 @@ pre-commit-hooks = "*"
 pynvim = "*"
 
 [tool.poetry.group.docs.dependencies]
-mkdocs-autorefs = "*"
-mkdocs-material = ">=9.0.0"
-mkdocs-htmlproofer-plugin = "*"
-mkdocstrings = { version = ">=0.18", extras = ["python"] }
-## Autodoc.
-mkdocs-gen-files = ">=0.4.0"
-mkdocs-literate-nav = "*"
-mkdocs-section-index = "*"
+furo = "*"
+sphinx = "*"
+myst-parser = "*"
+sphinx-autobuild = "*"
+sphinx-autoapi = "*"
+sphinx-click = "*"
+sphinxcontrib-napoleon = "*"
+sphinxcontrib-spelling = "*"
 
 [tool.poetry.scripts]
 whiteprint = "python_whiteprint.cli:app"

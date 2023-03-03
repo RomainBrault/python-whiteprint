@@ -7,11 +7,11 @@ build
 htmlcov
 site
 __pycache__
+_build
 *.pyc
 *.egg-info
+*.log
 .coverage
 .coverage.*
 profile.*
 coverage.*
-DEPENDENCIES.md
-!docs/DEPENDENCIES.md

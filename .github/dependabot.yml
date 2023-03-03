@@ -9,10 +9,18 @@ updates:
     schedule:
       interval: weekly
   - package-ecosystem: pip
+    directory: "/docs"
+    schedule:
+      interval: weekly
+  - package-ecosystem: pip
     directory: "/"
     schedule:
       interval: weekly
     versioning-strategy: lockfile-only
+    open-pull-requests-limit: 99
+    commit-message:
+      prefix: "⬆️"
+      prefix-development: "⬆️ [dev]"
     allow:
       - dependency-type: "all"
   - package-ecosystem: "docker"

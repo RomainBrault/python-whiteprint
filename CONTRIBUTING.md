@@ -1,4 +1,4 @@
-# Contributor Guide
+# 🛠️ Contributor Guide
 
 Thank you for your interest in improving this project. This project is
 open-source under the [MIT license] and welcomes contributions in the form of
@@ -13,7 +13,7 @@ Here is a list of important resources for contributors:
 
 [mit license]: https://opensource.org/licenses/MIT
 [source code]: https://github.com/RomainBrault/python-whiteprint.git
-[documentation]: https://romainbrault.github.io/python-whiteprint/
+[documentation]: https://python-whiteprint.readthedocs.io/en/latest/
 [issue tracker]: https://github.com/RomainBrault/python-whiteprint/issues
 
 ## How to report a bug
@@ -40,8 +40,10 @@ Request features on the [Issue Tracker].
 You need Python 3.8+ and the following tools:
 
 - [Poetry]
+- [Nox] with [nox-poetry], [rich] and [beartype] additional dependencies
 
-Install the package with development requirements:
+Once your environment is set-up, install the package with development
+requirements:
 
 ```console
 $ poetry install
@@ -65,6 +67,10 @@ $ python_whiteprint
 ```
 
 [poetry]: https://python-poetry.org/
+[nox poetry]: https://nox-poetry.readthedocs.io/en/stable/
+[rich]: https://rich.readthedocs.io/en/stable/
+[beartype]: https://beartype.readthedocs.io/en/latest/
+[pipx]: https://pypa.github.io/pipx/
 
 ## How to test the project
 
