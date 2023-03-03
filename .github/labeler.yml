@@ -1,0 +1,16 @@
+ci:
+  - .github/
+
+github_actions:
+  - .github/workflows/*
+
+documentation:
+  - README.md
+  - ./docs/**
+  - ./*.md
+
+python:
+  - ./**/*.py
+
+testing:
+  - tests/**
