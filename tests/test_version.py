@@ -2,12 +2,12 @@
 
 import re
 
-import typeguard
+from beartype import beartype
 
 from python_whiteprint import version
 
 
-@typeguard.typechecked
+@beartype
 class TestVersion:
     """Test the __version__ variable."""
 

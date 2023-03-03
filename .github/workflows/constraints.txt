@@ -3,5 +3,5 @@ nox-poetry==1.0.2
 pip==23.0.1
 poetry==1.4.0
 rich==13.3.1
-typeguard==3.0.0rc1
+beartype==0.12.0
 virtualenv==20.20.0

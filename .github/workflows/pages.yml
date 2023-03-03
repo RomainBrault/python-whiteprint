@@ -1,11 +1,13 @@
-name: Pages
+name: Documentation
 
 env:
   PYTHON_VERSION: "3.11"
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   docs:
@@ -35,11 +37,15 @@ jobs:
       - name: Install Nox
         run: |
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
-          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry typeguard rich
+          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry beartype rich
           nox --version
 
       - name: Build documentation
-        run: nox --force-color --session=docs-check-urls
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: docs/_build
+        run: nox --force-color --session=docs-build
 
-      - name: Publish Docs
-        run: nox --force-color --session=docs-github-pages
+      - name: Check links
+        run: nox --force-color --session=docs-check-links

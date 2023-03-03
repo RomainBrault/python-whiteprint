@@ -2,13 +2,14 @@
 import os
 import pathlib
 import shlex
+import shutil
 import tempfile
 import textwrap
-from typing import Dict, List
 
 import nox_poetry
 import packaging
-import typeguard
+from beartype import beartype
+from beartype.typing import Dict, List
 from nox import options
 from rich import console
 
@@ -26,16 +27,16 @@ options.sessions = [
     "pip-audit",
     "pre-commit",
     "test",
-    "docs-check-urls",
+    "docs-build",
 ]
 
 
-@typeguard.typechecked
+@beartype
 def _not_hook(hook: pathlib.Path) -> bool:
     return hook.name.endswith(".sample") or not hook.is_file()
 
 
-@typeguard.typechecked
+@beartype
 def _patch_hook(
     hook: pathlib.Path,
     *,
@@ -49,7 +50,7 @@ def _patch_hook(
             break
 
 
-@typeguard.typechecked
+@beartype
 def _bindir_in_hook(bindirs: List[str], *, text: str) -> bool:
     return any(
         (
@@ -63,7 +64,7 @@ def _bindir_in_hook(bindirs: List[str], *, text: str) -> bool:
     )
 
 
-@typeguard.typechecked
+@beartype
 def _patch_hooks(
     hookdir: pathlib.Path,
     *,
@@ -83,7 +84,7 @@ def _patch_hooks(
         _patch_hook(hook, headers=headers, lines=lines)
 
 
-@typeguard.typechecked
+@beartype
 def activate_virtualenv_in_precommit_hooks(
     session: nox_poetry.Session,
 ) -> None:
@@ -141,7 +142,7 @@ def activate_virtualenv_in_precommit_hooks(
     _patch_hooks(hookdir, bindirs=bindirs, headers=headers)
 
 
-@typeguard.typechecked
+@beartype
 def install_poetry_groups(
     session: nox_poetry.Session,
     *groups: str,
@@ -166,8 +167,8 @@ def install_poetry_groups(
         session.install("-r", requirements.name)
 
 
-@typeguard.typechecked
 @nox_poetry.session(name="pre-commit", python=WORKING_PYTHON_VERSION)
+@beartype
 def pre_commit(session: nox_poetry.Session) -> None:
     """Lint and format using pre-commit.
 
@@ -197,8 +198,8 @@ def pre_commit(session: nox_poetry.Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def coverage(session: nox_poetry.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report", "--skip-covered"]
@@ -215,8 +216,8 @@ def coverage(session: nox_poetry.Session) -> None:
     session.run("coverage", "erase")
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=PYTHON_VERSIONS)
+@beartype
 def test(session: nox_poetry.Session) -> None:
     """Run the tests suite and append coverage to the existing one.
 
@@ -242,8 +243,8 @@ def test(session: nox_poetry.Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def fmt(session: nox_poetry.Session) -> None:
     """Format the code.
 
@@ -256,8 +257,8 @@ def fmt(session: nox_poetry.Session) -> None:
     session.run("ruff", "--fix-only", ".")
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def lint(session: nox_poetry.Session) -> None:
     """Lint the code with PyLint.
 
@@ -284,8 +285,8 @@ def lint(session: nox_poetry.Session) -> None:
     )
 
 
-@typeguard.typechecked
 @nox_poetry.session(name="type-check", python=WORKING_PYTHON_VERSION)
+@beartype
 def type_check(session: nox_poetry.Session) -> None:
     """Type check the code.
 
@@ -311,11 +312,8 @@ def type_check(session: nox_poetry.Session) -> None:
 DOC_ENV = {"PYTHONPATH": "src"}
 
 
-@typeguard.typechecked
-@nox_poetry.session(
-    name="pip-audit",
-    python=PYTHON_VERSIONS,
-)
+@nox_poetry.session(name="pip-audit", python=PYTHON_VERSIONS)
+@beartype
 def pip_audit(session: nox_poetry.Session) -> None:
     """Scan dependencies for insecure packages.
 
@@ -334,8 +332,8 @@ def pip_audit(session: nox_poetry.Session) -> None:
     session.run("pip-audit", "--strict")
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def bandit(session: nox_poetry.Session) -> None:
     """Lint source code for security issues.
 
@@ -354,8 +352,8 @@ def bandit(session: nox_poetry.Session) -> None:
     session.run("bandit", *args)
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def radon(session: nox_poetry.Session) -> None:
     """Measure the Maintainability Index of the code.
 
@@ -372,8 +370,8 @@ def radon(session: nox_poetry.Session) -> None:
     session.run("radon", *args)
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def xenon(session: nox_poetry.Session) -> None:
     """Check the Maintainability Index of the code.
 
@@ -396,8 +394,8 @@ def xenon(session: nox_poetry.Session) -> None:
     session.run("xenon", *args)
 
 
-@typeguard.typechecked
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
 def licenses(session: nox_poetry.Session) -> None:
     """List the licenses.
 
@@ -423,7 +421,7 @@ def licenses(session: nox_poetry.Session) -> None:
     CONSOLE.print(licenses_table)
 
 
-@typeguard.typechecked
+@beartype
 def _export_licenses(session: nox_poetry.Session) -> None:
     session.posargs = [
         "--from=mixed",
@@ -434,78 +432,75 @@ def _export_licenses(session: nox_poetry.Session) -> None:
     licenses(session)
 
 
-@typeguard.typechecked
-@nox_poetry.session(python=WORKING_PYTHON_VERSION)
-def docs(session: nox_poetry.Session) -> None:
+@nox_poetry.session(name="docs-build", python=WORKING_PYTHON_VERSION)
+@beartype
+def docs_build(session: nox_poetry.Session) -> None:
     """Build the documentation.
 
     Args:
         session: The Session object.
     """
+    args = session.posargs or ["-W", "--keep-going", "docs", "docs/_build"]
+    if not session.posargs and "FORCE_COLOR" in os.environ:
+        args.insert(0, "--color")
+
     _export_licenses(session)
+
     session.install(".")
     install_poetry_groups(session, "docs")
-    session.run("mkdocs", "build", env=DOC_ENV)
+
+    build_dir = pathlib.Path("docs", "_build")
+    if build_dir.exists():
+        shutil.rmtree(build_dir)
+
+    session.run("sphinx-build", *args)
 
 
-@typeguard.typechecked
-@nox_poetry.session(name="docs-check-urls", python=WORKING_PYTHON_VERSION)
-def docs_check_urls(session: nox_poetry.Session) -> None:
-    """Check the documentation's URLs.
+@nox_poetry.session(python=WORKING_PYTHON_VERSION)
+@beartype
+def docs(session: nox_poetry.Session) -> None:
+    """Build and serve the documentation with live reloading on file changes.
 
     Args:
         session: The Session object.
     """
+    args = session.posargs or [
+        "-W",
+        "--open-browser",
+        "docs",
+        "docs/_build",
+    ]
+
     _export_licenses(session)
+
     session.install(".")
     install_poetry_groups(session, "docs")
-    session.run(
-        "mkdocs",
-        "build",
-        env={**DOC_ENV, "HTMLPROOFER_VALIDATE_EXTERNAL_URLS": str(True)},
-    )
+
+    build_dir = pathlib.Path("docs", "_build")
+    if build_dir.exists():
+        shutil.rmtree(build_dir)
+
+    session.run("sphinx-autobuild", *args)
 
 
-@typeguard.typechecked
-@nox_poetry.session(name="docs-offline", python=WORKING_PYTHON_VERSION)
-def docs_offline(session: nox_poetry.Session) -> None:
-    """Build the documentation for offline usage.
+@nox_poetry.session(name="docs-check-links", python=WORKING_PYTHON_VERSION)
+@beartype
+def docs_check_links(session: nox_poetry.Session) -> None:
+    """Build the documentation."""
+    args = session.posargs or [
+        "-b",
+        "linkcheck",
+        "-W",
+        "--keep-going",
+        "docs",
+        "docs/_build",
+    ]
 
-    Args:
-        session: The Session object.
-    """
-    _export_licenses(session)
+    builddir = pathlib.Path("docs", "_build")
+    if builddir.exists():
+        shutil.rmtree(builddir)
+
     session.install(".")
     install_poetry_groups(session, "docs")
-    session.run(
-        "mkdocs",
-        "build",
-        env={**DOC_ENV, "MKDOCS_MATERIAL_OFFLINE": str(True)},
-    )
 
-
-@typeguard.typechecked
-@nox_poetry.session(name="docs-serve", python=WORKING_PYTHON_VERSION)
-def docs_serve(session: nox_poetry.Session) -> None:
-    """Start a server to preview the docuentation.
-
-    Args:
-        session: The Session object.
-    """
-    _export_licenses(session)
-    session.install(".")
-    install_poetry_groups(session, "docs")
-    session.run("mkdocs", "serve", env=DOC_ENV)
-
-
-@typeguard.typechecked
-@nox_poetry.session(name="docs-github-pages", python=WORKING_PYTHON_VERSION)
-def docs_github_pages(session: nox_poetry.Session) -> None:
-    """Deploy the documentation on GitHub.
-
-    Args:
-        session: The Session object.
-    """
-    session.install(".")
-    install_poetry_groups(session, "docs")
-    session.run("mkdocs", "gh-deploy", "--force", env=DOC_ENV, external=True)
+    session.run("sphinx-build", *args)

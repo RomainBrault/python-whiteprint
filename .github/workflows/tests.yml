@@ -5,9 +5,9 @@ env:
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
   pull_request:
-    branches: [main]
+    branches: ["main"]
 
 jobs:
   test:
@@ -29,7 +29,6 @@ jobs:
           - { python: "3.10", os: "ubuntu-latest", session: "test" }
           - { python: "3.9", os: "ubuntu-latest", session: "test" }
           - { python: "3.8", os: "ubuntu-latest", session: "test" }
-          - { python: "3.11", os: "ubuntu-latest", session: "docs-check-urls" }
 
     env:
       NOXSESSION: ${{ matrix.session }}
@@ -59,7 +58,7 @@ jobs:
       - name: Install Nox
         run: |
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
-          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry typeguard rich
+          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry beartype rich
           nox --version
 
       - name: Compute pre-commit cache key
@@ -134,7 +133,7 @@ jobs:
       - name: Install Nox
         run: |
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
-          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry typeguard rich
+          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry beartype rich
           nox --version
 
       - name: Download coverage data

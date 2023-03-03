@@ -1,12 +1,12 @@
 """Test the console module."""
 
-import typeguard
+from beartype import beartype
 from typer import testing
 
 from python_whiteprint import cli, version
 
 
-@typeguard.typechecked
+@beartype
 class TestCLI:
     """Test the CLI."""
 
