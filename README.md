@@ -13,7 +13,7 @@
 [license badge]: https://img.shields.io/github/license/cjolowicz/cookiecutter-hypermodern-python
 [contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 
-Cookiecutter to create a Python package using the latest Python testing,
+Cookiecutter to create a Python package using modern Python testing,
 linting, and type checking tooling.
 
 ## Yet another Python Project cookiecutter?
