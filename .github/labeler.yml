@@ -1,5 +1,5 @@
 ci:
-  - .github/
+  - .github/**
 
 github_actions:
   - .github/workflows/*
@@ -14,3 +14,10 @@ python:
 
 testing:
   - tests/**
+
+dependencies:
+  - poetry.lock
+
+build:
+  - noxfile.py
+  - pyproject.toml

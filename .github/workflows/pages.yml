@@ -41,11 +41,12 @@ jobs:
           nox --version
 
       - name: Build documentation
-        uses: actions/upload-artifact@v3
+        run: nox --force-color --session=docs-build
+
+      - uses: actions/upload-artifact@v3
         with:
           name: docs
           path: docs/_build
-        run: nox --force-color --session=docs-build
 
       - name: Check links
         run: nox --force-color --session=docs-check-links
