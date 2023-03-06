@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
 """Manage a global rich console."""
 from rich import console
 

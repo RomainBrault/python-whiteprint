@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
 """Test the console module."""
 from beartype import beartype
 from rich import console as rich_console

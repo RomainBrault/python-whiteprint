@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
 """Top-level module."""
 from .version import __version__
 

@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+SPDX-FileCopyrightText: 2020-2023 Claudio Jolowicz
+
+SPDX-License-Identifier: MIT
+-->
+
 # 🛠️ Contributor Guide
 
 Thank you for your interest in improving this project. This project is

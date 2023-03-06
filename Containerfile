@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
 ARG PYTHON_VERSION=3.11.1
 ARG BASE_OS=alpine3.17
 

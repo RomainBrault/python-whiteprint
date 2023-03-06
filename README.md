@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # Python Whiteprint
 
 [![PyPI Version](https://img.shields.io/pypi/v/python-whiteprint.svg)](https://pypi.python.org/pypi/python-whiteprint)
@@ -35,6 +41,7 @@ needs.
 - [ ] Tweaks in the generated project (non exhaustively: CLI with Typer
       instead of Click, dynamic type checking with beartype, [auto-API
       documentation](https://sphinx-autoapi.readthedocs.io/en/latest/)),
+- [ ] manage licenses with [Reuse](https://reuse.software/),
 - [ ] more Github Actions and Community Standards and Community Standards,
 - [ ] Ruff instead of Flake8 to fix a maximum of code smells,
 - [ ] strict linting with pylint,
