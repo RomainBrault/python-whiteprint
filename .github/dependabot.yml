@@ -8,14 +8,34 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    commit-message:
+      prefix: "build: ⬆️"
+      prefix-development: "build: ⬆️ [dev]"
+    labels:
+      - "ci"
+      - "github_actions"
+      - "dependencies"
   - package-ecosystem: pip
     directory: "/.github/workflows"
     schedule:
       interval: weekly
+    commit-message:
+      prefix: "build: ⬆️"
+      prefix-development: "build: ⬆️ [dev]"
+    labels:
+      - "ci"
+      - "github_actions"
+      - "dependencies"
   - package-ecosystem: pip
     directory: "/docs"
     schedule:
       interval: weekly
+    commit-message:
+      prefix: "build: ⬆️"
+      prefix-development: "build: ⬆️ [dev]"
+    labels:
+      - "documentation"
+      - "dependencies"
   - package-ecosystem: pip
     directory: "/"
     schedule:
@@ -23,11 +43,21 @@ updates:
     versioning-strategy: lockfile-only
     open-pull-requests-limit: 99
     commit-message:
-      prefix: "⬆️"
-      prefix-development: "⬆️ [dev]"
+      prefix: "build: ⬆️"
+      prefix-development: "build: ⬆️ [dev]"
     allow:
       - dependency-type: "all"
+    labels:
+      - "python"
+      - "build"
+      - "dependencies"
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: weekly
+    commit-message:
+      prefix: "build: ⬆️"
+      prefix-development: "build: ⬆️ [dev]"
+    labels:
+      - "container"
+      - "dependencies"
