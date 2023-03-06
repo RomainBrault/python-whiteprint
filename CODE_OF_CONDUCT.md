@@ -1,6 +1,6 @@
 <!--
-SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
 SPDX-FileCopyrightText: 2020-2023 Claudio Jolowicz
+SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
 
 SPDX-License-Identifier: CC0-1.0
 -->
