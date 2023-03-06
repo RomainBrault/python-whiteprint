@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # Description
 
 Please include a summary of the change and which issue is fixed. Please also

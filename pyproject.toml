@@ -1,10 +1,13 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
 [tool.poetry]
 name = "python_whiteprint"
 version = "0.4.0"
 description = "Example Python project using best practices"
 authors = [
     "Romain Brault <mail@romainbrault.com>",
-    "John Hagen <johnthagen@gmail.com>",
 ]
 license = "MIT"
 readme = "README.md"
@@ -28,6 +31,12 @@ classifiers = [
     # include this classifier to prevent accidently publishing private code to
     # pypi. https://pypi.org/classifiers/
     # "Private :: Do Not Upload",
+]
+packages = [
+    { include =  "python_whiteprint", from = "src" },
+]
+include = [
+    { path = "LICENSES/", format = ["sdist", "wheel"] }
 ]
 
 [tool.poetry.dependencies]
@@ -76,6 +85,7 @@ mypy = "*"
 [tool.poetry.group.lint.dependencies]
 bandit = "*"
 pip-audit = "*"
+reuse = "*"
 tryceratops = "*"
 python-lsp-server = {extras = ["pylint"], version = "*"}
 

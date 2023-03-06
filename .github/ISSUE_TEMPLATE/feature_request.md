@@ -1,9 +1,17 @@
+<!--
+SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 ---
+
 name: Feature request
 about: Suggest an idea for this project
 title: "[ENHANCEMENT]"
 labels: enhancement
 assignees: ""
+
 ---
 
 **Is your feature request related to a problem? Please describe.**

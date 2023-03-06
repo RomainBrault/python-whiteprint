@@ -1,6 +1,6 @@
-# 📃 The MIT License (MIT)
+# 📃 MIT License
 
-Copyright © `2018-2023` `Romain Brault` `Claudio Jolowicz` `John Hagen`
+Copyright © `2023` `Romain Brault`
 
 ---
 

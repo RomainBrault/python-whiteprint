@@ -1,9 +1,17 @@
+<!--
+SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 ---
+
 name: Bug report
 about: Create a report to help us improve
 title: "[BUG]"
 labels: bug
 assignees: ""
+
 ---
 
 **Describe the bug**
