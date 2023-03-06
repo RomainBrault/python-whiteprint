@@ -1,6 +1,9 @@
 # Python Whiteprint
 
+[![PyPI Version](https://img.shields.io/pypi/v/python-whiteprint.svg)](https://pypi.python.org/pypi/python-whiteprint)
 [![Documentation](https://readthedocs.org/projects/python-whiteprint/badge/?version=latest)](https://python-whiteprint.readthedocs.io/en/latest/?badge=latest)
+[![Tests](https://github.com/RomainBrault/python-whiteprint/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/RomainBrault/python-whiteprint/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/RomainBrault/python-whiteprint/branch/main/graph/badge.svg?token=GSYS7VUB5R)](https://codecov.io/gh/RomainBrault/python-whiteprint)
 [![Code style: black][black-badge]](https://github.com/psf/black)
 [![Type checked with mypy][mypy-badge]](https://mypy-lang.org/)
 [![pre-commit enabled][pre-commit badge]](https://pre-commit.com/)
@@ -20,21 +23,24 @@ linting, and type checking tooling.
 
 Yes.
 
-This project build upon the excellent [cookiecutter-hypermodern-python] by
-@cjolowicz as well as [python-blueprint] by @johnthagen.
+This project build upon the excellents [cookiecutter-hypermodern-python] by
+[@cjolowicz](https://github.com/cjolowicz) as well as [python-blueprint] by
+[@johnthagen](https://github.com/johnthagen).
 
-You might want to check these project as they might be more adapted to your
+You might want to check these project as they might be more suited to your
 needs.
 
 ## Differences compared to [cookiecutter-hypermodern-python]
 
-[ ] Tweaks in the generated project (Typer instead of click, beartype,
-different documentation, etc.)
-[ ] More Github Actions and Community Standards and Community Standards
-[ ] Ruff instead of Flake8
-[ ] OCI Container images
-[ ] Basic GitLab support
-[ ] Latex template with python integration
+- [ ] Tweaks in the generated project (non exhaustively: CLI with Typer
+      instead of Click, dynamic type checking with beartype, [auto-API
+      documentation](https://sphinx-autoapi.readthedocs.io/en/latest/)),
+- [ ] more Github Actions and Community Standards and Community Standards,
+- [ ] Ruff instead of Flake8 to fix a maximum of code smells,
+- [ ] strict linting with pylint,
+- [ ] OCI Container images,
+- [ ] basic GitLab support,
+- [ ] Latex template with python integration.
 
 [cookiecutter-hypermodern-python]: https://cookiecutter-hypermodern-python.readthedocs.io/en/2022.6.3.post1/
 [python-blueprint]: https://github.com/johnthagen/python-blueprint
