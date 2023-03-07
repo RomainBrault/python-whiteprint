@@ -4,8 +4,14 @@
 """Localization."""
 
 import gettext
+import pathlib
 
 
-TRANSLATION = gettext.translation("messages", "locale", fallback=True)
+LOCALE_DIRECTORY = pathlib.Path(__file__).parents[2] / "locale"
+TRANSLATION = gettext.translation(
+    "messages",
+    LOCALE_DIRECTORY,
+    fallback=True,
+)
 _ = TRANSLATION.gettext
 """Convenient access to gettext."""
