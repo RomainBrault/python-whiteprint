@@ -514,7 +514,7 @@ def babel_extract(session: nox_poetry.Session) -> None:
     ).split(" ")
     args = session.posargs or [
         "--output",
-        "locale/base.pot",
+        "src/python_whiteprint/locale/base.pot",
         "--omit-header",
         "--sort-by-file",
         f"--project={version[0]}",
@@ -530,9 +530,8 @@ def babel_extract(session: nox_poetry.Session) -> None:
 def babel_update(session: nox_poetry.Session) -> None:
     """Make the translation."""
     args = session.posargs or [
-        "--input-file=locale/base.pot",
-        "--output-dir=locale",
-        #  "--no-fuzzy-matching",
+        "--input-file=src/python_whiteprint/locale/base.pot",
+        "--output-dir=src/python_whiteprint/locale",
         "--omit-header",
     ]
 
@@ -545,8 +544,8 @@ def babel_init(session: nox_poetry.Session) -> None:
     """Make the translation."""
     posargs = list(session.posargs)
     args = [
-        "--input-file=locale/base.pot",
-        "--output-dir=locale",
+        "--input-file=src/python_whiteprint/locale/base.pot",
+        "--output-dir=src/python_whiteprint/locale",
         f"--locale={posargs[0]}",
     ]
 
@@ -559,8 +558,7 @@ def babel_init(session: nox_poetry.Session) -> None:
 def babel_compile(session: nox_poetry.Session) -> None:
     """Make the translation."""
     args = session.posargs or [
-        "--directory",
-        "locale/",
+        "--directory=src/python_whiteprint/locale/",
         "--use-fuzzy",
     ]
 

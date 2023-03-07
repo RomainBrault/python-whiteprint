@@ -36,9 +36,7 @@ packages = [
     { include =  "python_whiteprint", from = "src" },
 ]
 include = [
-    { path = "LICENSES/", format = ["sdist", "wheel"] },
-    { path = "locale/**/*.mo", format = ["wheel"] },
-    { path = "locale/**/*.po", format = ["sdist"] },
+    { path = "src/python_whiteprint/locale/**/*.mo", format = ["wheel"] },
 ]
 
 [tool.poetry.dependencies]
