@@ -4,29 +4,28 @@
 # SPDX-License-Identifier: MIT
 
 ci:
-  - .github/**
+  - "github/**"
 
 github_actions:
-  - .github/workflows/*
+  - "github/workflows/*"
 
 documentation:
-  - README.md
-  - ./docs/**
-  - ./*.md
+  - "README.md"
+  - "docs/**"
 
 python:
-  - ./**/*.py
+  - "**/*.py"
 
 testing:
-  - tests/**
+  - "tests/**"
 
 dependencies:
-  - poetry.lock
+  - "poetry.lock"
 
 build:
-  - noxfile.py
-  - pyproject.toml
+  - "noxfile.py"
+  - "pyproject.toml"
 
 container:
-  - Containerfile
-  - Containerfile.containerignore
+  - "Containerfile"
+  - "Containerfile.containerignore"
