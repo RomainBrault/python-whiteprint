@@ -37,6 +37,12 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
+      - name: Install Nox
+        run: |
+          pipx install --pip-args=--constraint=.github/workflows/constraints.txt nox
+          pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry rich
+          nox --version
+
       - name: Check if there is a parent commit
         id: check-parent-commit
         run: |
@@ -58,6 +64,7 @@ jobs:
 
       - name: Build package
         run: |
+          nox --force-color --session=babel-compile
           poetry build --ansi
 
       - name: Publish package on PyPI

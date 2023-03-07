@@ -15,6 +15,7 @@ _build
 *.pyc
 *.egg-info
 *.log
+*.mo
 .coverage
 .coverage.*
 profile.*

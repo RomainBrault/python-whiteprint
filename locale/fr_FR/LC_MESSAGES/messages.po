@@ -1,0 +1,15 @@
+#: src/python_whiteprint/cli.py:96
+msgid ""
+"Print the version number of the application to the standard output and "
+"exit."
+msgstr ""
+"Affiche le numéro de version de l'application dans la sortie standard et "
+"quitte."
+
+#: src/python_whiteprint/cli.py:106
+msgid "Logging verbosity."
+msgstr "Verbosité de la journalisation."
+
+#: src/python_whiteprint/hello_world.py:20
+msgid "Hello, World!"
+msgstr "Bonjour, Monde!"

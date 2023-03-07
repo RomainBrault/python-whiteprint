@@ -36,7 +36,9 @@ packages = [
     { include =  "python_whiteprint", from = "src" },
 ]
 include = [
-    { path = "LICENSES/", format = ["sdist", "wheel"] }
+    { path = "LICENSES/", format = ["sdist", "wheel"] },
+    { path = "locale/**/*.mo", format = ["wheel"] },
+    { path = "locale/**/*.po", format = ["sdist"] },
 ]
 
 [tool.poetry.dependencies]
@@ -48,6 +50,9 @@ python = ">=3.8, <3.12"
 rich = ">=12.5.0"
 typer = { version = ">=0.7.0", extras = ["all"] }
 beartype = ">=0.12.0"
+
+[tool.poetry.group.localization.dependencies]
+Babel = ">=2.12.0"
 
 [tool.poetry.group.test.dependencies]
 xdoctest = "*"
@@ -118,7 +123,7 @@ sphinxcontrib-spelling = "*"
 whiteprint = "python_whiteprint.cli:app"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core", "Babel"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.bandit.assert_used]
@@ -235,7 +240,7 @@ select = [
     # "FBT",  # flake8-boolean-trap
     "B",    # flake8-bugbear
     "A",    # flake8-builtins
-    "COM",  # flake8-commas
+    # "COM",  # flake8-commas
     "C4",   # flake8-comprehensions
     "DTZ",  # flake8-datetimez
     "T10",  # flake8-debugger
@@ -251,8 +256,8 @@ select = [
     "Q",    # flake8-quotes
     "RET",  # flake8-return
     "SIM",  # flake8-simplify
-    # "TID",  # flake8-tidy-imports
-    # "TCH",  # flake8-type-checking
+    "TID",  # flake8-tidy-imports
+    "TCH",  # flake8-type-checking
     "ARG",  # flake8-unused-arguments
     "PTH",  # flake8-use-pathlib
     "ERA",  # eradicate
@@ -276,7 +281,7 @@ fixable = [
     "UP",   # pyupgrade
     "ANN",  # flake8-annotations
     "B",    # flake8-bugbear
-    "COM",  # flake8-commas
+    # "COM",  # flake8-commas
     "C4",   # flake8-comprehensions
     "DTZ",  # flake8-datetimez
     "EXE",  # flake8-executable
@@ -287,6 +292,7 @@ fixable = [
     "Q",    # flake8-quotes
     "RET",  # flake8-return
     "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
     "TCH",  # flake8-type-checking
     # "ERA",  # eradicate
     # "PD",   # pandas-vet
