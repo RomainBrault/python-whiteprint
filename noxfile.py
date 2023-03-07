@@ -10,11 +10,10 @@ import shlex
 import shutil
 import tempfile
 import textwrap
+from typing import Dict, List
 
 import nox_poetry
 import packaging
-from beartype import beartype
-from beartype.typing import Dict, List
 from nox import options
 from rich import console
 
@@ -36,12 +35,10 @@ options.sessions = [
 ]
 
 
-@beartype
 def _not_hook(hook: pathlib.Path) -> bool:
     return hook.name.endswith(".sample") or not hook.is_file()
 
 
-@beartype
 def _patch_hook(
     hook: pathlib.Path,
     *,
@@ -55,7 +52,6 @@ def _patch_hook(
             break
 
 
-@beartype
 def _bindir_in_hook(bindirs: List[str], *, text: str) -> bool:
     return any(
         (
@@ -69,7 +65,6 @@ def _bindir_in_hook(bindirs: List[str], *, text: str) -> bool:
     )
 
 
-@beartype
 def _patch_hooks(
     hookdir: pathlib.Path,
     *,
@@ -89,7 +84,6 @@ def _patch_hooks(
         _patch_hook(hook, headers=headers, lines=lines)
 
 
-@beartype
 def activate_virtualenv_in_precommit_hooks(
     session: nox_poetry.Session,
 ) -> None:
@@ -147,7 +141,6 @@ def activate_virtualenv_in_precommit_hooks(
     _patch_hooks(hookdir, bindirs=bindirs, headers=headers)
 
 
-@beartype
 def install_poetry_groups(
     session: nox_poetry.Session,
     *groups: str,
@@ -173,7 +166,6 @@ def install_poetry_groups(
 
 
 @nox_poetry.session(name="pre-commit", python=WORKING_PYTHON_VERSION)
-@beartype
 def pre_commit(session: nox_poetry.Session) -> None:
     """Lint and format using pre-commit.
 
@@ -186,7 +178,7 @@ def pre_commit(session: nox_poetry.Session) -> None:
         "--hook-stage=manual",
         "--show-diff-on-failure",
     ]
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(
         session,
         "nox",
@@ -204,7 +196,6 @@ def pre_commit(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def coverage(session: nox_poetry.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report", "--skip-covered"]
@@ -222,14 +213,13 @@ def coverage(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=PYTHON_VERSIONS)
-@beartype
 def test(session: nox_poetry.Session) -> None:
     """Run the tests suite and append coverage to the existing one.
 
     Args:
         session: The Session object.
     """
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(session, "test", "coverage")
     try:
         session.run(
@@ -249,7 +239,6 @@ def test(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def fmt(session: nox_poetry.Session) -> None:
     """Format the code.
 
@@ -263,14 +252,13 @@ def fmt(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def lint(session: nox_poetry.Session) -> None:
     """Lint the code with PyLint.
 
     Args:
         session: The Session object.
     """
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(
         session,
         "nox",
@@ -291,14 +279,13 @@ def lint(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(name="type-check", python=WORKING_PYTHON_VERSION)
-@beartype
 def type_check(session: nox_poetry.Session) -> None:
     """Type check the code.
 
     Args:
         session: The Session object.
     """
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(
         session,
         "nox",
@@ -318,7 +305,6 @@ DOC_ENV = {"PYTHONPATH": "src"}
 
 
 @nox_poetry.session(name="pip-audit", python=PYTHON_VERSIONS)
-@beartype
 def pip_audit(session: nox_poetry.Session) -> None:
     """Scan dependencies for insecure packages.
 
@@ -338,7 +324,6 @@ def pip_audit(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def bandit(session: nox_poetry.Session) -> None:
     """Lint source code for security issues.
 
@@ -358,7 +343,20 @@ def bandit(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
+def reuse(session: nox_poetry.Session) -> None:
+    """Check that all files have a valid license header or .license file.
+
+    Args:
+        session: The Session object.
+    """
+    args = session.posargs or [
+        "lint",
+    ]
+    session.install("reuse")
+    session.run("reuse", *args)
+
+
+@nox_poetry.session(python=WORKING_PYTHON_VERSION)
 def radon(session: nox_poetry.Session) -> None:
     """Measure the Maintainability Index of the code.
 
@@ -376,7 +374,6 @@ def radon(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def xenon(session: nox_poetry.Session) -> None:
     """Check the Maintainability Index of the code.
 
@@ -400,7 +397,6 @@ def xenon(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def licenses(session: nox_poetry.Session) -> None:
     """List the licenses.
 
@@ -426,7 +422,6 @@ def licenses(session: nox_poetry.Session) -> None:
     CONSOLE.print(licenses_table)
 
 
-@beartype
 def _export_licenses(session: nox_poetry.Session) -> None:
     session.posargs = [
         "--from=mixed",
@@ -438,7 +433,6 @@ def _export_licenses(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(name="docs-build", python=WORKING_PYTHON_VERSION)
-@beartype
 def docs_build(session: nox_poetry.Session) -> None:
     """Build the documentation.
 
@@ -451,7 +445,7 @@ def docs_build(session: nox_poetry.Session) -> None:
 
     _export_licenses(session)
 
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(session, "docs")
 
     build_dir = pathlib.Path("docs", "_build")
@@ -462,7 +456,6 @@ def docs_build(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(python=WORKING_PYTHON_VERSION)
-@beartype
 def docs(session: nox_poetry.Session) -> None:
     """Build and serve the documentation with live reloading on file changes.
 
@@ -478,7 +471,7 @@ def docs(session: nox_poetry.Session) -> None:
 
     _export_licenses(session)
 
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(session, "docs")
 
     build_dir = pathlib.Path("docs", "_build")
@@ -489,7 +482,6 @@ def docs(session: nox_poetry.Session) -> None:
 
 
 @nox_poetry.session(name="docs-check-links", python=WORKING_PYTHON_VERSION)
-@beartype
 def docs_check_links(session: nox_poetry.Session) -> None:
     """Build the documentation."""
     args = session.posargs or [
@@ -505,7 +497,72 @@ def docs_check_links(session: nox_poetry.Session) -> None:
     if builddir.exists():
         shutil.rmtree(builddir)
 
-    session.install(".")
+    session.poetry.installroot()
     install_poetry_groups(session, "docs")
 
     session.run("sphinx-build", *args)
+
+
+@nox_poetry.session(name="babel-extract", python=WORKING_PYTHON_VERSION)
+def babel_extract(session: nox_poetry.Session) -> None:
+    """Make the translation."""
+    version = session.run_always(
+        "poetry",
+        "version",
+        silent=True,
+        external=True,
+    ).split(" ")
+    args = session.posargs or [
+        "--output",
+        "locale/base.pot",
+        "--omit-header",
+        "--sort-by-file",
+        f"--project={version[0]}",
+        f"--version={version[1]}",
+        ".",
+    ]
+
+    install_poetry_groups(session, "localization", "lint")
+    session.run("pybabel", "--quiet", "extract", *args)
+
+
+@nox_poetry.session(name="babel-update", python=WORKING_PYTHON_VERSION)
+def babel_update(session: nox_poetry.Session) -> None:
+    """Make the translation."""
+    args = session.posargs or [
+        "--input-file=locale/base.pot",
+        "--output-dir=locale",
+        #  "--no-fuzzy-matching",
+        "--omit-header",
+    ]
+
+    install_poetry_groups(session, "localization", "lint")
+    session.run("pybabel", "--quiet", "update", *args)
+
+
+@nox_poetry.session(name="babel-init", python=WORKING_PYTHON_VERSION)
+def babel_init(session: nox_poetry.Session) -> None:
+    """Make the translation."""
+    posargs = list(session.posargs)
+    args = [
+        "--input-file=locale/base.pot",
+        "--output-dir=locale",
+        f"--locale={posargs[0]}",
+    ]
+
+    install_poetry_groups(session, "localization", "lint")
+    session.run("pybabel", "--quiet", "init", *args)
+    session.notify("babel-update", posargs=[])
+
+
+@nox_poetry.session(name="babel-compile", python=WORKING_PYTHON_VERSION)
+def babel_compile(session: nox_poetry.Session) -> None:
+    """Make the translation."""
+    args = session.posargs or [
+        "--directory",
+        "locale/",
+        "--use-fuzzy",
+    ]
+
+    install_poetry_groups(session, "localization")
+    session.run("pybabel", "--quiet", "compile", *args)

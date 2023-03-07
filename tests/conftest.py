@@ -8,8 +8,8 @@ from beartype import beartype
 from typer import testing
 
 
-@beartype
 @pytest.fixture(scope="class")
+@beartype
 def cli_runner() -> testing.CliRunner:
     """CLI Runner Fixture.
 

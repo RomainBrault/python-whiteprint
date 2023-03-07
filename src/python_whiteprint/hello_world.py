@@ -6,6 +6,7 @@
 from beartype import beartype
 
 from python_whiteprint import console
+from python_whiteprint.loc import _
 
 
 @beartype
@@ -16,4 +17,4 @@ def hello_world() -> None:
         >>> hello_world()
         Hello, World!
     """
-    console.DEFAULT.print("Hello, World!")
+    console.DEFAULT.print(_("Hello, World!"))

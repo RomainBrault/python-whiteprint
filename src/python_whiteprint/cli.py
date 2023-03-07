@@ -10,6 +10,8 @@ from beartype import beartype
 from click import exceptions
 from typer import main, params
 
+from python_whiteprint.loc import _
+
 
 app = main.Typer(add_completion=False)
 """The command-line interface."""
@@ -91,9 +93,9 @@ _version_option = params.Option(
     "--version",
     callback=_cb_version,
     is_eager=True,
-    help=(
-        "Print the version number of the application to the standard"
-        " output and exit."
+    help=_(
+        "Print the version number of the application to the standard output "
+        "and exit."
     ),
 )
 """The typer option serving as default value for the CLI's version flag."""
@@ -101,7 +103,7 @@ _default_log_level = params.Option(
     LogLevel.INFO,
     "--log-level",
     case_sensitive=False,
-    help="Logging verbosity.",
+    help=_("Logging verbosity."),
     envvar="WHITEPRINT_LOG_LEVEL",
 )
 """The default logging level of the CLI."""
