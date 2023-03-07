@@ -7,7 +7,7 @@ import gettext
 import pathlib
 
 
-LOCALE_DIRECTORY = pathlib.Path(__file__).parents[2] / "locale"
+LOCALE_DIRECTORY = pathlib.Path(__file__).parent / "locale"
 TRANSLATION = gettext.translation(
     "messages",
     LOCALE_DIRECTORY,
