@@ -1,0 +1,3 @@
+{% include "jinja_template/license_header.py.j2" %}
+# Instruct type checkers to look for inline type annotations in this package.
+# See PEP 561.

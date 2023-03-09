@@ -1,8 +1,4 @@
-# SPDX-FileCopyrightText: 2020-2023 Claudio Jolowicz
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
-#
-# SPDX-License-Identifier: MIT
-
+{% include "jinja_template/license_header.py.j2" %}
 """Automates testing in banditmultiple Python environments."""
 import os
 import pathlib
@@ -22,7 +18,7 @@ CONSOLE = console.Console()
 
 
 PYTHON_VERSIONS = sorted(
-    ["3.8", "3.9", "3.10", "3.11"],
+    ["{{target_python_version}}"],
     key=packaging.version.Version,
 )
 WORKING_PYTHON_VERSION = PYTHON_VERSIONS[-1]
@@ -226,7 +222,7 @@ def test(session: nox_poetry.Session) -> None:
             "pytest",
             "--cov-report=term-missing:skip-covered",
             "tests",
-            "src/python_whiteprint",
+            "src/{{package_name}}",
             *session.posargs,
             env={
                 "PYTHONDONTWRITEBYTECODE": "1",
@@ -514,7 +510,7 @@ def babel_extract(session: nox_poetry.Session) -> None:
     ).split(" ")
     args = session.posargs or [
         "--output",
-        "src/python_whiteprint/locale/base.pot",
+        "src/{{package_name}}/locale/base.pot",
         "--omit-header",
         "--sort-by-file",
         f"--project={version[0]}",
@@ -530,8 +526,8 @@ def babel_extract(session: nox_poetry.Session) -> None:
 def babel_update(session: nox_poetry.Session) -> None:
     """Make the translation."""
     args = session.posargs or [
-        "--input-file=src/python_whiteprint/locale/base.pot",
-        "--output-dir=src/python_whiteprint/locale",
+        "--input-file=src/{{package_name}}/locale/base.pot",
+        "--output-dir=src/{{package_name}}/locale",
         "--omit-header",
     ]
 
@@ -544,8 +540,8 @@ def babel_init(session: nox_poetry.Session) -> None:
     """Make the translation."""
     posargs = list(session.posargs)
     args = [
-        "--input-file=src/python_whiteprint/locale/base.pot",
-        "--output-dir=src/python_whiteprint/locale",
+        "--input-file=src/{{package_name}}/locale/base.pot",
+        "--output-dir=src/{{package_name}}/locale",
         f"--locale={posargs[0]}",
     ]
 
@@ -558,7 +554,7 @@ def babel_init(session: nox_poetry.Session) -> None:
 def babel_compile(session: nox_poetry.Session) -> None:
     """Make the translation."""
     args = session.posargs or [
-        "--directory=src/python_whiteprint/locale/",
+        "--directory=src/{{package_name}}/locale/",
         "--use-fuzzy",
     ]
 

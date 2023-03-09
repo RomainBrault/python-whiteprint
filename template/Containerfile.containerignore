@@ -1,0 +1,14 @@
+{% include "jinja_template/license_header.container.j2" %}
+# Ignore everything.
+**
+
+# Except the following.
+!src
+!LICENSE.md
+!pyproject.toml
+!poetry.lock
+!README.md
+
+# Filter unwanted files from included folders.
+**/__pycache__
+**.py[cod]

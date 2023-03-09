@@ -1,39 +1,45 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
-#
-# SPDX-License-Identifier: MIT
+{% include "jinja_template/license_header.toml.j2" %}
 
 [tool.poetry]
-name = "python_whiteprint"
-version = "0.5.0"
-description = "Generating Python projects using best practices"
+name = "{{package_name}}"
+version = "0.0.0"
+description = "A Python project"
 authors = [
-    "Romain Brault <mail@romainbrault.com>",
+    "{{author}} <{{email}}>",
 ]
-license = "MIT"
+license = "{{license}}"
 readme = "README.md"
-homepage = "https://github.com/RomainBrault/python-whiteprint"
-repository = "https://github.com/RomainBrault/python-whiteprint.git"
-documentation = "https://RomainBrault.github.io/python-whiteprint/"
-keywords = ["Python", "Cookiecutter"]
+{%- if ci == "github" %}
+homepage = "https://github.com/{{github_user}}/{{project_slug}}"
+repository = "https://github.com/{{github_user}}/{{project_slug}}.git"
+{%- elif ci == "gitlab" %}
+{%- else %}
+{%- endif %}
+{%- if documentation == "readthedocs" %}
+documentation = "https://{{github_user}}.github.io/{{project_slug}}/"
+{%- endif %}
+keywords = ["Python"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+{% if license != None %}
+    "License :: OSI Approved :: {{license}} License",
+{% endif %}
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: {{target_python_version}}",
     "Typing :: Typed",
+{% if license == None %}
+    "Private :: Do Not Upload",
+{% endif -%}
 ]
 packages = [
-    { include =  "python_whiteprint", from = "src" },
+    { include =  "{{package_name}}", from = "src" },
 ]
 include = [
-    { path = "src/python_whiteprint/locale/**/*.mo", format = ["wheel"] },
+    { path = "src/{{package_name}}/locale/**/*.mo", format = ["wheel"] },
 ]
 
 [tool.poetry.dependencies]
@@ -41,12 +47,10 @@ include = [
 # they support. Without also constraining the upper bound here, Poetry will not
 # select those versions and will result in an old version being
 # resolved/locked.
-python = ">=3.8, <3.12"
+python = ">={{target_python_version}}, <3.12"
 rich = ">=12.5.0"
 typer = { version = ">=0.7.0", extras = ["all"] }
 beartype = ">=0.12.0"
-copier = "^7.0.1"
-jinja2-time = "^0.2.0"
 
 [tool.poetry.group.localization.dependencies]
 Babel = ">=2.12.0"
@@ -87,7 +91,10 @@ mypy = "*"
 [tool.poetry.group.lint.dependencies]
 bandit = "*"
 pip-audit = "*"
+{% if license != "None" %}
 reuse = "*"
+{% else -%}
+{% endif -%}
 tryceratops = "*"
 python-lsp-server = {extras = ["pylint"], version = "*"}
 
@@ -117,7 +124,7 @@ sphinxcontrib-napoleon = "*"
 sphinxcontrib-spelling = "*"
 
 [tool.poetry.scripts]
-whiteprint = "python_whiteprint.cli:app"
+{{project_slug}} = "{{package_name}}.cli:app"
 
 [build-system]
 requires = ["poetry-core", "Babel"]
@@ -129,11 +136,11 @@ skips = ["*_test.py", "*/test_*.py"]
 [tool.mypy]
 # If certain strict config options are too pedantic for a project,
 # disable them selectively here by setting to false.
-python_version = "3.8"
+python_version = "{{target_python_version}}"
 exclude = [
     "noxfile.py",
     "gen_ref_pages.py",
-    "template",
+    "{{project_name}}",
 ]
 
 # show error messages from unrelated files
@@ -173,9 +180,8 @@ show_error_context = true
 
 [tool.black]
 preview = true
-line-length = 79
-target-version = ["py38"]
-exclude = "template/"
+line-length = {{line_length}}
+target-version = ["py{{target_python_version.replace('.', '')}}"]
 # black will automatically exclude all files listed in .gitignore. If you need
 # to exclude additional folders, consider using extend-exclude to avoid
 # disabling the default .gitignore behaviour.
@@ -185,7 +191,7 @@ addopts = [
     "-n=auto",
     "--color=yes",
     "--cov-branch",
-    "--cov=python_whiteprint",
+    "--cov={{package_name}}",
     "--cov=tests",
     "--cov-append",
     "--cov-report=",
@@ -211,7 +217,7 @@ tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["python_whiteprint", "tests"]
+source = ["{{package_name}}", "tests"]
 omit = ["**/__main__.py"]
 
 [tool.coverage.report]
@@ -324,13 +330,13 @@ exclude = [
 ]
 
 # Same as Black.
-line-length = 79
+line-length = {{line_length}}
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-# Assume Python 3.8.
-target-version = "py38"
+# Assume Python {{target_python_version}}+
+target-version = "py{{target_python_version.replace('.', '')}}"
 
 [tool.ruff.per-file-ignores]
 "tests/*.py" = ["S101"]
@@ -341,7 +347,7 @@ target-version = "py38"
 max-complexity = 5
 
 [tool.ruff.isort]
-known-first-party = ["python_whiteprint"]
+known-first-party = ["{{package_name}}"]
 lines-after-imports = 2
 
 [tool.ruff.pydocstyle]
@@ -387,7 +393,7 @@ fail-under = 10
 # from-stdin =
 
 # Files or directories to be skipped. They should be base names, not paths.
-ignore = ["CVS", "noxfile.py", "template"]
+ignore = ["CVS", "noxfile.py"]
 
 # Add files or directories matching the regular expressions patterns to the
 # ignore-list. The regex matches against paths and can be in Posix or Windows
@@ -429,7 +435,7 @@ persistent = true
 
 # Minimum Python version to use for version dependent checks. Will default to
 # the version used to run pylint.
-py-version = "3.8"
+py-version = "{{target_python_version}}"
 
 # Discover python modules and packages in the file system subtree.
 # recursive =
@@ -642,7 +648,7 @@ indent-after-paren = 4
 indent-string = "    "
 
 # Maximum number of characters on a single line.
-max-line-length = 79
+max-line-length = {{line_length}}
 
 # Maximum number of lines in a module.
 max-module-lines = 1000

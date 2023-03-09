@@ -1,0 +1,20 @@
+{% include "jinja_template/license_header.config.j2" %}
+# For information about this file, see: https://editorconfig.org/
+root = true
+
+# For ease of fitting multiple editor panes side by side consistently, set all
+# files types to use # the same relaxed max line length permitted in PEP 8.
+[*]
+max_line_length = 79
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{py,toml}]
+indent_style = space
+indent_size = 4
+
+[*.yml,yaml,json]
+indent_style = space
+indent_size = 2

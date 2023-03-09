@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2014 Coraline Ada Ehmeke
-SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+SPDX-FileCopyrightText: {% now 'utc', '%Y' %} {{author}} <{{email}}>
 
 SPDX-License-Identifier: CC-BY-4.0
 -->
@@ -67,7 +67,7 @@ appointed representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-[mail@romainbrault.com](mailto:mail@romainbrault.com).
+[{{email}}](mailto:{{email}}).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

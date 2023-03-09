@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: python-whiteprint
+Upstream-Contact: Romain Brault <mail@romainbrault.com>
+Source: https://github.com/RomainBrault/python-whiteprint
+
+Files: template/**
+Copyright: 2023 Romain Brault <mail@romainbrault.com>
+License: MIT

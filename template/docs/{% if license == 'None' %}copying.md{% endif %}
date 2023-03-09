@@ -1,0 +1,6 @@
+{% include "jinja_template/license_header.md.j2" %}
+# 📃 Copying
+
+{{copying_header}}
+
+[license]: license
