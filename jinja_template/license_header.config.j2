@@ -1,0 +1,7 @@
+{%- if license != "None" %}
+# SPDX-FileCopyrightText: {% now 'utc', '%Y' %} {{copyright_holder}} <{{copyright_holder_email}}>
+#
+# SPDX-License-Identifier: {{license}}
+{% else -%}
+# {{copying_header}}
+{% endif -%}

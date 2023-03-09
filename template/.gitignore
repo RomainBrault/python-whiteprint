@@ -1,0 +1,20 @@
+{% include "jinja_template/license_header.config.j2" %}
+.idea
+.mypy_cache
+.nox
+.pytest_cache
+dist
+build
+htmlcov
+site
+__pycache__
+_build
+*.pyc
+*.egg-info
+*.log
+*.mo
+.coverage
+.coverage.*
+profile.*
+coverage.*
+._copier-answer.yml

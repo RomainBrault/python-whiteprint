@@ -1,8 +1,6 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
-#
-# SPDX-License-Identifier: MIT
+{% include "jinja_template/license_header.container.j2" %}
 
-ARG PYTHON_VERSION=3.11
+ARG PYTHON_VERSION={{target_python_version}}
 ARG BASE_OS=alpine3.17
 
 ARG PYTHONDONTWRITEBYTECODE=1
@@ -41,8 +39,7 @@ ARG PYTHONBUFFERED
 
 # Install Poetry into a separate virtualenv
 ARG POETRY_ENV=/opt/poetry
-RUN apk add build-base && \
-  python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
+RUN python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
   ${POETRY_ENV}/bin/pip install "poetry==${POETRY_VERSION}"
 
 # Pre-download/compile wheel dependencies into a virtual environment. Doing
@@ -78,7 +75,7 @@ RUN ${POETRY_ENV}/bin/poetry build && \
 # The image used in the final image MUST match exactly to the python_builder
 # image.
 FROM docker.io/python:${PYTHON_VERSION}-${BASE_OS}
-MAINTAINER Romain Brault <mail@romainbrault.com>
+MAINTAINER {{author}} <{{email}}>
 
 # For Python applications that are not installable libraries, you may need to
 # copy in source files here in the final image rather than in the
@@ -117,23 +114,27 @@ ARG PYTHONBUFFERED
 ENV PYTHONDONTWRITEBYTECODE ${PYTHONDONTWRITEBYTECODE} \
     PYTHONBUFFERED ${PYTHONBUFFERED}
 
-ENTRYPOINT ["whiteprint"]
+ENTRYPOINT ["{{project_slug}}"]
 
 ARG BUILD_DATE
 ARG VERSION
 ARG REVISION
 ARG TAG
 
-LABEL org.opencontainers.image.authors='Romain Brault <mail@romainbrault.com>' \
-      org.opencontainers.image.url='https://github.com/RomainBrault/python-whiteprint/pkgs/container/python-whiteprint' \
-      org.opencontainers.image.documentation='https://romainbrault.github.io/python-whiteprint/' \
-      org.opencontainers.image.source='https://github.com/RomainBrault/python-whiteprint.git' \
-      org.opencontainers.image.vendor='Romain Brault' \
-      org.opencontainers.image.licenses='MIT' \
+LABEL org.opencontainers.image.authors='{{author}} <{{email}}>' \
+      org.opencontainers.image.url='https://github.com/{{github_user}}/{{project_slug}}/pkgs/container/{{project_slug}}' \
+{%- if documentation == "readthedocs" %}
+      org.opencontainers.image.documentation='https://{{project_slug}}.readthedocs.io/en/latest/' \
+{%- else %}
+      org.opencontainers.image.documentation='' \
+{%- endif %}
+      org.opencontainers.image.source='https://github.com/{{github_user}}/{{project_slug}}.git' \
+      org.opencontainers.image.vendor='{{author}}' \
+      org.opencontainers.image.licenses='{{license}}' \
       org.opencontainers.image.version=${VERSION} \
       org.opencontainers.image.revision=${REVISION} \
       org.opencontainers.image.created=${BUILD_DATE} \
-      org.opencontainers.image.title='python-whiteprint' \
+      org.opencontainers.image.title='{{project_slug}}' \
       org.opencontainers.image.description='A cookiecutter for quick creation of Python projects.' \
       org.opencontainers.image.ref.name=${TAG} \
       org.opencontainers.image.base.name='docker.io/python:'${PYTHON_VERSION}'-'${BASE_OS}

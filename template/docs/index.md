@@ -1,9 +1,4 @@
-<!--
-SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
-
-SPDX-License-Identifier: MIT
--->
-
+{% include "jinja_template/license_header.md.j2" %}
 ```{include} ../README.md
 
 ```
@@ -26,5 +21,5 @@ Code of Conduct <code_of_conduct>
 Copying <copying>
 Security <security>
 Dependencies <dependencies>
-Changelog <https://github.com/RomainBrault/python-whiteprint/releases>
+Changelog <https://github.com/{{github_user}}/{{project_slug}}/releases>
 ```

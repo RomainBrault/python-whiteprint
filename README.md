@@ -14,12 +14,12 @@ SPDX-License-Identifier: MIT
 [![Type checked with mypy][mypy-badge]](https://mypy-lang.org/)
 [![pre-commit enabled][pre-commit badge]](https://pre-commit.com/)
 [![License][license badge]](https://opensource.org/licenses/MIT)
-[![Contributor Covenant][contributor covenant badge]](https://github.com/RomainBrault/python-whiteprint/blob/main/CODE_OF_CONDUCT.md)
+[![Contributor Covenant][contributor covenant badge]](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)
 
 [black-badge]: https://img.shields.io/badge/code%20style-black-000000.svg
 [mypy-badge]: https://www.mypy-lang.org/static/mypy_badge.svg
 [pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-[license badge]: https://img.shields.io/github/license/cjolowicz/cookiecutter-hypermodern-python
+[license badge]: https://img.shields.io/github/license/RomainBrault/python-whiteprint
 [contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 
 Cookiecutter to create a Python package using modern Python testing,
@@ -38,7 +38,9 @@ needs.
 
 ## Differences compared to [cookiecutter-hypermodern-python]
 
-- [ ] Tweaks in the generated project (non exhaustively: CLI with Typer
+- [ ] Use [copier](https://copier.readthedocs.io/en/latest/) instead of the
+      unmainted cookiecutter,
+- [ ] tweaks in the generated project (non exhaustively: CLI with Typer
       instead of Click, dynamic type checking with beartype, [auto-API
       documentation](https://sphinx-autoapi.readthedocs.io/en/latest/)),
 - [ ] manage licenses with [Reuse](https://reuse.software/),

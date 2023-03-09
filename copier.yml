@@ -1,0 +1,170 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
+project_name:
+  type: str
+  help: What is your project name?
+  default: "Python Whiteprint"
+
+project_slug:
+  type: str
+  help: What is the project slug (for PyPI, GitHub, GitLab, etc.)?
+  default: "{{ project_name.lower().replace(' ', '-').replace('_', '-') }}"
+
+package_name:
+  type: str
+  help: What is the pacakge name (import name)?
+  default: "{{ project_name.lower().replace(' ', '_') }}"
+
+author:
+  type: str
+  help: What is your name?
+  default: "John Smith"
+
+email:
+  type: str
+  help: What is your email?
+  default: "john.smith@email.com"
+
+ci:
+  type: str
+  help: What Continuous Integration service do you want to use?
+  choices:
+    No CI: no_ci
+    GitHub CI: github
+    GitLab CI: gitlab
+  default: no_ci
+
+github_user:
+  type: str
+  help: What is your GitHub user name?
+  default: "{{ author.replace(' ', '') }}"
+  when: "{{ ci == 'github' }}"
+
+gitlab_user:
+  type: str
+  help: What is your GitLab user name?
+  default: "{{ author.replace(' ', '') }}"
+  when: "{{ ci == 'gitlab' }}"
+
+license:
+  type: str
+  help: What is the license of your project?
+  choices:
+    MIT No Attribution: MIT-0
+    MIT: MIT
+    Apache 2.0: Apache-2.0
+    GNU Lesser General Public License v3.0 Only: LGPL-3.0-only
+    GNU General Public License v3.0 Only: GPL-3.0-only
+    GNU Affero General Public License v3.0 Only: AGPL-3.0-only
+    No license, all rights reserved: None
+  default: "{%- if ci == 'no_ci' -%}None{%- else -%}MIT{%- endif -%}"
+
+copyright_holder:
+  type: str
+  help: Who is the copyright holder?
+  default: "{{author}}"
+
+copyright_holder_email:
+  type: str
+  help: What is the copyright holder email address?
+  default: "{{email}}"
+
+copying_header:
+  type: str
+  help: Would you like to add a copying information?
+  default: "Copyright {% now 'utc', '%Y' %} {{copyright_holder}} <{{copyright_holder_email}}> - All Rights Reserved."
+  when: "{{ license == 'None' }}"
+
+documentation:
+  type: str
+  help: Where do you want to host your documentation?
+  choices:
+    Self hosted: selfhosted
+    Read the Docs: readthedocs
+  default: "{%- if ci == 'no_ci' -%}selfhosted{%- else -%}readthedocs{%- endif -%}"
+
+line_length:
+  type: int
+  help: What is the line wrap length of your code?
+  default: 79
+
+target_python_version:
+  type: str
+  help: What is the oldest supported python version?
+  default: "3.8"
+  choices:
+    - "3.8"
+    - "3.9"
+    - "3.10"
+    - "3.11"
+
+default_venv_backend:
+  type: str
+  help: What is Nox's default virutual environments backend?
+  default: virtualenv
+  choices:
+    - "none"
+    - "virtualenv"
+    - "conda"
+    - "mamba"
+    - "venv"
+
+origin:
+  type: str
+  help: What is the remote repository address (use '.' to keep the project local)?
+  default: |-
+    {%- if ci == 'github' -%}
+    git@github.com:{{github_user}}/{{project_slug.git}}.git
+    {%- elif ci == 'gitlab' -%}
+    git@gitlab.com:{{gitlab_user}}/{{project_slug.git}}.git
+    {%- elif ci == 'no_ci' -%}
+    .
+    {%- endif -%}
+
+_subdirectory: "template"
+_templates_suffix: ""
+_jinja_extensions:
+  - jinja2_time.TimeExtension
+_tasks:
+  - [poetry, lock, "--no-interaction", "--no-update"]
+  - [git, init, --initial-branch, main]
+  - [git, add, .]
+  - [git, commit, --message, "chore: initial commit"]
+  - [
+      nox,
+      --default-venv-backend,
+      "{{default_venv_backend}}",
+      --session,
+      reuse,
+      --,
+      download,
+      --all,
+    ]
+  - [git, add, .]
+  - [git, commit, --message, "chore: download licenses"]
+  - [
+      nox,
+      --default-venv-backend,
+      "{{default_venv_backend}}",
+      --session,
+      licenses,
+      --,
+      --from=mixed,
+      --with-urls,
+      --format=markdown,
+      --output-file=DEPENDENCIES.md,
+    ]
+  - [
+      "{{ _copier_python }}",
+      -c,
+      "{%- if license != 'None' -%} from shutil import copy; copy('LICENSES/{{license}}.txt', 'COPYING') {%- endif -%}",
+    ]
+  - [git, add, .]
+  - [git, commit, --message, "docs: add dependencies.md"]
+  - [nox, --default-venv-backend, "{{default_venv_backend}}", --session, fmt]
+  - [git, add, .]
+  - [git, commit, --message, "chore: format code"]
+  - [git, remote, add, origin, "{{origin}}"]
+  - [git, push, --set-upstream, origin, main]
