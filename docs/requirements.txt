@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 furo==2022.12.7
-myst-parser==0.19.1
+myst-parser==1.0.0
 sphinx-autoapi==2.0.1
 sphinx-autobuild==2021.3.14
 sphinx-click==4.4.0
