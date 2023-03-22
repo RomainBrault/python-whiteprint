@@ -5,6 +5,6 @@
 nox==2022.11.21
 nox-poetry==1.0.2
 pip==23.0.1
-poetry==1.4.0
+poetry==1.4.1
 rich==13.3.2
 virtualenv==20.21.0
