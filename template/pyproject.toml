@@ -140,7 +140,6 @@ python_version = "{{target_python_version}}"
 exclude = [
     "noxfile.py",
     "gen_ref_pages.py",
-    "{{project_name}}",
 ]
 
 # show error messages from unrelated files
