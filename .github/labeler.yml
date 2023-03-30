@@ -4,10 +4,10 @@
 # SPDX-License-Identifier: MIT
 
 ci:
-  - "github/**"
+  - ".github/**"
 
 github_actions:
-  - "github/workflows/*"
+  - ".github/workflows/*"
 
 documentation:
   - "README.md"
