@@ -19,7 +19,7 @@ body:
         section](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a).
 
         We are happy to accept contributions from our users. For more details see
-        [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
+        [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
   - type: input
     id: contact
     attributes:
@@ -34,7 +34,7 @@ body:
       label: Code of Conduct
       description: |
         By submitting this issue, you agree to follow our [Code of
-        Conduct](https://example.com).
+        Conduct](https://github.com/RomainBrault/python-whiteprint/blob/main/CODE_OF_CONDUCT.md).
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
