@@ -39,8 +39,8 @@ body:
     id: discussion
     attributes:
       label: |
-        I have presented my idea and it has been approved in a new [discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
-      description: The discussion reference number.
+        I have presented my idea and it has been approved in a new discussion
+      description: The [idea discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas) reference number.
     validations:
       required: true
   - type: textarea
