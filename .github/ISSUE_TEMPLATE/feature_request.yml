@@ -35,13 +35,14 @@ body:
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
-  - type: input
+  - type: textarea
     id: discussion
     attributes:
-      label: discussions
-      description: |
-        I have presented my idea and it has been approved in a new [discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas).
-      placeholder: #47
+      label: |
+        I have presented my idea and it has been approved in a new [discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
+      description: The discussion reference number.
+      validations:
+        required: true
   - type: textarea
     attributes:
       label: Description
