@@ -2,9 +2,9 @@
 #
 # SPDX-License-Identifier: MIT
 
-name: Bug report
+name: 🐛 Bug report
 description: Create a report to help us improve
-title: "bug:"
+title: "bug: "
 labels: ["bug"]
 assignees: []
 
@@ -12,11 +12,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        **Thanks :heart: for taking the time to fill out this feature request report!**
 
         This form is for bug report **ONLY**. If you have a problem or a
-        question, please check the [discussion
+        question, we kindly ask that you check the [discussion
         section](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a).
+
+        We are happy to accept contributions from our users. For more details see
+        [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
   - type: input
     id: contact
     attributes:
@@ -25,6 +28,16 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: |
+        By submitting this issue, you agree to follow our [Code of
+        Conduct](https://example.com).
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
   - type: input
     id: environment-os
     attributes:
@@ -75,13 +88,3 @@ body:
       description: Try to give us a minimal reproducible example of code.
     validations:
       required: true
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: |
-        By submitting this issue, you agree to follow our [Code of
-        Conduct](https://example.com).
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true

@@ -15,6 +15,9 @@
 - name: bug
   description: Something isn't working
   color: "d73a4a"
+- name: container
+  description: Related to containers
+  color: "579D89"
 - name: build
   description: Build System and Dependencies
   color: "bfdadc"
