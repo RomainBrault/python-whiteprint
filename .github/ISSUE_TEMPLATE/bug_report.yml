@@ -13,6 +13,10 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
+
+        This form is for bug report **ONLY**. If you have a problem or a
+        question, please check the [discussion
+        section](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a).
   - type: input
     id: contact
     attributes:
@@ -33,7 +37,8 @@ body:
     id: environment-python
     attributes:
       label: Python
-      description: What is your python interpreter (run `python --version`)?
+      description: |
+        What is your python interpreter (run `python --version`)?
       placeholder: ex. Python 3.11.0
     validations:
       required: true
@@ -41,7 +46,8 @@ body:
     id: environment-project
     attributes:
       label: Python Whiteprint
-      description: What is your Python Whiteprint version (run `whiteprint --version`)?
+      description: |
+        What is your Python Whiteprint version (run `whiteprint --version`)?
       placeholder: ex. 0.6.1
     validations:
       required: true
@@ -65,17 +71,17 @@ body:
   - type: textarea
     id: reproduce
     attributes:
-      label: What is the code to reproduce the behavior?
-      description: try to give us a minimal reproducible example of code.
+      label: What is the code or steps to reproduce the behavior?
+      description: Try to give us a minimal reproducible example of code.
     validations:
-      required: false
+      required: true
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
       description: |
         By submitting this issue, you agree to follow our [Code of
-        Conduct](https://example.com)
+        Conduct](https://example.com).
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
