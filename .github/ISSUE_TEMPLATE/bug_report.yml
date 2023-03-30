@@ -4,8 +4,8 @@
 
 name: Bug report
 description: Create a report to help us improve
-title: "[BUG]:"
-labels: ["bug", "triage"]
+title: "bug:"
+labels: ["bug"]
 assignees: ""
 
 body:
@@ -58,9 +58,9 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description:
-        - Please copy and paste any relevant log output. This will be
-          automatically formatted into code, so no need for backticks.
+      description: |
+        Please copy and paste any relevant log output. This will be
+        automatically formatted into code, so no need for backticks.
       render: shell
   - type: textarea
     id: reproduce
@@ -73,9 +73,9 @@ body:
     id: terms
     attributes:
       label: Code of Conduct
-      description:
-        - By submitting this issue, you agree to follow our [Code of
-          Conduct](https://example.com)
+      description: |
+        By submitting this issue, you agree to follow our [Code of
+        Conduct](https://example.com)
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
