@@ -9,8 +9,8 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: "build: ⬆️"
-      prefix-development: "build: ⬆️ [dev]"
+      prefix: "build(dependency): ⬆️"
+      prefix-development: "build(dev-dependency): ⬆️"
     labels:
       - "ci"
       - "github_actions"
@@ -20,8 +20,8 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: "build: ⬆️"
-      prefix-development: "build: ⬆️ [dev]"
+      prefix: "ci(dependency): ⬆️"
+      prefix-development: "ci(dev-dependency): ⬆️"
     labels:
       - "ci"
       - "github_actions"
@@ -31,8 +31,8 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: "build: ⬆️"
-      prefix-development: "build: ⬆️ [dev]"
+      prefix: "docs(dependency): ⬆️"
+      prefix-development: "docs(dev=dependency): ⬆️"
     labels:
       - "documentation"
       - "dependencies"
@@ -43,8 +43,8 @@ updates:
     versioning-strategy: lockfile-only
     open-pull-requests-limit: 99
     commit-message:
-      prefix: "build: ⬆️"
-      prefix-development: "build: ⬆️ [dev]"
+      prefix: "build(dependency): ⬆️"
+      prefix-development: "build(dev-dependency): ⬆️"
     allow:
       - dependency-type: "all"
     labels:
@@ -56,8 +56,8 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: "build: ⬆️"
-      prefix-development: "build: ⬆️ [dev]"
+      prefix: "build(dependency): ⬆️"
+      prefix-development: "build(dev-dependency): ⬆️"
     labels:
       - "container"
       - "dependencies"

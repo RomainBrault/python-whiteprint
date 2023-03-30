@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
+name: Bug report
+description: Create a report to help us improve
+title: "[BUG]:"
+labels: ["bug", "triage"]
+assignees: ""
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: input
+    id: environment-os
+    attributes:
+      label: OS
+      description: What is your operating system?
+      placeholder: ex. Ubuntu 22.04
+    validations:
+      required: true
+  - type: input
+    id: environment-python
+    attributes:
+      label: Python
+      description: What is your python interpreter (run `python --version`)?
+      placeholder: ex. Python 3.11.0
+    validations:
+      required: true
+  - type: input
+    id: environment-project
+    attributes:
+      label: Python Whiteprint
+      description: What is your Python Whiteprint version (run `whiteprint --version`)?
+      placeholder: ex. 0.6.1
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description:
+        - Please copy and paste any relevant log output. This will be
+          automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: What is the code to reproduce the behavior?
+      description: try to give us a minimal reproducible example of code.
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description:
+        - By submitting this issue, you agree to follow our [Code of
+          Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
