@@ -22,10 +22,17 @@ Here is a list of important resources for contributors:
 [source code]: https://github.com/RomainBrault/python-whiteprint.git
 [documentation]: https://python-whiteprint.readthedocs.io/en/latest/
 [issue tracker]: https://github.com/RomainBrault/python-whiteprint/issues
+[ideas discussions]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas
+[Q&A discussion]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a
 
-## How to report a bug
+## How to report a problem
 
-Report bugs on the [Issue Tracker].
+If you have any problem with the library check the [Q&A discussion] maybe your
+question or problem is already answered. Otherwise please open a new discussion!
+
+## How to report an identified bug
+
+Report identified bugs on the [Issue Tracker].
 
 When filing an issue, make sure to answer these questions:
 
@@ -40,7 +47,7 @@ and/or steps to reproduce the issue.
 
 ## How to request a feature
 
-Request features on the [Issue Tracker].
+Request features on the [idea discussions].
 
 ## How to set up your development environment
 

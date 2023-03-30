@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
+---
+name: 🛠️ Feature Request
+description: Suggest an idea to help us improve W&B
+title: "feat: "
+labels:
+  - "enhancement"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thanks :heart: for taking the time to fill out this feature request report!**
+
+        We kindly demand that all new features are
+        [discussed](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
+        before opening a new issue.
+
+        We are happy to accept contributions from our users. For more details see
+        [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: |
+        By submitting this issue, you agree to follow our [Code of
+        Conduct](https://example.com).
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+  - type: checkboxes
+    id: input
+    attributes:
+      label: discussions
+      description: |
+        I have presented my idea and it has been approved in a new
+        [discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas).
+      placeholder: #47
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        A clear and concise description of the feature you're interested in.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Suggested Solution
+      description: |
+        Describe the solution you'd like. A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives
+      description: |
+        Describe alternatives you've considered.
+        A clear and concise description of any alternative solutions or features you've considered.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Additional Context and References
+      description: |
+        Add any other context or references about the feature here.
+    validations:
+      required: false
