@@ -27,7 +27,7 @@ Here is a list of important resources for contributors:
 
 ## How to report a problem
 
-If you have any problem with the library check the [Q&A discussion] maybe your
+If you have any problem with the project check the [Q&A discussion] maybe your
 question or problem is already answered. Otherwise please open a new discussion!
 
 ## How to report an identified bug
