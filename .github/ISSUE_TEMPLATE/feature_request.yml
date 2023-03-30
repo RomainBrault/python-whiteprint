@@ -15,12 +15,9 @@ body:
       value: |
         **Thanks :heart: for taking the time to fill out this feature request report!**
 
-        We kindly demand that all new features are
-        [discussed](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
-        before opening a new issue.
+        We kindly demand that all new features are [discussed](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas) before opening a new issue.
 
-        We are happy to accept contributions from our users. For more details see
-        [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
+        We are happy to accept contributions from our users 🚀. For more details see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
   - type: input
     id: contact
     attributes:
@@ -34,8 +31,7 @@ body:
     attributes:
       label: Code of Conduct
       description: |
-        By submitting this issue, you agree to follow our [Code of
-        Conduct](https://example.com).
+        By submitting this issue, you agree to follow our [Code of Conduct](https://example.com).
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
@@ -44,8 +40,7 @@ body:
     attributes:
       label: discussions
       description: |
-        I have presented my idea and it has been approved in a new
-        [discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas).
+        I have presented my idea and it has been approved in a new [discussion](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas).
       placeholder: #47
   - type: textarea
     attributes:
@@ -65,8 +60,7 @@ body:
     attributes:
       label: Alternatives
       description: |
-        Describe alternatives you've considered.
-        A clear and concise description of any alternative solutions or features you've considered.
+        Describe alternatives you've considered. A clear and concise description of any alternative solutions or features you've considered.
     validations:
       required: false
   - type: textarea
