@@ -4,7 +4,7 @@
 
 name: "Pull Request Labeler"
 on:
-  pull_request_target:
+  pull_request:
     branches: ["main"]
 
 jobs:
@@ -17,6 +17,7 @@ jobs:
       - uses: actions/labeler@4.1.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true
   pr-size:
     permissions:
       contents: read
