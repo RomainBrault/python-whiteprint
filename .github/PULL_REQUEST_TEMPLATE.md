@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
 SPDX-License-Identifier: MIT
 -->
 
-We are happy to accept contributions from our users 🚀. For more details see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
+We are happy to accept contributions from our users 🚀. For more details on how to contribute see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
 
 # Checklist:
 

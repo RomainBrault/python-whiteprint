@@ -17,6 +17,8 @@ Here is a list of important resources for contributors:
 - [Documentation]
 - [Issue Tracker]
 - [Code of Conduct]
+- [Ideas Discussions]
+- [Q&A Discussions]
 
 [mit license]: https://opensource.org/licenses/MIT
 [source code]: https://github.com/RomainBrault/python-whiteprint.git
@@ -27,7 +29,7 @@ Here is a list of important resources for contributors:
 
 ## How to report a problem
 
-If you have any problem with the project check the [Q&A discussion] maybe your
+If you have any problem with the project check the [Q&A Discussions] maybe your
 question or problem is already answered. Otherwise please open a new discussion!
 
 ## How to report an identified bug
@@ -47,7 +49,7 @@ and/or steps to reproduce the issue.
 
 ## How to request a feature
 
-Request features on the [idea discussions].
+Request features on the [Ideas Discussions].
 
 ## How to set up your development environment
 

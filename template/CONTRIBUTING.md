@@ -17,13 +17,20 @@ This project welcomes contributions.
 {%- if ci == "github" %}
 - [Source Code](https://github.com/{{github_user}}/{{project_slug}}.git)
 - [Issue Tracker](https://github.com/{{github_user}}/{{project_slug}}/issues)
+- [Ideas Discussions](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
+- [Q&A Discussions](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a)
 {% elif ci == "gitlab" %}
 {% else %}
 {% endif -%}
 {% if ci == "no_ci" -%}
-## How to report a bug
+## How to report a problem
 
-Report bugs on the [Issue Tracker].
+If you have any problem with the project check the [Q&A Discussions] maybe your
+question or problem is already answered. Otherwise please open a new discussion!
+
+## How to report an identified bug
+
+Report identified bugs on the [Issue Tracker].
 
 When filing an issue, make sure to answer these questions:
 
@@ -38,7 +45,12 @@ and/or steps to reproduce the issue.
 
 ## How to request a feature
 
-Request features on the [Issue Tracker].
+Request features on the [Ideas Discussions].
+
+[Source Code]: https://github.com/{{github_user}}/{{project_slug}}.git)
+[Issue Tracker]: https://github.com/{{github_user}}/{{project_slug}}/issues)
+[Ideas Discussions]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
+[Q&A Discussion]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a)
 {% endif %}
 ## How to set up your development environment
 
