@@ -20,12 +20,12 @@ Here is a list of important resources for contributors:
 - [Ideas Discussions]
 - [Q&A Discussions]
 
-[mit license]: https://opensource.org/licenses/MIT
-[source code]: https://github.com/RomainBrault/python-whiteprint.git
-[documentation]: https://python-whiteprint.readthedocs.io/en/latest/
-[issue tracker]: https://github.com/RomainBrault/python-whiteprint/issues
-[ideas discussions]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas
-[Q&A discussion]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a
+[MIT License]: https://opensource.org/licenses/MIT
+[Source Code]: https://github.com/RomainBrault/python-whiteprint.git
+[Documentation]: https://python-whiteprint.readthedocs.io/en/latest/
+[Issue Tracker]: https://github.com/RomainBrault/python-whiteprint/issues
+[Ideas Discussions]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas
+[Q&A Discussions]: https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a
 
 ## How to report a problem
 
@@ -65,21 +65,41 @@ requirements:
 $ poetry install
 ```
 
-You can now run an interactive Python session,
-or the command-line interface:
+You can now run an interactive Python session:
 
 ```console
 $ poetry run python
-$ poetry run python_whiteprint
+```
+
+or the Python Whiteprint command-line interface:
+
+```console
+$ poetry run whiteprint
 ```
 
 To avoid prefixing all your commands by `poetry run` you can source a poetry
-shell and then run an interactive Python session or the command-line interface:
+shell (or activate a virtual environment such as
+[Mamba](https://mamba.readthedocs.io/en/latest/user_guide/mamba.html),
+[Conda](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html),
+[virtualenv](https://virtualenv.pypa.io/en/latest/) or
+[venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/)).
+
+For example to activate a virtual environment with poetry run:
 
 ```console
 $ poetry shell
+```
+
+Then you can just run an interactive Python session or the command-line interface:
+
+```console
 $ python
-$ python_whiteprint
+```
+
+or
+
+```console
+$ {{package_slug}}
 ```
 
 [poetry]: https://python-poetry.org/
@@ -108,7 +128,7 @@ You can also run a specific Nox session.
 For example, invoke the unit test suite like this:
 
 ```console
-$ nox --session=tests
+$ nox --session=test
 ```
 
 Unit tests are located in the _tests_ directory,
@@ -126,7 +146,7 @@ Your pull request needs to meet the following guidelines for acceptance:
 
 - The Nox test suite must pass without errors and warnings.
 - Include unit tests. This project maintains 100% code coverage.
-- If your changes add functionality, update the documentation accordingly.
+- If your changes add functionality, update the [Documentation] accordingly.
 
 Feel free to submit early, though—we can always iterate on this.
 

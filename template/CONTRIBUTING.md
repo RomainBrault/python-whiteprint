@@ -15,10 +15,10 @@ This project welcomes contributions.
 - [Documentation](https://{{project_slug}}.readthedocs.io/en/latest/)
 {%- endif %}
 {%- if ci == "github" %}
-- [Source Code](https://github.com/{{github_user}}/{{project_slug}}.git)
-- [Issue Tracker](https://github.com/{{github_user}}/{{project_slug}}/issues)
-- [Ideas Discussions](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas)
-- [Q&A Discussions](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a)
+- [Source Code]
+- [Issue Tracker]
+- [Ideas Discussions]
+- [Q&A Discussions]
 {% elif ci == "gitlab" %}
 {% else %}
 {% endif -%}
@@ -66,21 +66,41 @@ requirements:
 $ poetry install
 ```
 
-You can now run an interactive Python session,
-or the command-line interface:
+You can now run an interactive Python session:
 
 ```console
 $ poetry run python
-$ poetry run {{package_name}}
 ```
 
-To avoid prefixing all your commands by `poetry run` you can source a poetry
-shell and then run an interactive Python session or the command-line interface:
+or the command-line interface:
+
+```console
+$ poetry run {{package_slug}}
+```
+
+To avoid prefixing all your commands by `poetry run` you can source a [poetry
+shell](https://python-poetry.org/docs/cli/#shell) (or activate a virtual environment such as
+[Mamba](https://mamba.readthedocs.io/en/latest/user_guide/mamba.html),
+[Conda](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html),
+[virtualenv](https://virtualenv.pypa.io/en/latest/) or
+[venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/)).
+
+For example to activate a virtual environment with poetry run:
 
 ```console
 $ poetry shell
+```
+
+Then you can just run an interactive Python session or the command-line interface:
+
+```console
 $ python
-$ {{package_name}}
+```
+
+or
+
+```console
+$ whiteprint
 ```
 
 [poetry]: https://python-poetry.org/
@@ -109,7 +129,7 @@ You can also run a specific Nox session.
 For example, invoke the unit test suite like this:
 
 ```console
-$ nox --session=tests
+$ nox --session=test
 ```
 
 Unit tests are located in the _tests_ directory,
