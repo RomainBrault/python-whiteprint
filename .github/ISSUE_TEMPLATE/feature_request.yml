@@ -17,7 +17,7 @@ body:
 
         We kindly demand that all new features are [discussed](https://github.com/RomainBrault/python-whiteprint/discussions/categories/ideas) before opening a new issue.
 
-        We are happy to accept contributions from our users 🚀. For more details see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md)
+        We are also happy to accept contributions from our users 🚀 by means of [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests?platform=linux). For more details see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
   - type: input
     id: contact
     attributes:

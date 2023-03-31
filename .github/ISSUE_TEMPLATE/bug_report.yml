@@ -16,7 +16,7 @@ body:
 
         This form is for bug report **ONLY**. If you have a problem or a question, we kindly ask that you check the [discussion section](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a).
 
-        We are happy to accept contributions from our users 🚀. For more details see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
+        We are also happy to accept contributions from our users 🚀 by means of [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests?platform=linux). For more details see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
   - type: input
     id: contact
     attributes:

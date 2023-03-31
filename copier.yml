@@ -102,7 +102,10 @@ target_python_version:
 
 default_venv_backend:
   type: str
-  help: What is Nox's default virutual environments backend?
+  help: |
+    What is Nox's default virutual environments backend?
+
+    This option only affect the project's creation step.
   default: virtualenv
   choices:
     - "none"
@@ -113,7 +116,10 @@ default_venv_backend:
 
 origin:
   type: str
-  help: What is the remote repository address (use '.' to keep the project local)?
+  help: |
+    What is the remote repository address?
+
+    Use '.' to keep the project local or use a github/gitlab URL.
   default: |-
     {%- if ci == 'github' -%}
     git@github.com:{{github_user}}/{{project_slug.git}}.git
