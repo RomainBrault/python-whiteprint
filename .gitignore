@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -16,7 +16,10 @@ _build
 *.egg-info
 *.log
 *.mo
+*.yaml
+*.yml
 .coverage
 .coverage.*
 profile.*
 coverage.*
+.hypothesis

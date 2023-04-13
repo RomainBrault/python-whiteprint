@@ -1,11 +1,16 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 #
 # SPDX-License-Identifier: MIT
+
+# Note to developpers: try to minimize the number of questions
 
 project_name:
   type: str
   help: What is your project name?
-  default: "Python Whiteprint"
+  validator: >-
+    {% if not (project_name | regex_search('^[A-Za-z][A-Za-z0-9-_ ]*$')) %}
+    project_name must start with a letter, followed one or more letters, digits, spaces, underscores or dashes all lowercase.
+    {% endif %}
 
 project_slug:
   type: str
@@ -20,35 +25,33 @@ package_name:
 author:
   type: str
   help: What is your name?
-  default: "John Smith"
 
 email:
   type: str
   help: What is your email?
-  default: "john.smith@email.com"
 
-ci:
+git_platform:
   type: str
   help: What Continuous Integration service do you want to use?
   choices:
-    No CI: no_ci
-    GitHub CI: github
-    GitLab CI: gitlab
-  default: no_ci
+    No Git Platform: no_git_platform
+    GitHub: github
+    GitLab: gitlab
+  default: no_git_platform
 
 github_user:
   type: str
   help: What is your GitHub user name?
   default: "{{ author.replace(' ', '') }}"
-  when: "{{ ci == 'github' }}"
+  when: "{{ git_platform == 'github' }}"
 
 gitlab_user:
   type: str
   help: What is your GitLab user name?
   default: "{{ author.replace(' ', '') }}"
-  when: "{{ ci == 'gitlab' }}"
+  when: "{{ git_platform == 'gitlab' }}"
 
-license:
+spdx_license:
   type: str
   help: What is the license of your project?
   choices:
@@ -59,7 +62,7 @@ license:
     GNU General Public License v3.0 Only: GPL-3.0-only
     GNU Affero General Public License v3.0 Only: AGPL-3.0-only
     No license, all rights reserved: None
-  default: "{%- if ci == 'no_ci' -%}None{%- else -%}MIT{%- endif -%}"
+  default: "{%- if git_platform == 'no_git_platform' -%}None{%- else -%}MIT{%- endif -%}"
 
 copyright_holder:
   type: str
@@ -74,8 +77,8 @@ copyright_holder_email:
 copying_header:
   type: str
   help: Would you like to add a copying information?
-  default: "Copyright {% now 'utc', '%Y' %} {{copyright_holder}} <{{copyright_holder_email}}> - All Rights Reserved."
-  when: "{{ license == 'None' }}"
+  default: "© {% now 'utc', '%Y' %} {{copyright_holder}} <{{copyright_holder_email}}> - All Rights Reserved."
+  when: "{{ spdx_license == 'None' }}"
 
 documentation:
   type: str
@@ -83,12 +86,17 @@ documentation:
   choices:
     Self hosted: selfhosted
     Read the Docs: readthedocs
-  default: "{%- if ci == 'no_ci' -%}selfhosted{%- else -%}readthedocs{%- endif -%}"
+  default: "{%- if git_platform == 'no_git_platform' -%}selfhosted{%- else -%}readthedocs{%- endif -%}"
 
 line_length:
   type: int
   help: What is the line wrap length of your code?
   default: 79
+  choices:
+    - 79
+    - 88
+    - 99
+    - 119
 
 target_python_version:
   type: str
@@ -100,32 +108,18 @@ target_python_version:
     - "3.10"
     - "3.11"
 
-default_venv_backend:
-  type: str
-  help: |
-    What is Nox's default virutual environments backend?
-
-    This option only affect the project's creation step.
-  default: virtualenv
-  choices:
-    - "none"
-    - "virtualenv"
-    - "conda"
-    - "mamba"
-    - "venv"
-
 origin:
   type: str
   help: |
     What is the remote repository address?
 
-    Use '.' to keep the project local or use a github/gitlab URL.
+    Use '.' to keep the project local otherwise use a github/gitlab URL.
   default: |-
-    {%- if ci == 'github' -%}
-    git@github.com:{{github_user}}/{{project_slug.git}}.git
-    {%- elif ci == 'gitlab' -%}
+    {%- if git_platform == 'github' -%}
+    git@github.com:{{github_user}}/{{project_slug.git}}.gitl
+    {%- elif git_platform == 'gitlab' -%}
     git@gitlab.com:{{gitlab_user}}/{{project_slug.git}}.git
-    {%- elif ci == 'no_ci' -%}
+    {%- elif git_platform == 'no_git_platform' -%}
     .
     {%- endif -%}
 
@@ -133,44 +127,5 @@ _subdirectory: "template"
 _templates_suffix: ""
 _jinja_extensions:
   - jinja2_time.TimeExtension
-_tasks:
-  - [poetry, lock, "--no-interaction", "--no-update"]
-  - [git, init, --initial-branch, main]
-  - [git, add, .]
-  - [git, commit, --message, "chore: initial commit"]
-  - [
-      nox,
-      --default-venv-backend,
-      "{{default_venv_backend}}",
-      --session,
-      reuse,
-      --,
-      download,
-      --all,
-    ]
-  - [git, add, .]
-  - [git, commit, --message, "chore: download licenses"]
-  - [
-      nox,
-      --default-venv-backend,
-      "{{default_venv_backend}}",
-      --session,
-      licenses,
-      --,
-      --from=mixed,
-      --with-urls,
-      --format=markdown,
-      --output-file=DEPENDENCIES.md,
-    ]
-  - [
-      "{{ _copier_python }}",
-      -c,
-      "{%- if license != 'None' -%} from shutil import copy; copy('LICENSES/{{license}}.txt', 'COPYING') {%- endif -%}",
-    ]
-  - [git, add, .]
-  - [git, commit, --message, "docs: add dependencies.md"]
-  - [nox, --default-venv-backend, "{{default_venv_backend}}", --session, fmt]
-  - [git, add, .]
-  - [git, commit, --message, "chore: format code"]
-  - [git, remote, add, origin, "{{origin}}"]
-  - [git, push, --set-upstream, origin, main]
+  # - [git, remote, add, origin, "{{origin}}"]
+  # - [git, push, --set-upstream, origin, main]

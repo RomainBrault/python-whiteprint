@@ -1,5 +1,6 @@
 {% include "jinja_template/license_header.py.j2" %}
 """Shared test configuration file."""
+
 import pytest
 from beartype import beartype
 from typer import testing

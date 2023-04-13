@@ -17,4 +17,5 @@ _build
 .coverage.*
 profile.*
 coverage.*
-.copier-answer.yml
+.copier-answers.yml
+.hypothesis

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 #
 # SPDX-License-Identifier: MIT
 
@@ -46,12 +46,6 @@ repos:
         language: system
         types: [python]
         exclude: ^(template)
-      - id: isort
-        name: isort
-        description: "[Fix] Sort imports"
-        entry: isort --settings-file=pyproject.toml
-        language: system
-        types: [python]
       - id: ruff
         name: ruff
         description: "[Fix] Lint issues"
@@ -59,6 +53,7 @@ repos:
         language: system
         types: [python]
         require_serial: true
+        exclude: ^(gen_ref_pages.py|noxfile.py|template)
       - id: pylint
         name: pylint
         description: "[Check] Lint issues"

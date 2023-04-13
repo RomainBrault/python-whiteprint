@@ -1,6 +1,6 @@
 {% include "jinja_template/license_header.md.j2" %}
 # {{project_name}}
-{% if license != "None" %}
+{% if spdx_license != "Proprietary" %}
 [![PyPI Version](https://img.shields.io/pypi/v/{{project_slug}}.svg)](https://pypi.python.org/pypi/{{project_slug}})
 {%- endif %}
 {%- if documentation != "readthedocs" %}
@@ -15,8 +15,8 @@
 [![Code style: black][black-badge]](https://github.com/psf/black)
 [![Type checked with mypy][mypy-badge]](https://mypy-lang.org/)
 [![pre-commit enabled][pre-commit badge]](https://pre-commit.com/)
-{%- if license != "None" %}
-[![License][license badge]](https://opensource.org/licenses/{{license}})
+{%- if spdx_license != "Proprietary" %}
+[![License][license badge]](https://opensource.org/licenses/{{spdx_license}})
 {%- endif %}
 [![Contributor Covenant][contributor covenant badge]](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)
 

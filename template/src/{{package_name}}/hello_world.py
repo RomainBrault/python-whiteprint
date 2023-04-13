@@ -1,6 +1,8 @@
 {% include "jinja_template/license_header.py.j2" %}
 """An example module."""
+
 from beartype import beartype
+
 from {{package_name}} import console
 from {{package_name}}.loc import _
 
