@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 #
 # SPDX-License-Identifier: MIT
 
 ARG PYTHON_VERSION=3.11
-ARG BASE_OS=alpine3.17
+ARG BASE_OS=slim-bullseye
 
 ARG PYTHONDONTWRITEBYTECODE=1
 ARG PYTHONBUFFERED=1
@@ -26,7 +26,7 @@ ARG VIRTUAL_ENV=/opt/venv
 FROM docker.io/python:${PYTHON_VERSION}-${BASE_OS} AS python_builder
 
 # Pin Poetry to a specific version to make container builds reproducible.
-ARG POETRY_VERSION=1.4.0
+ARG POETRY_VERSION=1.4.2
 
 # Set ENV variables that make Python more friendly to running inside a
 # container.
@@ -41,8 +41,7 @@ ARG PYTHONBUFFERED
 
 # Install Poetry into a separate virtualenv
 ARG POETRY_ENV=/opt/poetry
-RUN apk add build-base && \
-  python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
+RUN python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
   ${POETRY_ENV}/bin/pip install "poetry==${POETRY_VERSION}"
 
 # Pre-download/compile wheel dependencies into a virtual environment. Doing
@@ -80,6 +79,10 @@ RUN ${POETRY_ENV}/bin/poetry build && \
 FROM docker.io/python:${PYTHON_VERSION}-${BASE_OS}
 MAINTAINER Romain Brault <mail@romainbrault.com>
 
+RUN apt-get update && apt-get install -y \
+    git && \
+    rm -rf /var/lib/apt/lists/*
+
 # For Python applications that are not installable libraries, you may need to
 # copy in source files here in the final image rather than in the
 # python_builder image.
@@ -116,6 +119,12 @@ ARG PYTHONDONTWRITEBYTECODE
 ARG PYTHONBUFFERED
 ENV PYTHONDONTWRITEBYTECODE ${PYTHONDONTWRITEBYTECODE} \
     PYTHONBUFFERED ${PYTHONBUFFERED}
+
+ENV WHITEPRINT_HOME ${HOME}/whiteprint
+RUN mkdir -p ${WHITEPRINT_HOME}
+COPY template/ ${WHITEPRINT_HOME}/template/
+COPY jinja_template/ ${WHITEPRINT_HOME}/jinja_template/
+COPY copier.yml ${WHITEPRINT_HOME}
 
 ENTRYPOINT ["whiteprint"]
 

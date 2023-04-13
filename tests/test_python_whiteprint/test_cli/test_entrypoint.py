@@ -1,13 +1,14 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 #
 # SPDX-License-Identifier: MIT
 
-"""Test the console module."""
+"""Test the main CLI."""
 
 from beartype import beartype
 from typer import testing
 
-from python_whiteprint import cli, version
+from python_whiteprint import version
+from python_whiteprint.cli import entrypoint
 
 
 @beartype
@@ -18,7 +19,7 @@ class TestCLI:
     def test_version(cli_runner: testing.CliRunner) -> None:
         """Check if the version printed by the CLI match the API one."""
         result = cli_runner.invoke(
-            cli.app,
+            entrypoint.app,
             ["--version"],
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
@@ -31,7 +32,7 @@ class TestCLI:
     def test_help_flag_exists(cli_runner: testing.CliRunner) -> None:
         """Check if the version printed by the CLI match the API one."""
         result = cli_runner.invoke(
-            cli.app,
+            entrypoint.app,
             ["--help"],
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
@@ -44,5 +45,5 @@ class TestCLI:
             cli_runner: the CLI test runner provided by typer.testing or a
                 fixture.
         """
-        result = cli_runner.invoke(cli.app)
+        result = cli_runner.invoke(entrypoint.app)
         assert result.exit_code == 0, "The CLI did not exit properly."

@@ -1,9 +1,10 @@
-# SPDX-FileCopyrightText: 2020-2023 Claudio Jolowicz
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2020 Claudio Jolowicz
 #
 # SPDX-License-Identifier: MIT
 
 """Automates testing in banditmultiple Python environments."""
+
 import os
 import pathlib
 import shlex
@@ -69,19 +70,38 @@ def _patch_hooks(
     hookdir: pathlib.Path,
     *,
     bindirs: List[str],
-    headers: Dict[str, str],
+    virtualenv: str,
+    session: nox_poetry.Session,
 ) -> None:
+    headers = {
+        # pre-commit < 2.16.0
+        "python": f"""\
+            import os
+            os.environ["VIRTUAL_ENV"] = {virtualenv!r}
+            os.environ["PATH"] = os.pathsep.join((
+                {session.bin!r},
+                os.environ.get("PATH", ""),
+            ))
+            """,
+        # pre-commit >= 2.16.0
+        "bash": f"""\
+            VIRTUAL_ENV={shlex.quote(virtualenv)}
+            PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
+            """,
+        # pre-commit >= 2.17.0 on Windows forces sh shebang
+        "/bin/sh": f"""\
+            VIRTUAL_ENV={shlex.quote(virtualenv)}
+            PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
+            """,
+    }
     for hook in hookdir.iterdir():
         if _not_hook(hook) or not hook.read_bytes().startswith(b"#!"):
             continue
 
-        text = hook.read_text()
-
-        if not _bindir_in_hook(bindirs, text=text):
+        if not _bindir_in_hook(bindirs, text=(text := hook.read_text())):
             continue
 
-        lines = text.splitlines()
-        _patch_hook(hook, headers=headers, lines=lines)
+        _patch_hook(hook, headers=headers, lines=text.splitlines())
 
 
 def activate_virtualenv_in_precommit_hooks(
@@ -108,37 +128,18 @@ def activate_virtualenv_in_precommit_hooks(
         for bindir in (repr(session.bin), shlex.quote(session.bin))
     ]
 
-    virtualenv = session.env.get("VIRTUAL_ENV")
-    if virtualenv is None:
+    if (virtualenv := session.env.get("VIRTUAL_ENV")) is None:
         return
 
-    headers = {
-        # pre-commit < 2.16.0
-        "python": f"""\
-            import os
-            os.environ["VIRTUAL_ENV"] = {virtualenv!r}
-            os.environ["PATH"] = os.pathsep.join((
-                {session.bin!r},
-                os.environ.get("PATH", ""),
-            ))
-            """,
-        # pre-commit >= 2.16.0
-        "bash": f"""\
-            VIRTUAL_ENV={shlex.quote(virtualenv)}
-            PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
-            """,
-        # pre-commit >= 2.17.0 on Windows forces sh shebang
-        "/bin/sh": f"""\
-            VIRTUAL_ENV={shlex.quote(virtualenv)}
-            PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
-            """,
-    }
-
-    hookdir = pathlib.Path(".git") / "hooks"
-    if not hookdir.is_dir():
+    if not (hookdir := pathlib.Path(".git") / "hooks").is_dir():
         return
 
-    _patch_hooks(hookdir, bindirs=bindirs, headers=headers)
+    _patch_hooks(
+        hookdir,
+        bindirs=bindirs,
+        virtualenv=virtualenv,
+        session=session,
+    )
 
 
 def install_poetry_groups(
@@ -439,7 +440,7 @@ def docs_build(session: nox_poetry.Session) -> None:
     Args:
         session: The Session object.
     """
-    args = session.posargs or ["-W", "--keep-going", "docs", "docs/_build"]
+    args = session.posargs or ["--keep-going", "docs", "docs/_build"]
     if not session.posargs and "FORCE_COLOR" in os.environ:
         args.insert(0, "--color")
 
@@ -463,7 +464,6 @@ def docs(session: nox_poetry.Session) -> None:
         session: The Session object.
     """
     args = session.posargs or [
-        "-W",
         "--open-browser",
         "docs",
         "docs/_build",
@@ -487,7 +487,6 @@ def docs_check_links(session: nox_poetry.Session) -> None:
     args = session.posargs or [
         "-b",
         "linkcheck",
-        "-W",
         "--keep-going",
         "docs",
         "docs/_build",

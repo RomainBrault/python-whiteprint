@@ -1,11 +1,11 @@
-{%- if license != "None" -%}
+{%- if spdx_license != "None" -%}
 <!--
-SPDX-FileCopyrightText: {% now 'utc', '%Y' %} {{copyright_holder}} <{{copyright_holder_email}}>
+SPDX-FileCopyrightText: © {% now 'utc', '%Y' %} {{copyright_holder}} <{{copyright_holder_email}}>
 
-SPDX-License-Identifier: {{license}}
+SPDX-License-Identifier: {{spdx_license}}
 -->
-{% else -%}
+{%- else -%}
 <!--
 {{copying_header}}
 -->
-{% endif -%}
+{%- endif %}

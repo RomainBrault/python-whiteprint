@@ -1,5 +1,4 @@
 {% include "jinja_template/license_header.py.j2" %}
-
 """Sphinx configuration."""
 
 # pylint: disable=invalid-name,redefined-builtin

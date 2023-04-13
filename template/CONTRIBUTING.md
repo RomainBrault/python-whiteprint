@@ -2,9 +2,9 @@
 # 🛠️ Contributor Guide
 
 Thank you for your interest in improving this project.
-{%- if license != "None" %}
-This project is open-source under the [{{license}}
-license](https://opensource.org/licenses/{{license}}) and welcomes
+{%- if spdx_license != "Proprietary" %}
+This project is open-source under the [{{spdx_license}}
+license](https://opensource.org/licenses/{{spdx_license}}) and welcomes
 contributions in the form of bug reports, feature requests, and pull requests.
 
 Here is a list of important resources for contributors:
@@ -75,7 +75,7 @@ $ poetry run python
 or the command-line interface:
 
 ```console
-$ poetry run {{package_slug}}
+$ poetry run {{project_slug}}
 ```
 
 To avoid prefixing all your commands by `poetry run` you can source a [poetry

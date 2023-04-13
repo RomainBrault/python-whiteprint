@@ -1,6 +1,6 @@
 <!--
-SPDX-FileCopyrightText: 2014 Coraline Ada Ehmeke
-SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+SPDX-FileCopyrightText: © 2014 Coraline Ada Ehmeke
+SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 
 SPDX-License-Identifier: CC-BY-4.0
 -->

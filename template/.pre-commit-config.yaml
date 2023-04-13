@@ -23,10 +23,10 @@ repos:
     rev: v3.0.0-alpha.6
     hooks:
       - id: prettier
-        exclude: ^(DEPENDENCIES.md) # automatically generated
+        exclude: ^(DEPENDENCIES.md|.copier-answer.yml) # automatically generated
   - repo: local
     hooks:
-{%- if license != "None" %}
+{%- if spdx_license != "None" %}
       - id: reuse
         name: reuse
         entry: reuse
@@ -41,12 +41,6 @@ repos:
         name: black
         description: "[Fix] Reformat the code"
         entry: black --config=pyproject.toml
-        language: system
-        types: [python]
-      - id: isort
-        name: isort
-        description: "[Fix] Sort imports"
-        entry: isort --settings-file=pyproject.toml
         language: system
         types: [python]
       - id: ruff

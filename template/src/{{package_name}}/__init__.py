@@ -1,5 +1,6 @@
 {% include "jinja_template/license_header.py.j2" %}
 """Top-level module."""
+
 from .version import __version__
 
 

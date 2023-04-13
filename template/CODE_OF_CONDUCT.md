@@ -1,6 +1,6 @@
 <!--
-SPDX-FileCopyrightText: 2014 Coraline Ada Ehmeke
-SPDX-FileCopyrightText: {% now 'utc', '%Y' %} {{author}} <{{email}}>
+SPDX-FileCopyrightText: © 2014 Coraline Ada Ehmeke
+SPDX-FileCopyrightText: © {% now 'utc', '%Y' %} {{author}} <{{email}}>
 
 SPDX-License-Identifier: CC-BY-4.0
 -->

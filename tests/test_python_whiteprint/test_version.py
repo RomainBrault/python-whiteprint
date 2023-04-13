@@ -1,10 +1,14 @@
-{% include "jinja_template/license_header.py.j2" %}
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
+#
+# SPDX-License-Identifier: MIT
+
 """Test the version module."""
 
 import re
 
 from beartype import beartype
-from {{package_name}} import version
+
+from python_whiteprint import version
 
 
 @beartype

@@ -1,5 +1,6 @@
 {% include "jinja_template/license_header.py.j2" %}
 """Manage a global rich console."""
+
 from rich import console
 
 

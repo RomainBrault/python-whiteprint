@@ -24,7 +24,7 @@ ARG VIRTUAL_ENV=/opt/venv
 FROM docker.io/python:${PYTHON_VERSION}-${BASE_OS} AS python_builder
 
 # Pin Poetry to a specific version to make container builds reproducible.
-ARG POETRY_VERSION=1.4.0
+ARG POETRY_VERSION=1.4.2
 
 # Set ENV variables that make Python more friendly to running inside a
 # container.
@@ -39,7 +39,8 @@ ARG PYTHONBUFFERED
 
 # Install Poetry into a separate virtualenv
 ARG POETRY_ENV=/opt/poetry
-RUN python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
+RUN apk add build-base && \
+  python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
   ${POETRY_ENV}/bin/pip install "poetry==${POETRY_VERSION}"
 
 # Pre-download/compile wheel dependencies into a virtual environment. Doing
@@ -130,7 +131,7 @@ LABEL org.opencontainers.image.authors='{{author}} <{{email}}>' \
 {%- endif %}
       org.opencontainers.image.source='https://github.com/{{github_user}}/{{project_slug}}.git' \
       org.opencontainers.image.vendor='{{author}}' \
-      org.opencontainers.image.licenses='{{license}}' \
+      org.opencontainers.image.licenses='{{spdx_license}}' \
       org.opencontainers.image.version=${VERSION} \
       org.opencontainers.image.revision=${REVISION} \
       org.opencontainers.image.created=${BUILD_DATE} \

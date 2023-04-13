@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Romain Brault <mail@romainbrault.com>
+# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 #
 # SPDX-License-Identifier: MIT
 
@@ -9,7 +9,7 @@
 
 project = "Python Whiteprint"
 author = "Romain Brault"
-copyright = "2018-2023, Romain Brault, Claudio Jolowicz, John Hagen"
+copyright = "2023, Romain Brault"
 extensions = [
     "autoapi.extension",
     "myst_parser",
