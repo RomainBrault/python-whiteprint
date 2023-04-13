@@ -62,6 +62,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
+            catch_exceptions=False,
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
