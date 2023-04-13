@@ -210,7 +210,9 @@ filterwarnings = [
     "error",
     # Add additional warning supressions as needed here. For example, if a
     # third-party library is throwing a deprecation warning that needs to be
-    # fixed upstream: "ignore::DeprecationWarning:typer",
+    # fixed upstream:
+    "ignore::DeprecationWarning:importlib",
+    # poetry need to update virtualenv dependency....
 ]
 
 [tool.coverage.paths]
