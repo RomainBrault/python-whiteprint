@@ -27,7 +27,8 @@ def configure_logging(level: LogLevel) -> None:
     See Also:
         https://rich.readthedocs.io/en/stable/logging.html
     """
-    importlib.import_module("logging").basicConfig(
+    logging = importlib.import_module("logging")
+    logging.basicConfig(
         level=level.value.upper(),
         format="%(message)s",
         datefmt="[%X]",
@@ -42,3 +43,4 @@ def configure_logging(level: LogLevel) -> None:
             ),
         ],
     )
+    logging.captureWarnings(True)
