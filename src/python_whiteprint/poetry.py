@@ -27,7 +27,9 @@ def lock(destination: pathlib.Path) -> None:
         destination: the path of the Poetry repository (directory containing
             the file named `pyproject.toml`).
     """
-    if (poetry := shutil.which("poetry")) is None:
+    if (poetry := shutil.which("poetry")) is None:  # pragma: no cover
+        # We do not cover the case where the Poetry CLI is not found as it is a
+        # requirement of the project
         raise PoetryNotFoundError
 
     command = [poetry, "lock", "--no-update"]

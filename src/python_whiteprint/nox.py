@@ -58,7 +58,9 @@ def run(destination: pathlib.Path, *, args: List[str]) -> None:
         NoxError: nox return code is not 0 (_NOX_SUCCESS).
         KeyboardInterrupt: nox return code is 130.
     """
-    if (nox := shutil.which("nox")) is None:
+    if (nox := shutil.which("nox")) is None:  # pragma: no cover
+        # We do not cover the case where the Nox CLI is not found as it is a
+        # requirement of the project
         raise NoxNotFoundError
 
     command = [nox, *args]

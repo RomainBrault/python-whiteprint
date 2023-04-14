@@ -1878,7 +1878,7 @@ testing = ["aboutcode-toolkit (>=6.0.0)", "black", "pytest (>=6,!=7.0.0)", "pyte
 name = "platformdirs"
 version = "3.2.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -3712,4 +3712,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8, <3.12"
-content-hash = "1e4dd724f90c308f3f79adc19fc5d97c0d633feef00254a844d2c09d2408cdfb"
+content-hash = "7e4fba006d90fda4226cf9b9f1a71eb26d1dcac6160bbd611e509ed8b275ec03"
