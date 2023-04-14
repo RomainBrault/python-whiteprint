@@ -232,7 +232,7 @@ def _post_processing(
     if github_token is not None:
         github = importlib.import_module("github").Github(github_token)
 
-        github_repository = github.get_user().create_repository("toto")
+        github_repository = github.get_user().create_repo("toto")
 
         repository.remotes.add_push("origin", github_repository.ssh_url)
         repository.remotes.add_fetch("origin", github_repository.ssh_url)
