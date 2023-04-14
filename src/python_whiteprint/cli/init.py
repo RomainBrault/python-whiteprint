@@ -245,7 +245,7 @@ def _post_processing(
         repository.remotes["origin"].push(
             ["refs/heads/main"],
             callbacks=pygit2.RemoteCallbacks(
-                credentials=pygit2.KeypairFromAgent("git")
+                credentials=git.UserPass(github_token, "x-oauth-basic")
             ),
         )
 
