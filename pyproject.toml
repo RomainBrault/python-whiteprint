@@ -51,9 +51,6 @@ copier = ">=7.1.0"
 jinja2-time = ">=0.2.0"
 pygit2 = ">=1.11.1"
 python-slugify = ">=8.0.1"
-nox-poetry = ">=1.0.2"
-poetry = ">=1.4.2"
-virtualenv = "=20.16.5"
 typing-extensions = ">=4.5.0"
 
 [tool.poetry.group.localization.dependencies]

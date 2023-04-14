@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 ARG PYTHON_VERSION=3.11
-ARG BASE_OS=slim-bullseye
+ARG BASE_OS=alpine3.17
 
 ARG PYTHONDONTWRITEBYTECODE=1
 ARG PYTHONBUFFERED=1
@@ -26,7 +26,7 @@ ARG VIRTUAL_ENV=/opt/venv
 FROM docker.io/python:${PYTHON_VERSION}-${BASE_OS} AS python_builder
 
 # Pin Poetry to a specific version to make container builds reproducible.
-ARG POETRY_VERSION=1.4.2
+ARG POETRY_VERSION=1.4
 
 # Set ENV variables that make Python more friendly to running inside a
 # container.
@@ -40,16 +40,24 @@ ARG PYTHONBUFFERED
 #    && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry into a separate virtualenv
+#
+# TODO: replace pip install -U pip with --upgrade-deps when python 3.8 support
+# is dropped
 ARG POETRY_ENV=/opt/poetry
-RUN python -m venv --upgrade-deps --symlinks ${POETRY_ENV} && \
-  ${POETRY_ENV}/bin/pip install "poetry==${POETRY_VERSION}"
+RUN python -m venv --symlinks ${POETRY_ENV} && \
+    ${POETRY_ENV}/bin/pip install --upgrade pip && \
+    ${POETRY_ENV}/bin/pip install "poetry==${POETRY_VERSION}"
 
 # Pre-download/compile wheel dependencies into a virtual environment. Doing
 # this in a multi-stage build allows omitting compile dependencies from the
 # final image. This must be the same path that is used in the final image as
 # the virtual environment has absolute symlinks in it.
+#
+# TODO: replace pip install -U pip with --upgrade-deps when python 3.8 support
+# is dropped
 ARG VIRTUAL_ENV
-RUN python -m venv --upgrade-deps --symlinks ${VIRTUAL_ENV}
+RUN python -m venv --symlinks ${VIRTUAL_ENV} && \
+    ${VIRTUAL_ENV}/bin/pip install --upgrade pip
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 
 # Copy in project dependency specification.
