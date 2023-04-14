@@ -579,6 +579,13 @@ def init(  # pylint: disable=too-many-locals
             Github. The token must have writing permissions.
     """
     data_dict = {} if no_data or data is None else read_yaml(data)
+    data_dict.update(
+        {
+            "git_platform": (
+                "no_git_platform" if github_token is None else "github"
+            )
+        }
+    )
     user_defaults_dict = (
         {} if user_defaults is None else read_yaml(user_defaults)
     )

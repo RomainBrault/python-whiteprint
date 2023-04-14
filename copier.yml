@@ -36,7 +36,6 @@ git_platform:
   choices:
     No Git Platform: no_git_platform
     GitHub: github
-    GitLab: gitlab
   default: no_git_platform
 
 spdx_license:
