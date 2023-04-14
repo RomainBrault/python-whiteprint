@@ -459,10 +459,9 @@ _option_python = params.Option(
 _option_github_token = params.Option(
     os.environ.get("WHITEPRINT_GITHUB_TOKEN"),
     "--github-token",
-    hidden=True,
     help=_(
-        "Github Token to push the newly created repository to Github. Musthave"
-        " writing permissions."
+        "Github Token to push the newly created repository to Github. The"
+        " token must have writing permissions."
     ),
     envvar="WHITEPRINT_GITHUB_TOKEN",
 )
@@ -565,6 +564,8 @@ def init(  # pylint: disable=too-many-locals
         user_defaults: user defaults choices.
         python: force using the given python interpreter for the post
             processing.
+        github_token: Github Token to push the newly created repository to
+            Github. The token must have writing permissions.
     """
     data_dict = {} if no_data or data is None else read_yaml(data)
     user_defaults_dict = (
