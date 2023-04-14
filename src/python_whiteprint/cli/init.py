@@ -596,5 +596,8 @@ def init(  # pylint: disable=too-many-locals
     )
     if github_token is not None:
         github = importlib.import_module("github")
+
         copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
-        github.get_user().create_repo(copier_answers["project_slug"])
+        github_api = github.Github(github_token)
+
+        github_api.get_user().create_repo(copier_answers["project_slug"])
