@@ -14,7 +14,7 @@ from python_whiteprint import filesystem
 
 
 @beartype
-class PoetryNotFound(RuntimeError):
+class PoetryNotFoundError(RuntimeError):
     """poetry CLI is not found on the system."""
 
 
@@ -27,7 +27,7 @@ def lock(destination: pathlib.Path) -> None:
             the file named `pyproject.toml`).
     """
     if (poetry := shutil.which("poetry")) is None:
-        raise PoetryNotFound
+        raise PoetryNotFoundError
 
     with filesystem.working_directory(destination):
         subprocess.run(  # nosec

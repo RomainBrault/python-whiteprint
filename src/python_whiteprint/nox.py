@@ -23,7 +23,7 @@ _NOX_SUCCESS = 0
 
 
 @beartype
-class NoxNotFound(RuntimeError):
+class NoxNotFoundError(RuntimeError):
     """poetry CLI is not found on the system."""
 
 
@@ -58,7 +58,7 @@ def run(destination: pathlib.Path, *, args: List[str]) -> None:
         KeyboardInterrupt: nox return code is 130.
     """
     if (nox := shutil.which("nox")) is None:
-        raise NoxNotFound
+        raise NoxNotFoundError
 
     with filesystem.working_directory(destination):
         exit_code = subprocess.run(  # nosec
