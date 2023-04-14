@@ -4,6 +4,7 @@
 
 """Git related functionalities."""
 
+import logging
 import pathlib
 import shutil
 import subprocess  # nosec
@@ -60,9 +61,12 @@ def run(destination: pathlib.Path, *, args: List[str]) -> None:
     if (nox := shutil.which("nox")) is None:
         raise NoxNotFoundError
 
+    command = [nox, *args]
+    logger = logging.getLogger(__name__)
+    logger.debug("Running command: '%s'", " ".join(command))
     with filesystem.working_directory(destination):
         exit_code = subprocess.run(  # nosec
-            [nox, *args], shell=False, check=False
+            command, shell=False, check=False
         ).returncode
 
     if exit_code == _NOX_SIGINT_EXIT:  # pragma: no cover

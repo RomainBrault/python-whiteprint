@@ -4,6 +4,7 @@
 
 """Poetry."""
 
+import logging
 import pathlib
 import shutil
 import subprocess  # nosec
@@ -29,9 +30,12 @@ def lock(destination: pathlib.Path) -> None:
     if (poetry := shutil.which("poetry")) is None:
         raise PoetryNotFoundError
 
+    command = [poetry, "lock", "--no-update"]
+    logger = logging.getLogger(__name__)
+    logger.debug("Running command: '%s'", " ".join(command))
     with filesystem.working_directory(destination):
         subprocess.run(  # nosec
-            [poetry, "lock", "--no-updates"],
+            command,
             shell=False,
             check=True,
         )
