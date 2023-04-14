@@ -234,8 +234,10 @@ def _post_processing(
 
         github_repository = github.get_user().create_repo("toto")
 
-        repository.remotes.add_push("origin", github_repository.ssh_url)
-        repository.remotes.add_fetch("origin", github_repository.ssh_url)
+        repository.remotes.set_url("origin", github_repository.ssh_url)
+        repository.remotes.add_fetch(
+            "origin", "+refs/heads/*:refs/remotes/origin/*"
+        )
         repository.remotes["origin"].push(
             [repository.head.target],
             callbacks=git.RemoteCallbacks(
