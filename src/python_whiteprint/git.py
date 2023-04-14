@@ -4,9 +4,11 @@
 
 """Git related functionalities."""
 
+import logging
 import pathlib
 from typing import Final
 
+import github
 import pygit2
 from beartype import beartype
 from beartype.typing import Iterable, Optional
@@ -27,9 +29,7 @@ Note:
 
 
 @beartype
-def init_repository(
-    destination: pathlib.Path,
-) -> pygit2.repository.Repository:
+def init_repository(destination: pathlib.Path) -> pygit2.repository.Repository:
     """Run git init.
 
     The default branch is named "main".
@@ -126,3 +126,34 @@ def init_and_commit(
     )
 
     return repo
+
+
+@beartype
+def setup_github_repository(
+    repo: pygit2.repository.Repository,
+    *,
+    project_slug: str,
+    github_token: str,
+) -> None:
+    """Create a repository on GitHub and push the local one.
+
+    Args:
+        repo: the local repository.
+        project_slug: a slug of the project name.
+        github_token: a GitHub token with repository writing authorization.
+    """
+    github_repository = (
+        github.Github(github_token).get_user().create_repo(project_slug)
+    )
+
+    repo.remotes.set_url("origin", github_repository.clone_url)
+    repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
+
+    logger = logging.getLogger(__name__)
+    logger.debug("Pushing ref %s", repo.head.target)
+    repo.remotes["origin"].push(
+        ["refs/heads/main"],
+        callbacks=pygit2.RemoteCallbacks(
+            credentials=pygit2.UserPass("x-access-token", github_token)
+        ),
+    )

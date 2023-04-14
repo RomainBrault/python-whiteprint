@@ -59,6 +59,34 @@ class DefaultVenvBackend(str, enum.Enum):
 
 
 @beartype
+def read_yaml(data: pathlib.Path) -> Dict[str, Union[str, int]]:
+    """Read a yaml file.
+
+    Use PyYAML `safe_load`.
+
+    Args:
+        data: path to the YAML file. The file must exists.
+
+    Returns:
+        The content of the YAML file.
+    """
+    if not data.is_file():
+        return {}
+
+    yaml = importlib.import_module("yaml")
+    with data.open("r") as data_file:
+        try:
+            copier_data = yaml.safe_load(data_file)
+        except yaml.parser.ParserError as parser_error:
+            raise NotAValidYAML(data, str(parser_error)) from parser_error
+
+        if _check_dict(copier_data):
+            return copier_data
+
+    raise UnsupportedTypeInMapping
+
+
+@beartype
 def _copy_license_to_project_root(destination: pathlib.Path) -> None:
     """Add the license to the COPYING file.
 
@@ -170,6 +198,8 @@ def _post_processing(
         skip_tests: skip the Nox tests step.
         python: force using the given python interpreter for the post
             processing.
+        github_token: Github Token to push the newly created repository to
+            Github. The token must have writing permissions.
     """
     git = importlib.import_module(
         "python_whiteprint.git",
@@ -230,23 +260,11 @@ def _post_processing(
         )
 
     if github_token is not None:
-        github = importlib.import_module("github").Github(github_token)
-
-        github_repository = github.get_user().create_repo("toto")
-
-        repository.remotes.set_url("origin", github_repository.clone_url)
-        repository.remotes.add_fetch(
-            "origin", "+refs/heads/*:refs/remotes/origin/*"
-        )
-
-        pygit2 = importlib.import_module("pygit2")
-        logger = logging.getLogger(__name__)
-        logger.debug("Pushing ref %s", repository.head.target)
-        repository.remotes["origin"].push(
-            ["refs/heads/main"],
-            callbacks=pygit2.RemoteCallbacks(
-                credentials=pygit2.UserPass("x-access-token", github_token)
-            ),
+        copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
+        git.setup_github_repository(
+            repository,
+            project_slug=copier_answers["project_slug"],
+            github_token=github_token,
         )
 
 
@@ -501,34 +519,6 @@ def _check_dict(data: Dict[str, Any]) -> TypeGuard[Dict[str, Union[str, int]]]:
         integers.
     """
     return all(isinstance(v, (str, int)) for v in data.values())
-
-
-@beartype
-def read_yaml(data: pathlib.Path) -> Dict[str, Union[str, int]]:
-    """Read a yaml file.
-
-    Use PyYAML `safe_load`.
-
-    Args:
-        data: path to the YAML file. The file must exists.
-
-    Returns:
-        The content of the YAML file.
-    """
-    if not data.is_file():
-        return {}
-
-    yaml = importlib.import_module("yaml")
-    with data.open("r") as data_file:
-        try:
-            copier_data = yaml.safe_load(data_file)
-        except yaml.parser.ParserError as parser_error:
-            raise NotAValidYAML(data, str(parser_error)) from parser_error
-
-        if _check_dict(copier_data):
-            return copier_data
-
-    raise UnsupportedTypeInMapping
 
 
 @beartype
