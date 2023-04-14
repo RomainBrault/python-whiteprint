@@ -32,7 +32,7 @@ def lock(destination: pathlib.Path) -> None:
         # requirement of the project
         raise PoetryNotFoundError
 
-    command = [poetry, "lock", "--no-update"]
+    command = [poetry, "lock"]
     logger = logging.getLogger(__name__)
     logger.debug("Running command: '%s'", " ".join(command))
     with filesystem.working_directory(destination):
