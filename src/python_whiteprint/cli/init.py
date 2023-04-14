@@ -238,10 +238,12 @@ def _post_processing(
         repository.remotes.add_fetch(
             "origin", "+refs/heads/*:refs/remotes/origin/*"
         )
+
+        pygit2 = importlib.import_module("pygit2")
         repository.remotes["origin"].push(
             [repository.head.target],
-            callbacks=git.RemoteCallbacks(
-                credentials=git.KeypairFromAgent("git")
+            callbacks=pygit2.RemoteCallbacks(
+                credentials=pygit2.KeypairFromAgent("git")
             ),
         )
 
