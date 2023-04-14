@@ -243,7 +243,7 @@ def _post_processing(
         logger = logging.getLogger(__name__)
         logger.debug("Pushing ref %s", repository.head.target)
         repository.remotes["origin"].push(
-            repository.head.target,
+            ["refs/heads/main"],
             callbacks=pygit2.RemoteCallbacks(
                 credentials=pygit2.KeypairFromAgent("git")
             ),
