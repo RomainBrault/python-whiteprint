@@ -240,8 +240,10 @@ def _post_processing(
         )
 
         pygit2 = importlib.import_module("pygit2")
+        logger = logging.getLogger(__name__)
+        logger.debug("Pushing ref %s", repository.head.target)
         repository.remotes["origin"].push(
-            [repository.head.target],
+            repository.head.target,
             callbacks=pygit2.RemoteCallbacks(
                 credentials=pygit2.KeypairFromAgent("git")
             ),
