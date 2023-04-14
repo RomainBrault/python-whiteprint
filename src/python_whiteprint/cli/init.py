@@ -234,7 +234,7 @@ def _post_processing(
 
         github_repository = github.get_user().create_repo("toto")
 
-        repository.remotes.set_url("origin", github_repository.ssh_url)
+        repository.remotes.set_url("origin", github_repository.clone_url)
         repository.remotes.add_fetch(
             "origin", "+refs/heads/*:refs/remotes/origin/*"
         )
