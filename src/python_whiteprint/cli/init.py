@@ -22,6 +22,7 @@ from python_whiteprint.loc import _
 
 
 YAML_EXT = [".yaml", ".yml"]
+COPIER_ANSWER_FILE = ".copier-answers.yml"
 
 
 @beartype
@@ -449,12 +450,23 @@ _option_python = params.Option(
     os.environ.get("WHITEPRINT_PYTHON"),
     "--python",
     "-p",
+    envvar="WHITEPRINT_PYTHON",
     help=_(
         "force using the given python interpreter for the post processing."
     ),
-    envvar="WHITEPRINT_PYTHON",
 )
 """see `python_whiteprint.cli.init.init` option `python`."""
+_option_github_token = params.Option(
+    os.environ.get("WHITEPRINT_GITHUB_TOKEN"),
+    "--github-token",
+    hidden=True,
+    help=_(
+        "Github Token to push the newly created repository to Github. Musthave"
+        " writing permissions."
+    ),
+    envvar="WHITEPRINT_GITHUB_TOKEN",
+)
+"""see `python_whiteprint.cli.init.init` option `github_token`."""
 
 
 @beartype
@@ -519,6 +531,7 @@ def init(  # pylint: disable=too-many-locals
     no_data: bool = _option_no_data,
     user_defaults: Optional[pathlib.Path] = _option_user_defaults,
     python: Optional[str] = _option_python,
+    github_token: Optional[str] = _option_github_token,
 ) -> None:
     """Initalize a new Python project.
 
@@ -553,20 +566,22 @@ def init(  # pylint: disable=too-many-locals
         python: force using the given python interpreter for the post
             processing.
     """
+    data_dict = {} if no_data or data is None else read_yaml(data)
+    user_defaults_dict = (
+        {} if user_defaults is None else read_yaml(user_defaults)
+    )
     importlib.import_module("copier.main").Worker(
         src_path=src_path,
         dst_path=destination,
-        answers_file=".copier-answers.yml",
+        answers_file=COPIER_ANSWER_FILE,
         vcs_ref=vcs_ref,
-        data=({} if no_data or data is None else read_yaml(data)),
+        data=data_dict,
         exclude=exclude,
         use_prereleases=use_prereleases,
         skip_if_exists=skip_if_exists,
         cleanup_on_error=cleanup_on_error,
         defaults=defaults,
-        user_defaults=(
-            {} if user_defaults is None else read_yaml(user_defaults)
-        ),
+        user_defaults=user_defaults_dict,
         overwrite=overwrite,
         pretend=pretend,
         quiet=quiet,
@@ -578,3 +593,7 @@ def init(  # pylint: disable=too-many-locals
         skip_tests=skip_tests,
         python=python,
     )
+    if github_token is not None:
+        github = importlib.import_module("github")
+        copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
+        github.get_user().create_repo(copier_answers["project_slug"])

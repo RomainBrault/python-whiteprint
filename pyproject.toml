@@ -53,6 +53,7 @@ pygit2 = ">=1.11.1"
 python-slugify = ">=8.0.1"
 typing-extensions = ">=4.5.0"
 platformdirs = ">=3.2.0"
+pygithub = ">=1.58.1"
 
 [tool.poetry.group.localization.dependencies]
 Babel = ">=2.12.0"
