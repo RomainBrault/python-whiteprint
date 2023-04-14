@@ -27,7 +27,9 @@ Note:
 
 
 @beartype
-def init_repository(destination: pathlib.Path) -> pygit2.repository.Repository:
+def init_repository(
+    destination: pathlib.Path,
+) -> pygit2.repository.Repository:
     """Run git init.
 
     The default branch is named "main".

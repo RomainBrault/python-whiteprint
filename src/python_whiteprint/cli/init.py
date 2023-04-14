@@ -160,6 +160,7 @@ def _post_processing(
     default_venv_backend: DefaultVenvBackend,
     skip_tests: bool,
     python: Optional[str],
+    github_token: Optional[str],
 ) -> None:
     """Apply post processing steps after rendering the template wit Copier.
 
@@ -226,6 +227,20 @@ def _post_processing(
                 default_venv_backend.value.lower(),
                 *(("--force-python", python) if python is not None else ()),
             ],
+        )
+
+    if github_token is not None:
+        github = importlib.import_module("github").Github(github_token)
+
+        github_repository = github.get_user().create_repository("toto")
+
+        repository.remotes.add_push("origin", github_repository.ssh_url)
+        repository.remotes.add_fetch("origin", github_repository.ssh_url)
+        repository.remotes["origin"].push(
+            [repository.head.target],
+            callbacks=git.RemoteCallbacks(
+                credentials=git.KeypairFromAgent("git")
+            ),
         )
 
 
@@ -593,11 +608,5 @@ def init(  # pylint: disable=too-many-locals
         default_venv_backend=default_venv_backend,
         skip_tests=skip_tests,
         python=python,
+        github_token=github_token,
     )
-    if github_token is not None:
-        github = importlib.import_module("github")
-
-        copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
-        github_api = github.Github(github_token)
-
-        github_api.get_user().create_repo(copier_answers["project_slug"])
