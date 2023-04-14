@@ -4,14 +4,15 @@
 
 """Git related functionalities."""
 
-import contextlib
-import os
+import logging
 import pathlib
+import shutil
+import subprocess  # nosec
 
 from beartype import beartype
-from beartype.typing import Generator, List
-from nox import _options, tasks, workflow
+from beartype.typing import List
 
+from python_whiteprint import filesystem
 from python_whiteprint.loc import _
 
 
@@ -20,6 +21,11 @@ _NOX_SIGINT_EXIT = 130
 
 _NOX_SUCCESS = 0
 """Nox success return code."""
+
+
+@beartype
+class NoxNotFoundError(RuntimeError):
+    """poetry CLI is not found on the system."""
 
 
 @beartype
@@ -39,29 +45,6 @@ class NoxError(RuntimeError):
         super().__init__(_("Nox exit code: {}").format(self.exit_code))
 
 
-@contextlib.contextmanager
-@beartype
-def working_directory(path: pathlib.Path) -> Generator[None, None, None]:
-    """Sets the current working directory (cwd) within the context.
-
-    Args:
-        path (Path): The path to the cwd
-
-    Yields:
-        None
-    """
-    # It is important to resolve the current directory before using chdir,
-    # after the chdir function is called, the information about the current
-    # directory is definitively lost, hence the absolute path of the current
-    # directory must be known before.
-    origin = pathlib.Path().resolve()
-    try:
-        os.chdir(path.resolve())
-        yield
-    finally:
-        os.chdir(origin)
-
-
 @beartype
 def run(destination: pathlib.Path, *, args: List[str]) -> None:
     """Run a Nox command.
@@ -75,26 +58,18 @@ def run(destination: pathlib.Path, *, args: List[str]) -> None:
         NoxError: nox return code is not 0 (_NOX_SUCCESS).
         KeyboardInterrupt: nox return code is 130.
     """
-    options = _options.options
-    parser = options.parser()
-    nox_args = parser.parse_args(args)
-    options._finalize_args(nox_args)  # pylint: disable=protected-access
+    if (nox := shutil.which("nox")) is None:  # pragma: no cover
+        # We do not cover the case where the Nox CLI is not found as it is a
+        # requirement of the project
+        raise NoxNotFoundError
 
-    with working_directory(destination):
-        exit_code = workflow.execute(
-            global_config=nox_args,
-            workflow=(
-                tasks.load_nox_module,
-                tasks.merge_noxfile_options,
-                tasks.discover_manifest,
-                tasks.filter_manifest,
-                tasks.honor_list_request,
-                tasks.run_manifest,
-                tasks.print_summary,
-                tasks.create_report,
-                tasks.final_reduce,
-            ),
-        )
+    command = [nox, *args]
+    logger = logging.getLogger(__name__)
+    logger.debug("Running command: '%s'", " ".join(command))
+    with filesystem.working_directory(destination):
+        exit_code = subprocess.run(  # nosec
+            command, shell=False, check=False
+        ).returncode
 
     if exit_code == _NOX_SIGINT_EXIT:  # pragma: no cover
         # We ignore covering the SIGINT case **yet** as it is difficult to test
