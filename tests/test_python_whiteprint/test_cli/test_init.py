@@ -65,7 +65,9 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            env={},
+            env={
+                "WHITEPRINT_GITHUB_TOKEN": "",
+            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -112,7 +114,9 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            env={},
+            env={
+                "WHITEPRINT_GITHUB_TOKEN": "",
+            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -162,7 +166,9 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            env={},
+            env={
+                "WHITEPRINT_GITHUB_TOKEN": "",
+            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
