@@ -1,0 +1,82 @@
+{% include "jinja_template/license_header.yml.j2" %}
+name: 🐛 Bug report
+description: Create a report to help us improve
+title: "bug: "
+labels: ["bug"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thanks :heart: for taking the time to fill out this feature request report!**
+
+        This form is for bug report **ONLY**. If you have a problem or a question, we kindly ask that you check the [discussion section](https://github.com/RomainBrault/python-whiteprint/discussions/categories/q-a).
+
+        We are also happy to accept contributions from our users 🚀 by means of [pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests?platform=linux). For more details see [here](https://github.com/{{github_user}}/{{project_slug}}/blob/main/CONTRIBUTING.md).
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: |
+        By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/RomainBrault/python-whiteprint/blob/main/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+  - type: input
+    id: environment-os
+    attributes:
+      label: OS
+      description: What is your operating system?
+      placeholder: ex. Ubuntu 22.04
+    validations:
+      required: true
+  - type: input
+    id: environment-python
+    attributes:
+      label: Python
+      description: |
+        What is your python interpreter (run `python --version`)?
+      placeholder: ex. Python 3.11.0
+    validations:
+      required: true
+  - type: input
+    id: environment-project
+    attributes:
+      label: Python Whiteprint
+      description: |
+        What is your Python Whiteprint version (run `whiteprint --version`)?
+      placeholder: ex. 0.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: What is the code or steps to reproduce the behavior?
+      description: Try to give us a minimal reproducible example of code.
+    validations:
+      required: true
