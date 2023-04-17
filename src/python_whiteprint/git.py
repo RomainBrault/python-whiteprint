@@ -6,6 +6,7 @@
 
 import logging
 import pathlib
+import warnings
 from typing import Final
 
 import github
@@ -142,9 +143,8 @@ def setup_github_repository(
         project_slug: a slug of the project name.
         github_token: a GitHub token with repository writing authorization.
     """
-    github_repository = (
-        github.Github(github_token).get_user().create_repo(project_slug)
-    )
+    github_user = github.Github(github_token, retry=3).get_user()
+    github_repository = github_user.create_repo(project_slug)
 
     repo.remotes.set_url("origin", github_repository.clone_url)
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
@@ -170,4 +170,12 @@ def delete_github_repository(
         project_slug: a slug of the project name (Repository to delete).
         github_token: a GitHub token with repository writing authorization.
     """
-    github.Github(github_token).get_user().get_repo(project_slug).delete()
+    github_user = github.Github(github_token, retry=3).get_user()
+    github_repository = github_user.get_repo(project_slug)
+    warnings.filterwarnings(
+        "ignore",
+        category=ResourceWarning,
+        message="unclosed.*<ssl.SSLSocket.*>",
+    )
+    github_repository.delete()
+    warnings.resetwarnings()
