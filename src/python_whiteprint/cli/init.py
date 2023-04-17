@@ -132,7 +132,7 @@ def _format_code(
             args=[
                 "--default-venv-backend",
                 default_venv_backend.value.lower(),
-                *(("--force-python", python) if python is not None else ()),
+                *(("--force-python", python) if python else ()),
                 "--session",
                 "pre-commit",
             ],
@@ -169,7 +169,7 @@ def _download_licenses(
         args=[
             "--default-venv-backend",
             default_venv_backend.value.lower(),
-            *(("--force-python", python) if python is not None else ()),
+            *(("--force-python", python) if python else ()),
             "--session",
             "reuse",
             "--",
@@ -230,7 +230,7 @@ def _post_processing(
         args=[
             "--default-venv-backend",
             default_venv_backend.value.lower(),
-            *(("--force-python", python) if python is not None else ()),
+            *(("--force-python", python) if python else ()),
             "--session",
             "licenses",
             "--",
@@ -255,11 +255,11 @@ def _post_processing(
             args=[
                 "--default-venv-backend",
                 default_venv_backend.value.lower(),
-                *(("--force-python", python) if python is not None else ()),
+                *(("--force-python", python) if python else ()),
             ],
         )
 
-    if github_token is not None:
+    if github_token:
         copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
         git.setup_github_repository(
             repository,
