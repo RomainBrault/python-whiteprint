@@ -19,13 +19,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-{%for i in range(target_python_version.split('.')[1] | int, 12)-%}
+{%for i in range(target_python_version.split('.')[1] | int, 12)%}
           - { python: "3.{{i}}", os: "ubuntu-latest", session: "pip-audit" }
 {%endfor-%}
-{%for i in range(target_python_version.split('.')[1] | int, 12)-%}
+{%for i in range(target_python_version.split('.')[1] | int, 12)%}
           - { python: "3.{{i}}", os: "ubuntu-latest", session: "pre-commit" }
 {%endfor-%}
-{%for i in range(target_python_version.split('.')[1] | int, 12)-%}
+{%for i in range(target_python_version.split('.')[1] | int, 12)%}
           - { python: "3.{{i}}", os: "ubuntu-latest", session: "test" }
 {%endfor-%}
 
