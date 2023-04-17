@@ -65,9 +65,6 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            env={
-                "WHITEPRINT_GITHUB_TOKEN": "",
-            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -114,9 +111,6 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            env={
-                "WHITEPRINT_GITHUB_TOKEN": "",
-            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -166,9 +160,6 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            env={
-                "WHITEPRINT_GITHUB_TOKEN": "",
-            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -217,12 +208,13 @@ class TestInit:  # pylint: disable=too-few-public-methods
             ],
             env={
                 "WHITEPRINT_GITHUB_TOKEN": os.environ[
-                    "WHITEPRINT_GITHUB_TOKEN"
+                    "WHITEPRINT_TEST_GITHUB_TOKEN"
                 ]
             },
         )
         git.delete_github_repository(
-            project_slug, github_token=os.environ["WHITEPRINT_GITHUB_TOKEN"]
+            project_slug,
+            github_token=os.environ["WHITEPRINT_TEST_GITHUB_TOKEN"],
         )
 
         assert result.exit_code == 0, "The CLI did not exit properly."
