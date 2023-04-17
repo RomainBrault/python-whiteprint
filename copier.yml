@@ -38,6 +38,12 @@ git_platform:
     GitHub: github
   default: no_git_platform
 
+github_user:
+  type: str
+  help: What is your GitHub user or organisation name?
+  default: "{{ author.replace(' ', '') }}"
+  when: "{{ git_platform == 'github' }}"
+
 spdx_license:
   type: str
   help: What is the license of your project?
