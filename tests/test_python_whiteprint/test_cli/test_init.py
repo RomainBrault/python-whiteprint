@@ -8,6 +8,7 @@ import os
 import pathlib
 import sys
 import uuid
+import warnings
 from typing import Final
 
 import pytest
@@ -190,6 +191,13 @@ class TestInit:  # pylint: disable=too-few-public-methods
 
         (test_copier := tmp_path / TEST_COPIER).mkdir()
         initial_directory = pathlib.Path.cwd().resolve()
+
+        warnings.filterwarnings(
+            "ignore",
+            category=ResourceWarning,
+            message="unclosed.*<ssl.SSLSocket.*>",
+        )
+
         result = cli_runner.invoke(
             entrypoint.app,
             [

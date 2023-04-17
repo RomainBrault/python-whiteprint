@@ -6,7 +6,6 @@
 
 import logging
 import pathlib
-import warnings
 from typing import Final
 
 import github
@@ -172,10 +171,4 @@ def delete_github_repository(
     """
     github_user = github.Github(github_token, retry=3).get_user()
     github_repository = github_user.get_repo(project_slug)
-    warnings.filterwarnings(
-        "ignore",
-        category=ResourceWarning,
-        message="unclosed.*<ssl.SSLSocket.*>",
-    )
     github_repository.delete()
-    warnings.resetwarnings()
