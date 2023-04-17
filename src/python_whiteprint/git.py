@@ -175,7 +175,9 @@ def protect_repository(
     github_user = github.Github(github_token, retry=3).get_user()
     github_repository = github_user.get_repo(project_slug)
     branch = github_repository.get_branch(INITIAL_HEAD)
-    branch.edit_protection(strict=True, enforce_admins=True)
+    branch.edit_protection(
+        strict=True, enforce_admins=True, require_code_owner_reviews=True
+    )
 
 
 def delete_github_repository(
