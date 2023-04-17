@@ -17,8 +17,6 @@ _build
 *.egg-info
 *.log
 *.mo
-*.yaml
-*.yml
 .coverage
 .coverage.*
 profile.*
