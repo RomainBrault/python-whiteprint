@@ -18,11 +18,11 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3
 
-      - name: Set up Python ${{{{}} matrix.python {{}}}}
+      - name: Set up Python ${{'{{'}} matrix.python {{'}}'}}
         uses: actions/setup-python@v4.5.0
         id: setup-python
         with:
-          python-version: ${{{{}} env.PYTHON_VERSION {{}}}}
+          python-version: ${{'{{'}} env.PYTHON_VERSION {{'}}'}}
           check-latest: true
 
       - name: Upgrade pip
