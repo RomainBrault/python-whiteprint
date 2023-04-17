@@ -222,7 +222,7 @@ def _post_processing(
     _download_licenses(
         destination, default_venv_backend=default_venv_backend, python=python
     )
-    git.add_and_commit(repository, message="chore: maybe download license(s).")
+    git.add_and_commit(repository, message="chore: download license(s).")
 
     # Generate the dependencies table.
     nox.run(

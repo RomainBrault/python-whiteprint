@@ -41,7 +41,7 @@ include = [
 # they support. Without also constraining the upper bound here, Poetry will not
 # select those versions and will result in an old version being
 # resolved/locked.
-python = ">=3.8, <3.12"
+python = ">=3.8, <3.12, !=3.11.0"  # scalene does not support 3.11.0
 rich = ">=12.5.0"
 typer = ">=0.7.0"
 colorama = ">=0.4.3"

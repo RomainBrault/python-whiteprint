@@ -4,8 +4,10 @@
 
 """Test the init command."""
 
+import os
 import pathlib
 import sys
+import uuid
 from typing import Final
 
 import pytest
@@ -62,7 +64,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
-            catch_exceptions=False,
+            env={},
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -109,6 +111,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
+            env={},
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
@@ -158,6 +161,57 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 "--python",
                 sys.executable,
             ],
+            env={},
+        )
+        assert result.exit_code == 0, "The CLI did not exit properly."
+        assert (
+            initial_directory == pathlib.Path.cwd().resolve()
+        ), "Initial and final working directory differ"
+
+    @staticmethod
+    def test_github(
+        cli_runner: testing.CliRunner,
+        whiteprint_repository: pathlib.Path,
+        tmp_path: pathlib.Path,
+    ) -> None:
+        """Check GitHub integration."""
+        with (defaults := tmp_path / "defaults.yml").open(
+            "w",
+            encoding="utf-8",
+        ) as defaults_file:
+            yaml.dump(
+                {
+                    "project_name": "Test Whiteprint",
+                    "project_slug": f"test-whiteprint-{uuid.uuid4()}",
+                    "author": "Pytest Test",
+                    "email": "test@pytest.com",
+                },
+                defaults_file,
+            )
+
+        (test_copier := tmp_path / TEST_COPIER).mkdir()
+        initial_directory = pathlib.Path.cwd().resolve()
+        result = cli_runner.invoke(
+            entrypoint.app,
+            [
+                "init",
+                "-w",
+                str(whiteprint_repository.resolve()),
+                "-v",
+                "HEAD",
+                "--no-data",
+                "--user-defaults",
+                str(defaults),
+                "--defaults",
+                str(test_copier.resolve()),
+                "--python",
+                sys.executable,
+            ],
+            env={
+                "WHITEPRINT_GITHUB_TOKEN": os.environ[
+                    "WHITEPRINT_GITHUB_TOKEN"
+                ]
+            },
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
