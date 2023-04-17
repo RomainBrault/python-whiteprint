@@ -28,7 +28,6 @@ jobs:
 {%for i in range(target_python_version.split('.')[1] | int, 12)%}
           - { python: "3.{{i}}", os: "ubuntu-latest", session: "test" }
 {%-endfor%}
-
     env:
       NOXSESSION: ${{'{{'}} matrix.session {{'}}'}}
       PRE_COMMIT_COLOR: "always"
