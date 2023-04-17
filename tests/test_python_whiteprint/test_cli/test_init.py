@@ -15,6 +15,7 @@ import yaml
 from beartype import beartype
 from typer import testing
 
+from python_whiteprint import git
 from python_whiteprint.cli import entrypoint, init
 
 
@@ -179,10 +180,11 @@ class TestInit:  # pylint: disable=too-few-public-methods
             "w",
             encoding="utf-8",
         ) as defaults_file:
+            project_slug = f"test-whiteprint-{uuid.uuid4()}"
             yaml.dump(
                 {
                     "project_name": "Test Whiteprint",
-                    "project_slug": f"test-whiteprint-{uuid.uuid4()}",
+                    "project_slug": project_slug,
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
                 },
@@ -213,6 +215,10 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 ]
             },
         )
+        git.delete_github_repository(
+            project_slug, github_token=os.environ["WHITEPRINT_GITHUB_TOKEN"]
+        )
+
         assert result.exit_code == 0, "The CLI did not exit properly."
         assert (
             initial_directory == pathlib.Path.cwd().resolve()

@@ -157,3 +157,17 @@ def setup_github_repository(
             credentials=pygit2.UserPass("x-access-token", github_token)
         ),
     )
+
+
+def delete_github_repository(
+    project_slug: str,
+    *,
+    github_token: str,
+) -> None:
+    """Delete a GitHub repository.
+
+    Args:
+        project_slug: a slug of the project name (Repository to delete).
+        github_token: a GitHub token with repository writing authorization.
+    """
+    github.Github(github_token).get_user().get_repo(project_slug).delete()
