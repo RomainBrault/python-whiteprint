@@ -4,7 +4,34 @@ SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
 SPDX-License-Identifier: MIT
 -->
 
-# Python Whiteprint
+<h1 align="center">
+  <a href="https://python-whiteprint.readthedocs.io/"><img src="https://raw.githubusercontent.com/RomainBrault/python-whiteprint/main/docs/images/logo.png" alt="python whiteprint"></a>
+</h1>
+<p align="center">
+  <a href="https://typst.app/docs/">
+    <img alt="Documentation" src="https://img.shields.io/website?down_message=offline&label=docs&up_color=007aff&up_message=online&url=https%3A%2F%2Ftypst.app%2Fdocs"/>
+  </a>
+  <a href="https://typst.app/">
+    <img alt="Typst App" src="https://img.shields.io/website?down_message=offline&label=typst.app&up_color=239dad&up_message=online&url=https%3A%2F%2Ftypst.app"/>
+  </a>
+  <a href="https://discord.gg/2uDybryKPe">
+    <img alt="Discord Server" src="https://img.shields.io/discord/1054443721975922748?color=5865F2&label=discord&labelColor=555"/>
+  </a>
+  <a href="https://github.com/typst/typst/blob/main/LICENSE">
+    <img alt="Apache-2 License" src="https://img.shields.io/badge/license-Apache%202-brightgreen"/>
+  </a>
+</p>
+<p align="center">
+    <em>Python Whiteprint, generate easily Python projects with (opinionated) best practices.</em>
+</p>
+
+---
+
+**Documentation**: <a href="https://python-whiteprint.readthedocs.io/en/latest/" target="_blank">https://python-whiteprint.readthedocs.io/en/latest/</a>
+
+**Source Code**: <a href="https://github.com/RomainBrault/python-whiteprint" target="_blank">https://github.com/RomainBrault/python-whiteprint</a>
+
+---
 
 [![PyPI Version](https://img.shields.io/pypi/v/python-whiteprint.svg)](https://pypi.python.org/pypi/python-whiteprint)
 [![Documentation](https://readthedocs.org/projects/python-whiteprint/badge/?version=latest)](https://python-whiteprint.readthedocs.io/en/latest/?badge=latest)
@@ -22,10 +49,7 @@ SPDX-License-Identifier: MIT
 [license badge]: https://img.shields.io/github/license/RomainBrault/python-whiteprint
 [contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 
-Cookiecutter to create a Python package using modern Python testing,
-linting, and type checking tooling.
-
-## Yet another Python Project cookiecutter?
+# Yet another Python Project cookiecutter?
 
 Yes.
 
@@ -36,7 +60,7 @@ This project build upon the excellents [cookiecutter-hypermodern-python] by
 You might want to check these project as they might be more suited to your
 needs.
 
-## Differences compared to [cookiecutter-hypermodern-python]
+# Differences compared to [cookiecutter-hypermodern-python]
 
 - [ ] Use [copier](https://copier.readthedocs.io/en/latest/) instead of the
       unmainted cookiecutter,

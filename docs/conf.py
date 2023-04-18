@@ -10,6 +10,7 @@
 project = "Python Whiteprint"
 author = "Romain Brault"
 copyright = "2023, Romain Brault"
+myst_heading_anchors = 3
 extensions = [
     "autoapi.extension",
     "myst_parser",

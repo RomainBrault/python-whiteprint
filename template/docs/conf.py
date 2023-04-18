@@ -7,6 +7,7 @@
 project = "Python Whiteprint"
 author = "{{author}}"
 copyright = "2018-{% now 'utc', '%Y' %}, {{author}}"
+myst_heading_anchors = 3
 extensions = [
     "autoapi.extension",
     "myst_parser",

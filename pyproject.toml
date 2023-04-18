@@ -14,7 +14,10 @@ readme = "README.md"
 homepage = "https://github.com/RomainBrault/python-whiteprint"
 repository = "https://github.com/RomainBrault/python-whiteprint.git"
 documentation = "https://RomainBrault.github.io/python-whiteprint/"
-keywords = ["Python", "Cookiecutter"]
+keywords = [
+    "Python", "Cookiecutter", "copier", "template", "rich", "typer", "nox",
+    "poetry", "beartype", "oci-image", "container", "docker", "podman",
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
