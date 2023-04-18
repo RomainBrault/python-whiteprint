@@ -87,7 +87,7 @@ jobs:
 
       - name: Run Nox
         run: |
-          nox --force-color --force-python="${{'{{'}} steps.setup-python.outputs.python-path {{'}}'}}"
+          nox --force-color --force-python=${{'{{'}} steps.setup-python.outputs.python-path {{'}}'}}
           [ ! -f .coverage ] || mv .coverage .coverage.${{'{{'}} matrix.python {{'}}'}}
 
       - name: Upload coverage data

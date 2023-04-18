@@ -96,7 +96,7 @@ jobs:
         with:
           WHITEPRINT_TEST_GITHUB_TOKEN: "${{ secrets.WHITEPRINT_TEST_GITHUB_TOKEN }}"
         run: |
-          nox --force-color --force-python="${{ steps.setup-python.outputs.python-path }}"
+          nox --force-color --force-python=${{ steps.setup-python.outputs.python-path }}
           [ ! -f .coverage ] || mv .coverage .coverage.${{ matrix.python }}
 
       - name: Upload coverage data
@@ -150,7 +150,7 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          nox --force-color --session=coverage --force-python="${{ steps.setup-python.outputs.python-path }}"
+          nox --force-color --session=coverage --force-python=${{ steps.setup-python.outputs.python-path }}
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3.1.2
