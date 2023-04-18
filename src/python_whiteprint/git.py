@@ -152,11 +152,15 @@ def setup_github_repository(
 
     repo.remotes.set_url("origin", github_repository.clone_url)
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
-    if labels is not None:
-        for label in yaml.safe_load(labels.read_text()):
-            github_repository.create_label(**label)
 
     logger = logging.getLogger(__name__)
+    if labels is not None:
+        for label in yaml.safe_load(labels.read_text()):
+            try:
+                github_repository.create_label(**label)
+            except github.GithubException as github_exception:
+                logger.debug(github_exception)
+
     logger.debug("Pushing ref %s", repo.head.target)
     repo.remotes["origin"].push(
         [f"refs/heads/{INITIAL_HEAD_NAME}"],
