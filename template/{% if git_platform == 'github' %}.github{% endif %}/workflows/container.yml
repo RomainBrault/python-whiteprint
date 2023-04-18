@@ -1,13 +1,10 @@
-# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
-#
-# SPDX-License-Identifier: MIT
-
+{% include "jinja_template/license_header.yml.j2" %}
 name: Container
 
 env:
-  PYTHON_VERSION: "3.11"
+  PYTHON_VERSION: "{{target_python_version}}"
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{'{{'}} github.repository {{'}}'}}
 
 on:
   push:
@@ -27,7 +24,7 @@ jobs:
         uses: actions/setup-python@v4.5.0
         id: setup-python
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{'{{'}} env.PYTHON_VERSION {{'}}'}}
           check-latest: true
 
       - name: Upgrade python environment
@@ -72,19 +69,19 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{'{{'}} env.REGISTRY {{'}}'}}
+          username: ${{'{{'}} github.actor {{'}}'}}
+          password: ${{'{{'}} secrets.GITHUB_TOKEN {{'}}'}}
 
       - name: Extract metadata (tags, labels) for Docker
         id: metadata
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{'{{'}} env.REGISTRY {{'}}'}}/${{'{{'}} env.IMAGE_NAME {{'}}'}}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=pep440,pattern={{version}}
+            type=pep440,pattern={{'{{'}}version{{'}}'}}
 
       - name: Build Container Image And Push
         uses: docker/build-push-action@v4
@@ -92,10 +89,10 @@ jobs:
           context: .
           file: Containerfile
           build-args: |
-            BUILD_DATE=${{ github.event.repository.updated_at }}
-            VERSION=${{ needs.metadata.outputs.version }}
-            REVISION=${{ github.sha }}
-            TAG=${{ steps.metadata.outputs.tags }}
-          tags: ${{ steps.metadata.outputs.tags }}
-          push: ${{ github.event_name != 'pull_request' }}
-          labels: ${{ steps.metadata.outputs.labels }}
+            BUILD_DATE=${{'{{'}} github.event.repository.updated_at {{'}}'}}
+            VERSION=${{'{{'}} needs.metadata.outputs.version {{'}}'}}
+            REVISION=${{'{{'}} github.sha {{'}}'}}
+            TAG=${{'{{'}} steps.metadata.outputs.tags {{'}}'}}
+          tags: ${{'{{'}} steps.metadata.outputs.tags {{'}}'}}
+          push: ${{'{{'}} github.event_name != 'pull_request' {{'}}'}}
+          labels: ${{'{{'}} steps.metadata.outputs.labels {{'}}'}}

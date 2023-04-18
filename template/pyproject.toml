@@ -20,20 +20,24 @@ documentation = "https://{{github_user}}.github.io/{{project_slug}}/"
 {%- endif %}
 keywords = ["Python"]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 1 - Planning",
     "Intended Audience :: Developers",
-{% if spdx_license != None %}
+{%- if spdx_license != 'None' %}
+    "License :: OSI Approved",
     "License :: OSI Approved :: {{spdx_license}} License",
-{% endif %}
+{%- else %}
+    "License :: Other/Proprietary License",
+{%- endif %}
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: {{target_python_version}}",
+    {%for i in range(target_python_version.split('.')[1] | int, 12)-%}
+    "Programming Language :: Python :: 3.{{i}}",
+    {%endfor-%}
     "Typing :: Typed",
-{% if spdx_license == None %}
+{%- if spdx_license == 'None' %}
     "Private :: Do Not Upload",
-{% endif -%}
+{%- endif %}
 ]
 packages = [
     { include =  "{{package_name}}", from = "src" },
@@ -93,7 +97,7 @@ mypy = ">=1.2.0"
 [tool.poetry.group.lint.dependencies]
 bandit = ">=1.7.5"
 pip-audit = ">=2.5.4"
-{% if spdx_license != "Proprietary" %}
+{% if spdx_license != "None" %}
 reuse = ">=1.1.2"
 {% else -%}
 {% endif -%}

@@ -4,16 +4,22 @@
 
 """Git related functionalities."""
 
+import logging
 import pathlib
 from typing import Final
 
+import github
 import pygit2
+import yaml
 from beartype import beartype
 from beartype.typing import Iterable, Optional
 
 
 HEAD: Final = "HEAD"
 """Git HEAD ref."""
+
+INITIAL_HEAD_NAME = "main"
+"""Git default branch."""
 
 WHITEPRINT_SIGNATURE: Final = pygit2.Signature(
     name="Python Whiteprint",
@@ -40,7 +46,7 @@ def init_repository(destination: pathlib.Path) -> pygit2.repository.Repository:
     """
     return pygit2.init_repository(
         destination,
-        initial_head="main",
+        initial_head=INITIAL_HEAD_NAME,
     )
 
 
@@ -102,7 +108,7 @@ def add_and_commit(
 def init_and_commit(
     destination: pathlib.Path,
     *,
-    message: str = "chore: inital commit.",
+    message: str = "chore: 🥇 inital commit.",
 ) -> pygit2.repository.Repository:
     """Run git init && git commmit -m `message`.
 
@@ -124,3 +130,77 @@ def init_and_commit(
     )
 
     return repo
+
+
+@beartype
+def setup_github_repository(
+    repo: pygit2.repository.Repository,
+    *,
+    project_slug: str,
+    github_token: str,
+    labels: Optional[pathlib.Path] = None,
+) -> None:
+    """Create a repository on GitHub and push the local one.
+
+    Args:
+        repo: the local repository.
+        project_slug: a slug of the project name.
+        github_token: a GitHub token with repository writing authorization.
+    """
+    github_user = github.Github(github_token, retry=3).get_user()
+    github_repository = github_user.create_repo(project_slug)
+
+    repo.remotes.set_url("origin", github_repository.clone_url)
+    repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
+
+    logger = logging.getLogger(__name__)
+    if labels is not None:
+        for label in yaml.safe_load(labels.read_text()):
+            try:
+                github_repository.create_label(**label)
+            except github.GithubException as github_exception:
+                logger.debug(github_exception)
+
+    logger.debug("Pushing ref %s", repo.head.target)
+    repo.remotes["origin"].push(
+        [f"refs/heads/{INITIAL_HEAD_NAME}"],
+        callbacks=pygit2.RemoteCallbacks(
+            credentials=pygit2.UserPass("x-access-token", github_token)
+        ),
+    )
+
+
+@beartype
+def protect_repository(
+    project_slug: str,
+    *,
+    github_token: str,
+) -> None:
+    """Protect a Github repository.
+
+    Args:
+        project_slug: a slug of the project name (Repository to delete).
+        github_token: a GitHub token with repository writing authorization.
+    """
+    github_user = github.Github(github_token, retry=3).get_user()
+    github_repository = github_user.get_repo(project_slug)
+    branch = github_repository.get_branch(INITIAL_HEAD_NAME)
+    branch.edit_protection(
+        strict=True, enforce_admins=True, require_code_owner_reviews=True
+    )
+
+
+def delete_github_repository(
+    project_slug: str,
+    *,
+    github_token: str,
+) -> None:
+    """Delete a GitHub repository.
+
+    Args:
+        project_slug: a slug of the project name (Repository to delete).
+        github_token: a GitHub token with repository writing authorization.
+    """
+    github_user = github.Github(github_token, retry=3).get_user()
+    github_repository = github_user.get_repo(project_slug)
+    github_repository.delete()

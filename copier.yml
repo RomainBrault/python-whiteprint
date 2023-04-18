@@ -36,20 +36,13 @@ git_platform:
   choices:
     No Git Platform: no_git_platform
     GitHub: github
-    GitLab: gitlab
   default: no_git_platform
 
 github_user:
   type: str
-  help: What is your GitHub user name?
+  help: What is your GitHub user or organisation name?
   default: "{{ author.replace(' ', '') }}"
   when: "{{ git_platform == 'github' }}"
-
-gitlab_user:
-  type: str
-  help: What is your GitLab user name?
-  default: "{{ author.replace(' ', '') }}"
-  when: "{{ git_platform == 'gitlab' }}"
 
 spdx_license:
   type: str
@@ -127,5 +120,3 @@ _subdirectory: "template"
 _templates_suffix: ""
 _jinja_extensions:
   - jinja2_time.TimeExtension
-  # - [git, remote, add, origin, "{{origin}}"]
-  # - [git, push, --set-upstream, origin, main]

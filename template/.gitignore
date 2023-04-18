@@ -3,6 +3,7 @@
 .mypy_cache
 .nox
 .pytest_cache
+.secrets.*
 dist
 build
 htmlcov
