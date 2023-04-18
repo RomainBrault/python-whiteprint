@@ -3,7 +3,7 @@
 {% if spdx_license != "None" %}
 [![PyPI Version](https://img.shields.io/pypi/v/{{project_slug}}.svg)](https://pypi.python.org/pypi/{{project_slug}})
 {%- endif %}
-{%- if documentation != "readthedocs" %}
+{%- if documentation == "readthedocs" %}
 [![Documentation](https://readthedocs.org/projects/{{project_slug}}/badge/?version=latest)](https://{{project_slug}}.readthedocs.io/en/latest)
 {%- endif %}
 {%- if ci == "github" %}
