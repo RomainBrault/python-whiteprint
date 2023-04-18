@@ -3,7 +3,6 @@
 #
 # SPDX-License-Identifier: MIT
 
----
 # Labels names are important as they are used by Release Drafter to decide
 # regarding where to record them in changelog or if to skip them.
 #
