@@ -1,7 +1,4 @@
-# SPDX-FileCopyrightText: © 2020-2023 Claudio Jolowicz
-# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
-#
-# SPDX-License-Identifier: MIT
+{% include "jinja_template/license_header.yml.j2" %}
 
 # Labels names are important as they are used by Release Drafter to decide
 # regarding where to record them in changelog or if to skip them.
