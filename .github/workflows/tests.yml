@@ -150,7 +150,7 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          nox --force-color --session=coverage
+          nox --force-color --session=coverage --force-python="${{ steps.setup-python.outputs.python-path }}"
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3.1.2

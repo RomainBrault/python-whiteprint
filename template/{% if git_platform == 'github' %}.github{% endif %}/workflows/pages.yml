@@ -43,7 +43,7 @@ jobs:
           nox --version
 
       - name: Build documentation
-        run: nox --force-color --session=docs-build
+        run: nox --force-color --session=docs-build --force-python="${{'{{'}} steps.setup-python.outputs.python-path {{'}}'}}"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -51,4 +51,4 @@ jobs:
           path: docs/_build
 
       - name: Check links
-        run: nox --force-color --session=docs-check-links
+        run: nox --force-color --session=docs-check-links --force-python="${{'{{'}} steps.setup-python.outputs.python-path {{'}}'}}"
