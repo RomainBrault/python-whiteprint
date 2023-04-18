@@ -22,6 +22,8 @@ from python_whiteprint.loc import _
 
 
 YAML_EXT = [".yaml", ".yml"]
+COPIER_ANSWER_FILE = ".copier-answers.yml"
+LABEL_FILE = ".github/labels.yml"
 
 
 @beartype
@@ -55,6 +57,34 @@ class DefaultVenvBackend(str, enum.Enum):
     CONDA = "CONDA"
     MAMBA = "MAMBA"
     VENV = "VENV"
+
+
+@beartype
+def read_yaml(data: pathlib.Path) -> Dict[str, Union[str, int]]:
+    """Read a yaml file.
+
+    Use PyYAML `safe_load`.
+
+    Args:
+        data: path to the YAML file. The file must exists.
+
+    Returns:
+        The content of the YAML file.
+    """
+    if not data.is_file():
+        return {}
+
+    yaml = importlib.import_module("yaml")
+    with data.open("r") as data_file:
+        try:
+            copier_data = yaml.safe_load(data_file)
+        except yaml.parser.ParserError as parser_error:
+            raise NotAValidYAML(data, str(parser_error)) from parser_error
+
+        if _check_dict(copier_data):
+            return copier_data
+
+    raise UnsupportedTypeInMapping
 
 
 @beartype
@@ -103,7 +133,7 @@ def _format_code(
             args=[
                 "--default-venv-backend",
                 default_venv_backend.value.lower(),
-                *(("--force-python", python) if python is not None else ()),
+                *(("--force-python", python) if python else ()),
                 "--session",
                 "pre-commit",
             ],
@@ -140,7 +170,7 @@ def _download_licenses(
         args=[
             "--default-venv-backend",
             default_venv_backend.value.lower(),
-            *(("--force-python", python) if python is not None else ()),
+            *(("--force-python", python) if python else ()),
             "--session",
             "reuse",
             "--",
@@ -159,6 +189,7 @@ def _post_processing(
     default_venv_backend: DefaultVenvBackend,
     skip_tests: bool,
     python: Optional[str],
+    github_token: Optional[str],
 ) -> None:
     """Apply post processing steps after rendering the template wit Copier.
 
@@ -168,6 +199,8 @@ def _post_processing(
         skip_tests: skip the Nox tests step.
         python: force using the given python interpreter for the post
             processing.
+        github_token: Github Token to push the newly created repository to
+            Github. The token must have writing permissions.
     """
     git = importlib.import_module(
         "python_whiteprint.git",
@@ -190,7 +223,7 @@ def _post_processing(
     _download_licenses(
         destination, default_venv_backend=default_venv_backend, python=python
     )
-    git.add_and_commit(repository, message="chore: maybe download license(s).")
+    git.add_and_commit(repository, message="chore: 📃 download license(s).")
 
     # Generate the dependencies table.
     nox.run(
@@ -198,7 +231,7 @@ def _post_processing(
         args=[
             "--default-venv-backend",
             default_venv_backend.value.lower(),
-            *(("--force-python", python) if python is not None else ()),
+            *(("--force-python", python) if python else ()),
             "--session",
             "licenses",
             "--",
@@ -208,13 +241,13 @@ def _post_processing(
             "--output-file=DEPENDENCIES.md",
         ],
     )
-    git.add_and_commit(repository, message="docs: add depencencies.")
+    git.add_and_commit(repository, message="docs: 📚 add depencencies.")
 
     # Fixes with pre-commit.
     _format_code(
         destination, default_venv_backend=default_venv_backend, python=python
     )
-    git.add_and_commit(repository, message="chore: format code.")
+    git.add_and_commit(repository, message="chore: 🔨 format code.")
 
     # Check that nox passes.
     if not skip_tests:
@@ -223,8 +256,21 @@ def _post_processing(
             args=[
                 "--default-venv-backend",
                 default_venv_backend.value.lower(),
-                *(("--force-python", python) if python is not None else ()),
+                *(("--force-python", python) if python else ()),
             ],
+        )
+
+    if github_token:
+        copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
+        git.setup_github_repository(
+            repository,
+            project_slug=copier_answers["project_slug"],
+            github_token=github_token,
+            labels=destination / LABEL_FILE,
+        )
+        git.protect_repository(
+            project_slug=copier_answers["project_slug"],
+            github_token=github_token,
         )
 
 
@@ -449,12 +495,22 @@ _option_python = params.Option(
     os.environ.get("WHITEPRINT_PYTHON"),
     "--python",
     "-p",
+    envvar="WHITEPRINT_PYTHON",
     help=_(
         "force using the given python interpreter for the post processing."
     ),
-    envvar="WHITEPRINT_PYTHON",
 )
 """see `python_whiteprint.cli.init.init` option `python`."""
+_option_github_token = params.Option(
+    os.environ.get("WHITEPRINT_GITHUB_TOKEN"),
+    "--github-token",
+    help=_(
+        "Github Token to push the newly created repository to Github. The"
+        " token must have writing permissions."
+    ),
+    envvar="WHITEPRINT_GITHUB_TOKEN",
+)
+"""see `python_whiteprint.cli.init.init` option `github_token`."""
 
 
 @beartype
@@ -469,34 +525,6 @@ def _check_dict(data: Dict[str, Any]) -> TypeGuard[Dict[str, Union[str, int]]]:
         integers.
     """
     return all(isinstance(v, (str, int)) for v in data.values())
-
-
-@beartype
-def read_yaml(data: pathlib.Path) -> Dict[str, Union[str, int]]:
-    """Read a yaml file.
-
-    Use PyYAML `safe_load`.
-
-    Args:
-        data: path to the YAML file. The file must exists.
-
-    Returns:
-        The content of the YAML file.
-    """
-    if not data.is_file():
-        return {}
-
-    yaml = importlib.import_module("yaml")
-    with data.open("r") as data_file:
-        try:
-            copier_data = yaml.safe_load(data_file)
-        except yaml.parser.ParserError as parser_error:
-            raise NotAValidYAML(data, str(parser_error)) from parser_error
-
-        if _check_dict(copier_data):
-            return copier_data
-
-    raise UnsupportedTypeInMapping
 
 
 @beartype
@@ -519,6 +547,7 @@ def init(  # pylint: disable=too-many-locals
     no_data: bool = _option_no_data,
     user_defaults: Optional[pathlib.Path] = _option_user_defaults,
     python: Optional[str] = _option_python,
+    github_token: Optional[str] = _option_github_token,
 ) -> None:
     """Initalize a new Python project.
 
@@ -552,21 +581,32 @@ def init(  # pylint: disable=too-many-locals
         user_defaults: user defaults choices.
         python: force using the given python interpreter for the post
             processing.
+        github_token: Github Token to push the newly created repository to
+            Github. The token must have writing permissions.
     """
+    data_dict = {} if no_data or data is None else read_yaml(data)
+    data_dict.update(
+        {
+            "git_platform": (
+                "no_git_platform" if github_token is None else "github"
+            )
+        }
+    )
+    user_defaults_dict = (
+        {} if user_defaults is None else read_yaml(user_defaults)
+    )
     importlib.import_module("copier.main").Worker(
         src_path=src_path,
         dst_path=destination,
-        answers_file=".copier-answers.yml",
+        answers_file=COPIER_ANSWER_FILE,
         vcs_ref=vcs_ref,
-        data=({} if no_data or data is None else read_yaml(data)),
+        data=data_dict,
         exclude=exclude,
         use_prereleases=use_prereleases,
         skip_if_exists=skip_if_exists,
         cleanup_on_error=cleanup_on_error,
         defaults=defaults,
-        user_defaults=(
-            {} if user_defaults is None else read_yaml(user_defaults)
-        ),
+        user_defaults=user_defaults_dict,
         overwrite=overwrite,
         pretend=pretend,
         quiet=quiet,
@@ -577,4 +617,5 @@ def init(  # pylint: disable=too-many-locals
         default_venv_backend=default_venv_backend,
         skip_tests=skip_tests,
         python=python,
+        github_token=github_token,
     )
