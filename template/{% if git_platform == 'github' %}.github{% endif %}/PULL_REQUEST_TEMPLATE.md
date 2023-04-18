@@ -1,5 +1,4 @@
 {% include "jinja_template/license_header.md.j2" %}
-
 We are happy to accept contributions from our users 🚀. For more details on how to contribute see [here](https://github.com/{{github_user}}/{{project_slug}}/blob/main/CONTRIBUTING.md).
 
 # Checklist:

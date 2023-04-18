@@ -62,7 +62,7 @@ jobs:
 
       - name: Build package
         run: |
-          nox --force-color --session=babel-compile
+          nox --force-color --session=babel-compile --force-python="${{'{{'}} steps.setup-python.outputs.python-path {{'}}'}}"
           poetry build --ansi
 
       - name: Publish package on PyPI
