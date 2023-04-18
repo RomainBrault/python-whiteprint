@@ -108,7 +108,7 @@ def add_and_commit(
 def init_and_commit(
     destination: pathlib.Path,
     *,
-    message: str = "chore: inital commit.",
+    message: str = "chore: 🥇 inital commit.",
 ) -> pygit2.repository.Repository:
     """Run git init && git commmit -m `message`.
 

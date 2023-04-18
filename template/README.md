@@ -23,10 +23,8 @@
 [black-badge]: https://img.shields.io/badge/code%20style-black-000000.svg
 [mypy-badge]: https://www.mypy-lang.org/static/mypy_badge.svg
 [pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-{%- if ci == "github" %}
+{%- if spdx_license != "None" %}
 [license badge]: https://img.shields.io/github/license/{{github_user}}/{{project_slug}}
-{%- elif ci == "gitlab" %}
-{%- else %}
 {%- endif %}
 [contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 

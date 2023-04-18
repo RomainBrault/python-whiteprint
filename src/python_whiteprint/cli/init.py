@@ -223,7 +223,7 @@ def _post_processing(
     _download_licenses(
         destination, default_venv_backend=default_venv_backend, python=python
     )
-    git.add_and_commit(repository, message="chore: download license(s).")
+    git.add_and_commit(repository, message="chore: 📃 download license(s).")
 
     # Generate the dependencies table.
     nox.run(
@@ -247,7 +247,7 @@ def _post_processing(
     _format_code(
         destination, default_venv_backend=default_venv_backend, python=python
     )
-    git.add_and_commit(repository, message="chore: format code.")
+    git.add_and_commit(repository, message="chore: ✏️ format code.")
 
     # Check that nox passes.
     if not skip_tests:
