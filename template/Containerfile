@@ -33,6 +33,7 @@ ARG PYTHONBUFFERED
 
 # Install any system dependencies required to build wheels, such as C
 # compilers or system packages For example:
+RUN apk add build-base libffi-dev
 #RUN apt-get update && apt-get install -y \
 #    gcc \
 #    && rm -rf /var/lib/apt/lists/*

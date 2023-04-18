@@ -17,16 +17,18 @@ documentation = "https://RomainBrault.github.io/python-whiteprint/"
 keywords = ["Python", "Cookiecutter"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
     "Intended Audience :: Developers",
+    "License :: OSI Approved",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Natural Language :: English",
     "Typing :: Typed",
 ]
 packages = [
@@ -41,7 +43,7 @@ include = [
 # they support. Without also constraining the upper bound here, Poetry will not
 # select those versions and will result in an old version being
 # resolved/locked.
-python = ">=3.8, <3.12"
+python = ">=3.8, <3.12, !=3.11.0"  # scalene does not support 3.11.0
 rich = ">=12.5.0"
 typer = ">=0.7.0"
 colorama = ">=0.4.3"
@@ -53,6 +55,7 @@ pygit2 = ">=1.11.1"
 python-slugify = ">=8.0.1"
 typing-extensions = ">=4.5.0"
 platformdirs = ">=3.2.0"
+pygithub = ">=1.58.1"
 
 [tool.poetry.group.localization.dependencies]
 Babel = ">=2.12.0"

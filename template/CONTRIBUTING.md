@@ -2,7 +2,7 @@
 # 🛠️ Contributor Guide
 
 Thank you for your interest in improving this project.
-{%- if spdx_license != "Proprietary" %}
+{%- if spdx_license != "None" %}
 This project is open-source under the [{{spdx_license}}
 license](https://opensource.org/licenses/{{spdx_license}}) and welcomes
 contributions in the form of bug reports, feature requests, and pull requests.

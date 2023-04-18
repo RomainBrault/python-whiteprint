@@ -230,6 +230,9 @@ def test(session: nox_poetry.Session) -> None:
             "src/python_whiteprint",
             *session.posargs,
             env={
+                "WHITEPRINT_TEST_GITHUB_TOKEN": os.environ[
+                    "WHITEPRINT_TEST_GITHUB_TOKEN"
+                ],
                 "PYTHONDONTWRITEBYTECODE": "1",
                 "PYTHONOPTIMIZE": "0",
             },
