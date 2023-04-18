@@ -16,7 +16,8 @@ from beartype.typing import Iterable, Optional
 
 HEAD: Final = "HEAD"
 """Git HEAD ref."""
-INITIAL_HEAD = "main"
+
+INITIAL_HEAD_NAME = "main"
 """Git default branch."""
 
 WHITEPRINT_SIGNATURE: Final = pygit2.Signature(
@@ -44,7 +45,7 @@ def init_repository(destination: pathlib.Path) -> pygit2.repository.Repository:
     """
     return pygit2.init_repository(
         destination,
-        initial_head=INITIAL_HEAD,
+        initial_head=INITIAL_HEAD_NAME,
     )
 
 
@@ -153,7 +154,7 @@ def setup_github_repository(
     logger = logging.getLogger(__name__)
     logger.debug("Pushing ref %s", repo.head.target)
     repo.remotes["origin"].push(
-        [f"refs/heads/{INITIAL_HEAD}"],
+        [f"refs/heads/{INITIAL_HEAD_NAME}"],
         callbacks=pygit2.RemoteCallbacks(
             credentials=pygit2.UserPass("x-access-token", github_token)
         ),
@@ -174,7 +175,7 @@ def protect_repository(
     """
     github_user = github.Github(github_token, retry=3).get_user()
     github_repository = github_user.get_repo(project_slug)
-    branch = github_repository.get_branch(INITIAL_HEAD)
+    branch = github_repository.get_branch(INITIAL_HEAD_NAME)
     branch.edit_protection(
         strict=True, enforce_admins=True, require_code_owner_reviews=True
     )

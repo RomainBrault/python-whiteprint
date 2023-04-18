@@ -266,10 +266,10 @@ def _post_processing(
             project_slug=copier_answers["project_slug"],
             github_token=github_token,
         )
-        git.protect_repository(
-            project_slug=copier_answers["project_slug"],
-            github_token=github_token,
-        )
+        #  git.protect_repository(
+        #  project_slug=copier_answers["project_slug"],
+        #  github_token=github_token,
+        #  )
 
 
 @beartype

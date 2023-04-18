@@ -78,22 +78,6 @@ six = "*"
 test = ["astroid", "pytest"]
 
 [[package]]
-name = "astunparse"
-version = "1.6.3"
-description = "An AST unparser for Python"
-category = "dev"
-optional = false
-python-versions = "*"
-files = [
-    {file = "astunparse-1.6.3-py2.py3-none-any.whl", hash = "sha256:c2652417f2c8b5bb325c885ae329bdf3f86424075c4fd1a128674bc6fba4b8e8"},
-    {file = "astunparse-1.6.3.tar.gz", hash = "sha256:5ad93a8456f0d084c3456d059fd9a92cce667963232cbf763eac3bc5b7940872"},
-]
-
-[package.dependencies]
-six = ">=1.6.1,<2.0"
-wheel = ">=0.23.0,<1.0"
-
-[[package]]
 name = "attrs"
 version = "23.1.0"
 description = "Classes Without Boilerplate"
@@ -2068,6 +2052,33 @@ files = [
 wcwidth = "*"
 
 [[package]]
+name = "psutil"
+version = "5.9.5"
+description = "Cross-platform lib for process and system monitoring in Python."
+category = "dev"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+files = [
+    {file = "psutil-5.9.5-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:be8929ce4313f9f8146caad4272f6abb8bf99fc6cf59344a3167ecd74f4f203f"},
+    {file = "psutil-5.9.5-cp27-cp27m-manylinux2010_i686.whl", hash = "sha256:ab8ed1a1d77c95453db1ae00a3f9c50227ebd955437bcf2a574ba8adbf6a74d5"},
+    {file = "psutil-5.9.5-cp27-cp27m-manylinux2010_x86_64.whl", hash = "sha256:4aef137f3345082a3d3232187aeb4ac4ef959ba3d7c10c33dd73763fbc063da4"},
+    {file = "psutil-5.9.5-cp27-cp27mu-manylinux2010_i686.whl", hash = "sha256:ea8518d152174e1249c4f2a1c89e3e6065941df2fa13a1ab45327716a23c2b48"},
+    {file = "psutil-5.9.5-cp27-cp27mu-manylinux2010_x86_64.whl", hash = "sha256:acf2aef9391710afded549ff602b5887d7a2349831ae4c26be7c807c0a39fac4"},
+    {file = "psutil-5.9.5-cp27-none-win32.whl", hash = "sha256:5b9b8cb93f507e8dbaf22af6a2fd0ccbe8244bf30b1baad6b3954e935157ae3f"},
+    {file = "psutil-5.9.5-cp27-none-win_amd64.whl", hash = "sha256:8c5f7c5a052d1d567db4ddd231a9d27a74e8e4a9c3f44b1032762bd7b9fdcd42"},
+    {file = "psutil-5.9.5-cp36-abi3-macosx_10_9_x86_64.whl", hash = "sha256:3c6f686f4225553615612f6d9bc21f1c0e305f75d7d8454f9b46e901778e7217"},
+    {file = "psutil-5.9.5-cp36-abi3-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:7a7dd9997128a0d928ed4fb2c2d57e5102bb6089027939f3b722f3a210f9a8da"},
+    {file = "psutil-5.9.5-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:89518112647f1276b03ca97b65cc7f64ca587b1eb0278383017c2a0dcc26cbe4"},
+    {file = "psutil-5.9.5-cp36-abi3-win32.whl", hash = "sha256:104a5cc0e31baa2bcf67900be36acde157756b9c44017b86b2c049f11957887d"},
+    {file = "psutil-5.9.5-cp36-abi3-win_amd64.whl", hash = "sha256:b258c0c1c9d145a1d5ceffab1134441c4c5113b2417fafff7315a917a026c3c9"},
+    {file = "psutil-5.9.5-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:c607bb3b57dc779d55e1554846352b4e358c10fff3abf3514a7a6601beebdb30"},
+    {file = "psutil-5.9.5.tar.gz", hash = "sha256:5410638e4df39c54d957fc51ce03048acd8e6d60abc0f5107af51e5fb566eb3c"},
+]
+
+[package.extras]
+test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
+
+[[package]]
 name = "ptyprocess"
 version = "0.7.0"
 description = "Run a subprocess in a pseudo terminal"
@@ -2361,14 +2372,14 @@ test = ["pytest (>=3.4.0)"]
 
 [[package]]
 name = "pynvml"
-version = "11.5.0"
+version = "11.4.1"
 description = "Python Bindings for the NVIDIA Management Library"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "pynvml-11.5.0-py3-none-any.whl", hash = "sha256:5cce014ac01b098d08f06178f86c37be409b80b2e903a5a03ce15eed60f55e25"},
-    {file = "pynvml-11.5.0.tar.gz", hash = "sha256:d027b21b95b1088b9fc278117f9f61b7c67f8e33a787e9f83f735f0f71ac32d0"},
+    {file = "pynvml-11.4.1-py3-none-any.whl", hash = "sha256:d27be542cd9d06558de18e2deffc8022ccd7355bc7382255d477038e7e424c6c"},
+    {file = "pynvml-11.4.1.tar.gz", hash = "sha256:b2e4a33b80569d093b513f5804db0c7f40cfc86f15a013ae7a8e99c5e175d5dd"},
 ]
 
 [[package]]
@@ -2957,34 +2968,21 @@ files = [
 
 [[package]]
 name = "scalene"
-version = "1.5.20"
+version = "1.5.21.1"
 description = "Scalene: A high-resolution, low-overhead CPU, GPU, and memory profiler for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.8,!=3.11.0"
 files = [
-    {file = "scalene-1.5.20-cp310-cp310-macosx_11_7_universal2.whl", hash = "sha256:ed4734e3158d6177abc3be2041975cdef2ee837a19c28e059a3d4e8546516f38"},
-    {file = "scalene-1.5.20-cp310-cp310-manylinux_2_24_x86_64.whl", hash = "sha256:bed6b2650f25ae4c10b35b8c26ff84fd21fa8d95ccad0e0c0c7fb4f1e4fdcf06"},
-    {file = "scalene-1.5.20-cp310-cp310-win_amd64.whl", hash = "sha256:979ecf3135766c997174bd04847b0e2eace7d23c00a4a702e3ab450cef15e94f"},
-    {file = "scalene-1.5.20-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:22d34cc521e1438081eaf171c71ce8ad30af6f15e53fdadb83ca7b8e878b48a0"},
-    {file = "scalene-1.5.20-cp311-cp311-manylinux_2_24_x86_64.whl", hash = "sha256:7eae4ad6ecff007470b01a4f5a4232c374d81c007fb63350f9784a8c43bd06aa"},
-    {file = "scalene-1.5.20-cp311-cp311-win_amd64.whl", hash = "sha256:c66eaee831d0d9f346b8b168a0932091cf9223c8efac4279bc0dcecc36da785e"},
-    {file = "scalene-1.5.20-cp37-cp37m-macosx_10_15_universal2.whl", hash = "sha256:1eaed254908049a0a7847de55a509ab6739f904851efe34dd570bff97178bdc1"},
-    {file = "scalene-1.5.20-cp37-cp37m-manylinux_2_24_x86_64.whl", hash = "sha256:f55c6aeb5a1531237460bec1791486d190e299f9043e6d0a8547f3ba0cc6c9f6"},
-    {file = "scalene-1.5.20-cp38-cp38-macosx_10_15_universal2.whl", hash = "sha256:2e271b6b910dacffb9edf0d0e54cbf6c365c452d1a0d338102129771168e1729"},
-    {file = "scalene-1.5.20-cp38-cp38-manylinux_2_24_x86_64.whl", hash = "sha256:59b341fbc8f5f189da2accfd9c5ee81a45c6a63019eba8f0d99a7910d1976c31"},
-    {file = "scalene-1.5.20-cp38-cp38-win_amd64.whl", hash = "sha256:fdc741d11e7f4d5c28bf50e038dc25741b0089370c364abc66fef4292f460d8b"},
-    {file = "scalene-1.5.20-cp39-cp39-macosx_11_7_universal2.whl", hash = "sha256:c4d84bf3aae60b0a06b4e1dd2c135e6d70803785718ea9f6ee92f1c6d2f67af5"},
-    {file = "scalene-1.5.20-cp39-cp39-manylinux_2_24_x86_64.whl", hash = "sha256:26e738a676c2e75b993cb3bcf6e7069b186031cf5e4338b111d911960fa3a455"},
-    {file = "scalene-1.5.20-cp39-cp39-win_amd64.whl", hash = "sha256:a2611b2faee64e51469adde6a4dbbd8195acd45144b5a830df6b269118052794"},
-    {file = "scalene-1.5.20.tar.gz", hash = "sha256:dd424e96dc1ea7eb58e5cbe34e2dae1cedf50f62c031a9b1391a2fd4213d9915"},
+    {file = "scalene-1.5.21.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:f108584fe67a63b2af7e55a9d075f480561a29a08027a99329b3f4d8300582ea"},
+    {file = "scalene-1.5.21.1.tar.gz", hash = "sha256:edb9504777660e835863b3102096e4d7aabda7bc22fa4e309e5e1049de1d1c4d"},
 ]
 
 [package.dependencies]
-astunparse = ">=1.6.3"
 cloudpickle = ">=1.5.0"
 Jinja2 = ">=3.0.3"
-pynvml = ">=11.0.0"
+psutil = ">=5.9.2"
+pynvml = ">=11.0.0,<11.5"
 rich = ">=10.7.0"
 wheel = ">=0.36.1"
 
@@ -3422,23 +3420,23 @@ files = [
 
 [[package]]
 name = "tornado"
-version = "6.2"
+version = "6.3"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
 category = "dev"
 optional = false
-python-versions = ">= 3.7"
+python-versions = ">= 3.8"
 files = [
-    {file = "tornado-6.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:20f638fd8cc85f3cbae3c732326e96addff0a15e22d80f049e00121651e82e72"},
-    {file = "tornado-6.2-cp37-abi3-macosx_10_9_x86_64.whl", hash = "sha256:87dcafae3e884462f90c90ecc200defe5e580a7fbbb4365eda7c7c1eb809ebc9"},
-    {file = "tornado-6.2-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ba09ef14ca9893954244fd872798b4ccb2367c165946ce2dd7376aebdde8e3ac"},
-    {file = "tornado-6.2-cp37-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:b8150f721c101abdef99073bf66d3903e292d851bee51910839831caba341a75"},
-    {file = "tornado-6.2-cp37-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d3a2f5999215a3a06a4fc218026cd84c61b8b2b40ac5296a6db1f1451ef04c1e"},
-    {file = "tornado-6.2-cp37-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:5f8c52d219d4995388119af7ccaa0bcec289535747620116a58d830e7c25d8a8"},
-    {file = "tornado-6.2-cp37-abi3-musllinux_1_1_i686.whl", hash = "sha256:6fdfabffd8dfcb6cf887428849d30cf19a3ea34c2c248461e1f7d718ad30b66b"},
-    {file = "tornado-6.2-cp37-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:1d54d13ab8414ed44de07efecb97d4ef7c39f7438cf5e976ccd356bebb1b5fca"},
-    {file = "tornado-6.2-cp37-abi3-win32.whl", hash = "sha256:5c87076709343557ef8032934ce5f637dbb552efa7b21d08e89ae7619ed0eb23"},
-    {file = "tornado-6.2-cp37-abi3-win_amd64.whl", hash = "sha256:e5f923aa6a47e133d1cf87d60700889d7eae68988704e20c75fb2d65677a8e4b"},
-    {file = "tornado-6.2.tar.gz", hash = "sha256:9b630419bde84ec666bfd7ea0a4cb2a8a651c2d5cccdbdd1972a0c859dfc3c13"},
+    {file = "tornado-6.3-cp38-abi3-macosx_10_9_universal2.whl", hash = "sha256:6cfff1e9c15c79e106b8352269d201f8fc0815914a6260f3893ca18b724ea94b"},
+    {file = "tornado-6.3-cp38-abi3-macosx_10_9_x86_64.whl", hash = "sha256:6164571f5b9f73143d1334df4584cb9ac86d20c461e17b6c189a19ead8bb93c1"},
+    {file = "tornado-6.3-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4546003dc8b5733489139d3bff5fa6a0211be505faf819bd9970e7c2b32e8122"},
+    {file = "tornado-6.3-cp38-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:c659ab04d5aa477dbe44152c67d93f3ad3243b992d94f795ca1d5c73c37337ce"},
+    {file = "tornado-6.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:912df5712024564e362ecce43c8d5862e14c78c8dd3846c9d889d44fbd7f4951"},
+    {file = "tornado-6.3-cp38-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:c37b6a384d54ce6a31168d40ab21ad2591ddaf34973075cc0cad154402ecd9e8"},
+    {file = "tornado-6.3-cp38-abi3-musllinux_1_1_i686.whl", hash = "sha256:c9114a61a4588c09065b9996ae05462350d17160b92b9bf9a1e93689cc0424dc"},
+    {file = "tornado-6.3-cp38-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:4d349846931557b7ec92f224b5d598b160e2ba26ae1812480b42e9622c884bf7"},
+    {file = "tornado-6.3-cp38-abi3-win32.whl", hash = "sha256:d7b737e18f701de3e4a3b0824260b4d740e4d60607b8089bb80e80ffd464780e"},
+    {file = "tornado-6.3-cp38-abi3-win_amd64.whl", hash = "sha256:720f53e6367b38190ae7fa398c25c086c69d88b3c6535bd6021a126b727fb5cd"},
+    {file = "tornado-6.3.tar.gz", hash = "sha256:d68f3192936ff2c4add04dc21a436a43b4408d466746b78bb2b9d0a53a18683f"},
 ]
 
 [[package]]
@@ -3854,5 +3852,5 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.8, <3.12, !=3.11.0"
+python-versions = ">=3.8, <3.12, !=3.11.0"  # scalene does not support 3.11.0
 content-hash = "7e67bc089ed35a59e4975c1581133a9edf340ab0629c4cef154ae9af976e6093"
