@@ -55,6 +55,9 @@ jobs:
 
   build-container:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     needs: metadata
     steps:
       - name: Checkout
