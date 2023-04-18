@@ -10,6 +10,7 @@ from typing import Final
 
 import github
 import pygit2
+import yaml
 from beartype import beartype
 from beartype.typing import Iterable, Optional
 
@@ -137,6 +138,7 @@ def setup_github_repository(
     *,
     project_slug: str,
     github_token: str,
+    labels: Optional[pathlib.Path] = None,
 ) -> None:
     """Create a repository on GitHub and push the local one.
 
@@ -150,6 +152,9 @@ def setup_github_repository(
 
     repo.remotes.set_url("origin", github_repository.clone_url)
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
+    if labels is not None:
+        for label in yaml.safe_load(labels.read_text()):
+            github_repository.create_label(**label)
 
     logger = logging.getLogger(__name__)
     logger.debug("Pushing ref %s", repo.head.target)
