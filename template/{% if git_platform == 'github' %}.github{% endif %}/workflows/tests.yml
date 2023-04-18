@@ -86,8 +86,6 @@ jobs:
             ${{'{{'}} steps.pre-commit-cache.outputs.result {{'}}'}}-"
 
       - name: Run Nox
-        with:
-          WHITEPRINT_TEST_GITHUB_TOKEN: "${{'{{'}} secrets.WHITEPRINT_TEST_GITHUB_TOKEN {{'}}'}}"
         run: |
           nox --force-color --force-python="${{'{{'}} steps.setup-python.outputs.python-path {{'}}'}}"
           [ ! -f .coverage ] || mv .coverage .coverage.${{'{{'}} matrix.python {{'}}'}}
