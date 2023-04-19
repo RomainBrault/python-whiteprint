@@ -7,9 +7,13 @@ SPDX-License-Identifier: MIT
 
 # ⚡ Quickstart Guide
 
-We recommend using [pipx] to manage the requirements, but you can also install
-them by replacing [pipx] with `python3 -m pip install --user`. You can [install
-pipx] with [pip].
+:::{note}
+We recommend to use [pipx] to install Python tools which are not specific
+to a single project. Please refer to the official documentation for detailed
+installation and usage instructions. If you decide to skip `pipx` installation,
+use [pip install] with the `--user` option instead.
+
+You can [install pipx] with [pip].
 
 ```console
 $ python3 -m pip install --user -U pipx
@@ -17,6 +21,7 @@ $ python3 -m pip install --user -U pipx
 
 The advantage of [pipx] being that the different tools are installed in
 separated virtual environments, minimizing the risks of problems.
+:::
 
 ## Requirements
 

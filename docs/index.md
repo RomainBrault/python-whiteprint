@@ -20,8 +20,8 @@ maxdepth: 1
 
 Quickstart <quickstart>
 User Guide <guide>
-Usage <usage>
-Reference <autoapi/index>
+Command Line Reference <usage>
+API Reference <autoapi/index>
 Contributing <contributing>
 Code of Conduct <code_of_conduct>
 Copying <copying>

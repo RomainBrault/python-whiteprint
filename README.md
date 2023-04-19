@@ -45,9 +45,9 @@ SPDX-License-Identifier: MIT
 
 ---
 
-## Installation
+# Installation
 
-## Example
+# Example
 
 Create a local project
 
@@ -64,7 +64,7 @@ whiteprint init <my_project> --github-token <my_github_token>
 Note that the GitHub token must have repository, workflows and packages
 permissions.
 
-## Yet another Python Project scaffold/cookiecutter/generator?
+# Yet another Python Project scaffold/cookiecutter/generator?
 
 <p align="center"><em>
 Yes.
@@ -81,7 +81,7 @@ The documentation of this project is heavily inspired from @cjolowicz's work.
 We also recommend readings @cjolowicz's [guide on modern Python
 tooling](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/).
 
-## Differences compared to [cookiecutter-hypermodern-python]
+# Differences compared to [cookiecutter-hypermodern-python]
 
 - Use [copier](https://copier.readthedocs.io/en/latest/) instead of the
   cookiecutter project,
