@@ -16,7 +16,7 @@ use [pip install] with the `--user` option instead.
 You can [install pipx] with [pip].
 
 ```console
-$ python3 -m pip install --user -U pipx
+$ python3 -m pip install --user --upgrade pipx
 ```
 
 The advantage of [pipx] being that the different tools are installed in

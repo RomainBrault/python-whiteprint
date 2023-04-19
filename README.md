@@ -47,18 +47,36 @@ SPDX-License-Identifier: MIT
 
 # Installation
 
+Ensure that you have [git](https://git-scm.com/) and
+[python3](https://www.python.org/) installed.
+
+Then install the required Python tools:
+
+```console
+$ python -m pip3 install --user --upgrade pipx
+$ pipx install poetry
+$ pipx install nox
+$ pipx inject nox nox-poetry rich
+```
+
+Eventually install Python Whiteprint:
+
+```console
+$ pipx install python-whiteprint
+```
+
 # Example
 
 Create a local project
 
 ```console
-whiteprint init <my_project>
+$ whiteprint init <my_project>
 ```
 
 Create a GitHub project
 
 ```console
-whiteprint init <my_project> --github-token <my_github_token>
+$ whiteprint init <my_project> --github-token <my_github_token>
 ```
 
 Note that the GitHub token must have repository, workflows and packages
