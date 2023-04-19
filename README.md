@@ -8,6 +8,9 @@ SPDX-License-Identifier: MIT
   <a href="https://python-whiteprint.readthedocs.io/"><img src="https://raw.githubusercontent.com/RomainBrault/python-whiteprint/main/docs/images/logo.png" alt="python whiteprint"></a>
 </h1>
 <p align="center">
+    <em>Python Whiteprint, generate easily Python projects with (opinionated) best practices.</em>
+</p>
+<p align="center">
   <a href="https://pypi.python.org/pypi/python-whiteprint">
     <img alt="PyPI" src="https://img.shields.io/pypi/v/python-whiteprint.svg"/>
   </a>
@@ -33,9 +36,6 @@ SPDX-License-Identifier: MIT
     <img alt="pypi" src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg"/>
   </a>
 </p>
-<p align="center">
-    <em>Python Whiteprint, generate easily Python projects with (opinionated) best practices.</em>
-</p>
 
 ---
 
@@ -45,7 +45,26 @@ SPDX-License-Identifier: MIT
 
 ---
 
-# Yet another Python Project scaffold/cookiecutter/generator?
+## Installation
+
+## Example
+
+Create a local project
+
+```console
+whiteprint init <my_project>
+```
+
+Create a GitHub project
+
+```console
+whiteprint init <my_project> --github-token <my_github_token>
+```
+
+Note that the GitHub token must have repository, workflows and packages
+permissions.
+
+## Yet another Python Project scaffold/cookiecutter/generator?
 
 <p align="center"><em>
 Yes.
@@ -55,23 +74,25 @@ This project build upon the excellents [cookiecutter-hypermodern-python] by
 [@cjolowicz](https://github.com/cjolowicz) as well as [python-blueprint] by
 [@johnthagen](https://github.com/johnthagen).
 
-You might want to check these project as they might be more suited to your
+You might want to check these projects as they might be more suited to your
 needs.
 
-# Differences compared to [cookiecutter-hypermodern-python]
+The documentation of this project is heavily inspired from @cjolowicz's work.
+We also recommend readings @cjolowicz's [guide on modern Python
+tooling](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/).
 
-- [x] Use [copier](https://copier.readthedocs.io/en/latest/) instead of the
-      unmainted cookiecutter,
-- [x] tweaks in the generated project (non exhaustively: CLI with Typer
-      instead of Click, dynamic type checking with beartype, [auto-API
-      documentation](https://sphinx-autoapi.readthedocs.io/en/latest/)),
-- [x] manage licenses with [Reuse](https://reuse.software/),
-- [x] more Github Actions and Community Standards and Community Standards,
-- [x] Ruff instead of Flake8 to fix a maximum of code smells,
-- [x] strict linting with pylint,
-- [x] OCI Container images,
-- [ ] basic GitLab support,
-- [ ] Latex template with python integration.
+## Differences compared to [cookiecutter-hypermodern-python]
+
+- Use [copier](https://copier.readthedocs.io/en/latest/) instead of the
+  cookiecutter project,
+- tweaks in the generated project (non exhaustively: CLI with Typer
+  instead of Click, dynamic type checking with beartype, [auto-API
+  documentation](https://sphinx-autoapi.readthedocs.io/en/latest/)),
+- manage licenses with [Reuse](https://reuse.software/),
+- more Github Actions and Community Standards and Community Standards,
+- Ruff instead of Flake8 to fix a maximum of code smells,
+- strict linting with pylint,
+- OCI Container images.
 
 [cookiecutter-hypermodern-python]: https://cookiecutter-hypermodern-python.readthedocs.io/en/2022.6.3.post1/
 [python-blueprint]: https://github.com/johnthagen/python-blueprint

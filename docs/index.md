@@ -19,6 +19,7 @@ maxdepth: 1
 ---
 
 Quickstart <quickstart>
+User Guide <guide>
 Usage <usage>
 Reference <autoapi/index>
 Contributing <contributing>
