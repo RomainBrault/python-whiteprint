@@ -68,6 +68,12 @@ $ whiteprint init <project_name>
 And answer the questions and wait for the initialization of your project. Once
 finished, a directory named after your project shoud have been created.
 
+You can obtain help for this subcommand by running:
+
+```console
+$ whiteprint init --help
+```
+
 ### Installing the newly created project
 
 Run the command-line interface from your project source tree:

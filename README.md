@@ -90,9 +90,11 @@ tooling](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/).
   documentation](https://sphinx-autoapi.readthedocs.io/en/latest/)),
 - manage licenses with [Reuse](https://reuse.software/),
 - more Github Actions and Community Standards and Community Standards,
-- Ruff instead of Flake8 to fix a maximum of code smells,
-- strict linting with pylint,
-- OCI Container images.
+- [Ruff](https://beta.ruff.rs/docs/) instead of Flake8 to auto-fix a maximum of
+  code smells,
+- strict linting with [pylint](https://pylint.readthedocs.io/en/latest/),
+- OCI Container images,
+- localization with [Babel](https://babel.pocoo.org/en/latest/index.html).
 
 [cookiecutter-hypermodern-python]: https://cookiecutter-hypermodern-python.readthedocs.io/en/2022.6.3.post1/
 [python-blueprint]: https://github.com/johnthagen/python-blueprint

@@ -244,7 +244,6 @@ def fmt(session: nox_poetry.Session) -> None:
     """
     install_poetry_groups(session, "fmt")
     session.run("black", ".")
-    session.run("isort", ".")
     session.run("ruff", "--exit-zero", "--fix-only", ".")
 
 

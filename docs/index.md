@@ -19,7 +19,8 @@ maxdepth: 1
 ---
 
 Quickstart <quickstart>
-User Guide <guide>
+Python Whiteprint User Guide <whiteprint>
+Project User Guide <guide>
 Command Line Reference <usage>
 API Reference <autoapi/index>
 Contributing <contributing>
