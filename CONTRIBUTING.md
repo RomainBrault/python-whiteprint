@@ -99,7 +99,7 @@ $ python
 or
 
 ```console
-$ {{package_slug}}
+$ whiteprint
 ```
 
 [poetry]: https://python-poetry.org/
