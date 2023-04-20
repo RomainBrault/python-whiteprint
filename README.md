@@ -53,7 +53,7 @@ Ensure that you have [git](https://git-scm.com/) and
 Then install the required Python tools:
 
 ```console
-$ python -m pip3 install --user --upgrade pipx
+$ python3 -m pip install --user --upgrade pipx
 $ pipx install poetry
 $ pipx install nox
 $ pipx inject nox nox-poetry rich
