@@ -593,7 +593,9 @@ def init(  # pylint: disable=too-many-locals
         }
     )
     user_defaults_dict = (
-        {} if user_defaults is None else read_yaml(user_defaults)
+        {"project_name": destination.name}
+        if user_defaults is None
+        else read_yaml(user_defaults)
     )
     importlib.import_module("copier.main").Worker(
         src_path=src_path,

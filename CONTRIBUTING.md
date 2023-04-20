@@ -56,7 +56,7 @@ Request features on the [Ideas Discussions].
 You need Python 3.8+ and the following tools:
 
 - [Poetry]
-- [Nox] with [nox-poetry], [rich] and [beartype] additional dependencies
+- [Nox] with [nox-poetry] and [rich] additional dependencies
 
 Once your environment is set-up, install the package with development
 requirements:
@@ -99,7 +99,7 @@ $ python
 or
 
 ```console
-$ {{package_slug}}
+$ whiteprint
 ```
 
 [poetry]: https://python-poetry.org/
