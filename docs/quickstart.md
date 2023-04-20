@@ -7,59 +7,83 @@ SPDX-License-Identifier: MIT
 
 # ⚡ Quickstart Guide
 
-It is recommended to set up Python using [pyenv] or [mamba].
+:::{note}
+We recommend to use [pipx] to install Python tools which are not specific
+to a single project. Please refer to the official documentation for detailed
+installation and usage instructions. If you decide to skip `pipx` installation,
+use [pip install] with the `--user` option instead.
+
+You can [install pipx] with [pip].
+
+```console
+$ python3 -m pip install --user --upgrade pipx
+```
+
+The advantage of [pipx] being that the different tools are installed in
+separated virtual environments, minimizing the risks of problems.
+:::
 
 ## Requirements
 
-Install [Poetry] by downloading and running [install-poetry.py]:
+Python Whiteprint requires [Git], [Poetry] and [Nox].
+
+First [install Git] if it is not already on your computer 😱.
+
+Then install [Poetry]:
 
 ```console
 $ pipx install poetry
 ```
 
-Then install [Nox] and [nox-poetry]:
+Eventually install [Nox] and [inject] the additional dependencies [nox-poetry]
+and [rich] into [Nox]'s environment':
 
 ```console
 $ pipx install nox
-$ pipx inject nox nox-poetry rich beartype
+$ pipx inject nox nox-poetry rich
 ```
 
-[pipx] is preferred, but you can also install with `pip install --user`.
+Note that as [Poetry] and [Nox] are tools that manage environments, they should
+should not be included into your own project environment.
+
+## Installing Python Whiterpint
+
+Once the [requirements](#requirements) are satisfied, you can install Python
+Whiteprint using once again [pipx].
+
+```console
+$ pipx install python-whiteprint
+```
+
+🎊 Congratulation 🎊 You are now ready to use Python Whiteprint!
 
 ## Creating a project
 
 Generate a Python project:
 
 ```console
-$ ???
+$ whiteprint init <project_name>
 ```
 
-Change to the root directory of your new project,
-and create a Git repository:
+And answer the questions and wait for the initialization of your project. Once
+finished, a directory named after your project shoud have been created.
+
+You can obtain help for this subcommand by running:
 
 ```console
-$ git init
-$ git add .
-$ git commit
+$ whiteprint init --help
 ```
 
-## Running
+### Installing the newly created project
 
-Run the command-line interface from the source tree:
-
-```console
-$ poetry install
-$ poetry run <project>
-```
-
-Run an interactive Python session:
+Run the command-line interface from your project source tree:
 
 ```console
 $ poetry install
-$ poetry run python
+$ poetry run <project_slug>
 ```
 
-## Testing
+### Testing it
 
 Run the full test suite:
 
@@ -84,31 +108,39 @@ $ nox -s pre-commit -- install
 ### GitHub
 
 1. Sign up at [GitHub].
-2. Create an empty repository for your project.
-3. Follow the instructions to push an existing repository from the command line.
+2. Generate a new [classic token](https://github.com/settings/tokens) with the
+   following permissions:
+   - repo (all)
+   - workflow
+   - write:packages
+   - delete:packages
+   - delete_repo
+3. Generate your project with using the newly created token
 
-### PyPI
+   ```console
+   $ whiteprint init --github-token <the-github-token>
+   ```
+
+#### PyPI
 
 1. Sign up at [PyPI].
-2. Go to the Account Settings on PyPI,
-   generate an API token, and copy it.
-3. Go to the repository settings on GitHub, and
-   add a secret named `PYPI_TOKEN` with the token you just copied.
+2. Go to the Account Settings on PyPI, generate an API token, and copy it.
+3. Go to the repository settings on GitHub, and add a secret named `PYPI_TOKEN`
+   with the token you just copied.
 
-### TestPyPI
+#### TestPyPI
 
 1. Sign up at [TestPyPI].
-2. Go to the Account Settings on TestPyPI,
-   generate an API token, and copy it.
-3. Go to the repository settings on GitHub, and
-   add a secret named `TEST_PYPI_TOKEN` with the token you just copied.
+2. Go to the Account Settings on TestPyPI, generate an API token, and copy it.
+3. Go to the repository settings on GitHub, and add a secret named
+   `TEST_PYPI_TOKEN` with the token you just copied.
 
-### Codecov
+#### Codecov
 
 1. Sign up at [Codecov].
 2. Install their GitHub app.
 
-### Read the Docs
+#### Read the Docs
 
 1. Sign up at [Read the Docs].
 2. Import your GitHub repository, using the button _Import a Project_.
@@ -118,7 +150,7 @@ $ nox -s pre-commit -- install
    in the _Admin_ section of your project
    on Read the Docs.
 
-## Releasing
+#### Releasing
 
 Releases are triggered by a version bump on the default branch.
 It is recommended to do this in a separate pull request:
@@ -157,13 +189,17 @@ by applying labels to them, like this:
 
 <!-- table-release-drafter-sections-end -->
 
+[git]: https://git-scm.com/
+[install git]: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 [codecov]: https://codecov.io/
 [cookiecutter]: https://github.com/audreyr/cookiecutter
 [github]: https://github.com/
 [install-poetry.py]: https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py
 [nox]: https://nox.thea.codes/
 [nox-poetry]: https://nox-poetry.readthedocs.io/
+[pip]: https://pip.pypa.io/en/stable/
 [pipx]: https://pipxproject.github.io/pipx/
+[install pipx]: https://pypa.github.io/pipx/installation/
 [poetry]: https://python-poetry.org/
 [poetry version]: https://python-poetry.org/docs/cli/#version
 [pyenv]: https://github.com/pyenv/pyenv
@@ -171,3 +207,5 @@ by applying labels to them, like this:
 [pypi]: https://pypi.org/
 [read the docs]: https://readthedocs.org/
 [testpypi]: https://test.pypi.org/
+[rich]: https://rich.readthedocs.io/en/stable/introduction.html
+[inject]: https://pypa.github.io/pipx/docs/#pipx-inject

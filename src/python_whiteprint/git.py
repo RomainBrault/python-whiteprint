@@ -138,14 +138,17 @@ def setup_github_repository(
     *,
     project_slug: str,
     github_token: str,
-    labels: Optional[pathlib.Path] = None,
+    labels: pathlib.Path,
 ) -> None:
     """Create a repository on GitHub and push the local one.
 
     Args:
         repo: the local repository.
         project_slug: a slug of the project name.
-        github_token: a GitHub token with repository writing authorization.
+        github_token: a GitHub token with repository write, delete, workflows
+            and packages authorizations.
+        labels: a path to a yaml file containing a list of labels with their
+            descriptions.
     """
     github_user = github.Github(github_token, retry=3).get_user()
     github_repository = github_user.create_repo(project_slug)
@@ -154,12 +157,11 @@ def setup_github_repository(
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
 
     logger = logging.getLogger(__name__)
-    if labels is not None:
-        for label in yaml.safe_load(labels.read_text()):
-            try:
-                github_repository.create_label(**label)
-            except github.GithubException as github_exception:
-                logger.debug(github_exception)
+    for label in yaml.safe_load(labels.read_text()):
+        try:
+            github_repository.create_label(**label)
+        except github.GithubException as github_exception:
+            logger.debug(github_exception)
 
     logger.debug("Pushing ref %s", repo.head.target)
     repo.remotes["origin"].push(
