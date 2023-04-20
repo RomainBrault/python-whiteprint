@@ -10,6 +10,7 @@
 project = "Python Whiteprint"
 author = "Romain Brault"
 copyright = "2023, Romain Brault"
+myst_heading_anchors = 3
 extensions = [
     "autoapi.extension",
     "myst_parser",
@@ -28,4 +29,10 @@ html_logo = "images/logo.png"
 intersphinx_mapping = {
     "nox": ("https://nox.thea.codes/en/stable", None),
     "pip": ("https://pip.pypa.io/en/stable", None),
+    "mypy": ("https://mypy.readthedocs.io/en/stable/", None),
 }
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "substitution",
+]
