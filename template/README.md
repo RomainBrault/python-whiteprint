@@ -4,7 +4,7 @@
   <a href="https://{{project_slug}}.readthedocs.io/"><img src="https://raw.githubusercontent.com/{{github_user}}/{{project_slug}}/main/docs/images/logo.png" alt="python whiteprint"></a>
 </h1>
 <p align="center">
-    <em>Python Whiteprint, generate easily Python projects with (opinionated) best practices.</em>
+    <em>{{package_name}}, lorem ipsum et dolor si amet, consectetur adipiscing elit.</em>
 </p>
 <p align="center">
 {% if spdx_license != "None" %}
