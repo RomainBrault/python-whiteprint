@@ -21,7 +21,7 @@
 | charset-normalizer            | 3.1.0       | MIT License                                                                                         | https://github.com/Ousret/charset_normalizer                     |
 | click                         | 8.1.3       | BSD License                                                                                         | https://palletsprojects.com/p/click/                             |
 | colorama                      | 0.4.6       | BSD License                                                                                         | https://github.com/tartley/colorama                              |
-| copier                        | 7.1.0       | MIT License                                                                                         | https://github.com/copier-org/copier                             |
+| copier                        | 7.2.0       | MIT License                                                                                         | https://github.com/copier-org/copier                             |
 | cryptography                  | 40.0.2      | Apache Software License; BSD License                                                                | https://github.com/pyca/cryptography                             |
 | docutils                      | 0.19        | BSD License; GNU General Public License (GPL); Public Domain; Python Software Foundation License    | https://docutils.sourceforge.io/                                 |
 | dunamai                       | 1.16.0      | MIT License                                                                                         | https://github.com/mtkennerly/dunamai                            |
