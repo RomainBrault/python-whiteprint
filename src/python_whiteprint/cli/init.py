@@ -270,12 +270,13 @@ def _post_processing(
             github_token=github_token,
             github_login=copier_answers["github_user"],
             labels=destination / LABEL_FILE,
-            https_origin=https_origin,
         )
         git.protect_repository(
+            repository,
             project_slug=copier_answers["project_slug"],
             github_token=github_token,
             github_login=copier_answers["github_user"],
+            https_origin=https_origin,
         )
 
 

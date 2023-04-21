@@ -167,7 +167,6 @@ def setup_github_repository(
     github_token: str,
     github_login: str,
     labels: pathlib.Path,
-    https_origin: bool,
 ) -> None:
     """Create a repository on GitHub and push the local one.
 
@@ -180,7 +179,6 @@ def setup_github_repository(
             login.
         labels: a path to a yaml file containing a list of labels with their
             descriptions.
-        https_origin: force the origin to be an HTTPS URL.
     """
     github_user = github.Github(github_token, retry=3).get_user()
 
@@ -188,14 +186,9 @@ def setup_github_repository(
         github_user, github_login=github_login
     ).create_repo(project_slug)
 
-    # We do not cover the ssh/https url choice yet.
     repo.remotes.set_url(
         "origin",
-        (
-            github_repository.clone_url
-            if https_origin  # pragma: no cover
-            else github_repository.ssh_url
-        ),
+        github_repository.clone_url,
     )
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
 
@@ -217,18 +210,22 @@ def setup_github_repository(
 
 @beartype
 def protect_repository(
-    project_slug: str,
+    repo: pygit2.repository.Repository,
     *,
+    project_slug: str,
     github_token: str,
     github_login: str,
+    https_origin: str,
 ) -> None:
     """Protect a Github repository.
 
     Args:
+        repo: the local repository.
         project_slug: a slug of the project name (Repository to delete).
         github_token: a GitHub token with repository writing authorization.
         github_login: the GitHub login name of the user or the organization
             login.
+        https_origin: force the origin to be an HTTPS URL.
     """
     github_user = github.Github(github_token, retry=3).get_user()
     github_repository = _find_entity(
@@ -239,6 +236,12 @@ def protect_repository(
     branch.edit_protection(
         strict=True, enforce_admins=True, require_code_owner_reviews=True
     )
+
+    if not https_origin:
+        repo.remotes.set_url(
+            "origin",
+            github_repository.ssh_url,
+        )
 
 
 def delete_github_repository(
