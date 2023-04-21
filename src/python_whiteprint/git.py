@@ -141,6 +141,16 @@ def _find_entity(
     github.AuthenticatedUser.AuthenticatedUser,
     github.Organization.Organization,
 ]:
+    """Find and return an organization or user from the GitHub loging name.
+
+    Args:
+        github_user: an authenticated GitHub user.
+        github_login: the GitHub login name of the user or the organization
+            login.
+
+    Returns:
+        THe organization or user depending on the loging name.
+    """
     organizations = [
         organization
         for organization in github_user.get_orgs()
@@ -165,6 +175,8 @@ def setup_github_repository(
         project_slug: a slug of the project name.
         github_token: a GitHub token with repository write, delete, workflows
             and packages authorizations.
+        github_login: the GitHub login name of the user or the organization
+            login.
         labels: a path to a yaml file containing a list of labels with their
             descriptions.
     """
