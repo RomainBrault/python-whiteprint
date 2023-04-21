@@ -109,6 +109,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 str(defaults),
                 "--defaults",
                 str(test_copier.resolve()),
+                "--https-origin",
                 "--python",
                 sys.executable,
             ],
