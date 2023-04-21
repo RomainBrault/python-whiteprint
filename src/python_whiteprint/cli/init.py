@@ -518,8 +518,10 @@ _option_github_token = params.Option(
 )
 """see `python_whiteprint.cli.init.init` option `github_token`."""
 _option_https_origin = params.Option(
-    False,
+    os.environ.get("WHITEPRINT_HTTPS_ORIGIN"),
     "--https-origin",
+    "-H",
+    envvar="WHITEPRINT_HTTPS_ORIGIN",
     help=_("Force the origin to be an https URL."),
 )
 """see `python_whiteprint.cli.init.init` option `https_origin`."""
