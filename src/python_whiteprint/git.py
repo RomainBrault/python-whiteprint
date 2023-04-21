@@ -188,11 +188,12 @@ def setup_github_repository(
         github_user, github_login=github_login
     ).create_repo(project_slug)
 
+    # We do not cover the ssh/https url choice yet.
     repo.remotes.set_url(
         "origin",
         (
             github_repository.clone_url
-            if https_origin
+            if https_origin  # pragma: no cover
             else github_repository.ssh_url
         ),
     )
