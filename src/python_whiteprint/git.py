@@ -237,7 +237,9 @@ def protect_repository(
         strict=True, enforce_admins=True, require_code_owner_reviews=True
     )
 
-    if not https_origin:
+    # We do not test coverage here as it is too complex for little gains (e.g.
+    # it requires the creation of an SSH key for the test session).
+    if not https_origin:  # pragma: no cover
         repo.remotes.set_url(
             "origin",
             github_repository.ssh_url,
