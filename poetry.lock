@@ -2968,14 +2968,27 @@ files = [
 
 [[package]]
 name = "scalene"
-version = "1.5.21.1"
+version = "1.5.21.2"
 description = "Scalene: A high-resolution, low-overhead CPU, GPU, and memory profiler for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.8,!=3.11.0"
 files = [
-    {file = "scalene-1.5.21.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:f108584fe67a63b2af7e55a9d075f480561a29a08027a99329b3f4d8300582ea"},
-    {file = "scalene-1.5.21.1.tar.gz", hash = "sha256:edb9504777660e835863b3102096e4d7aabda7bc22fa4e309e5e1049de1d1c4d"},
+    {file = "scalene-1.5.21.2-cp310-cp310-macosx_11_7_universal2.whl", hash = "sha256:390bbfaeee85c857491208c6b0c6ba0c1a5e22fbe48c01ecc02b54d7537e1570"},
+    {file = "scalene-1.5.21.2-cp310-cp310-manylinux_2_24_x86_64.whl", hash = "sha256:4ec3761e95dd044ccfb9765c5ef82520ba3e3f98fa1b03d9c0615133fb8d3330"},
+    {file = "scalene-1.5.21.2-cp310-cp310-win_amd64.whl", hash = "sha256:63f605c50748abd569c309894c4df1140e7110bba19c5f0c2fea9ba63dc1310c"},
+    {file = "scalene-1.5.21.2-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:c2f8d2aa936532d4440252a54644bd9983fa3ad5af04321426897fb6624b376c"},
+    {file = "scalene-1.5.21.2-cp311-cp311-manylinux_2_24_x86_64.whl", hash = "sha256:17efceb7354537c03596bf3b915cf16a664eb795e2174ea32caf754d529a4e44"},
+    {file = "scalene-1.5.21.2-cp311-cp311-win_amd64.whl", hash = "sha256:06e760349ba34480d05a9ed011857cb6c6a62045649885ba65eae3a5a5481cb3"},
+    {file = "scalene-1.5.21.2-cp37-cp37m-macosx_10_15_universal2.whl", hash = "sha256:1d53b9ceb13a8f307a9a3037a09e837b4a096c111cf5d34aba20295d4874fdba"},
+    {file = "scalene-1.5.21.2-cp37-cp37m-manylinux_2_24_x86_64.whl", hash = "sha256:304e190d8e63c8edb89da090d42194f966bb91ed246dcf746b24236bae31c6cd"},
+    {file = "scalene-1.5.21.2-cp38-cp38-macosx_10_15_universal2.whl", hash = "sha256:b8c1816aed21c70171d20fd9d617e41c030ee333712e870e092f2da7dc3cd002"},
+    {file = "scalene-1.5.21.2-cp38-cp38-manylinux_2_24_x86_64.whl", hash = "sha256:41afd36effe8fa62052abe602348facfcb8945d1730cdc1caa1d56b3c2e6f71e"},
+    {file = "scalene-1.5.21.2-cp38-cp38-win_amd64.whl", hash = "sha256:312f9d08c3e6bcb086b8363245c932b09f4f27c3a0501e51bdfbcfc22683e5fb"},
+    {file = "scalene-1.5.21.2-cp39-cp39-macosx_11_7_universal2.whl", hash = "sha256:78687e1081b5ed385a9f0d84c5a1528c7e7ef768a7f214145e2917694ce05f7f"},
+    {file = "scalene-1.5.21.2-cp39-cp39-manylinux_2_24_x86_64.whl", hash = "sha256:f9eda1727e5d211ecbe15a53881af3393609a3c606419e32920951b568ffcb46"},
+    {file = "scalene-1.5.21.2-cp39-cp39-win_amd64.whl", hash = "sha256:db81038fc22fbd9376985a7ae5544983c1c91317799ee93bcc28573396b52390"},
+    {file = "scalene-1.5.21.2.tar.gz", hash = "sha256:1580d74fe45545b36bd805ea1508c475ea794abe05bf590e2e59506da8c0d03e"},
 ]
 
 [package.dependencies]
@@ -2988,14 +3001,14 @@ wheel = ">=0.36.1"
 
 [[package]]
 name = "setuptools"
-version = "67.6.1"
+version = "67.7.1"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "setuptools-67.6.1-py3-none-any.whl", hash = "sha256:e728ca814a823bf7bf60162daf9db95b93d532948c4c0bea762ce62f60189078"},
-    {file = "setuptools-67.6.1.tar.gz", hash = "sha256:257de92a9d50a60b8e22abfcbb771571fde0dbf3ec234463212027a4eeecbe9a"},
+    {file = "setuptools-67.7.1-py3-none-any.whl", hash = "sha256:6f0839fbdb7e3cfef1fc38d7954f5c1c26bf4eebb155a55c9bf8faf997b9fb67"},
+    {file = "setuptools-67.7.1.tar.gz", hash = "sha256:bb16732e8eb928922eabaa022f881ae2b7cdcfaf9993ef1f5e841a96d32b8e0c"},
 ]
 
 [package.extras]
