@@ -215,7 +215,7 @@ def protect_repository(
     project_slug: str,
     github_token: str,
     github_login: str,
-    https_origin: str,
+    https_origin: bool,
 ) -> None:
     """Protect a Github repository.
 
