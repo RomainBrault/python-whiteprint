@@ -199,9 +199,9 @@ $ pipx inject nox nox-poetry rich
 Remember to upgrade these tools regularly:
 
 ```console
-$ pipx upgrade cookiecutter
+$ pipx upgrade python-whiteprint
+$ pipx upgrade poetry
 $ pipx upgrade --include-injected nox
-$ poetry self update
 ```
 
 ## Project creation
