@@ -12,7 +12,7 @@ import github
 import pygit2
 import yaml
 from beartype import beartype
-from beartype.typing import Iterable, Optional
+from beartype.typing import Iterable, Optional, Union
 
 
 HEAD: Final = "HEAD"
@@ -133,11 +133,39 @@ def init_and_commit(
 
 
 @beartype
+def _find_entity(
+    github_user: github.AuthenticatedUser.AuthenticatedUser,
+    *,
+    github_login: str,
+) -> Union[
+    github.AuthenticatedUser.AuthenticatedUser,
+    github.Organization.Organization,
+]:
+    """Find and return an organization or user from the GitHub loging name.
+
+    Args:
+        github_user: an authenticated GitHub user.
+        github_login: the GitHub login name of the user or the organization
+            login.
+
+    Returns:
+        THe organization or user depending on the loging name.
+    """
+    organizations = [
+        organization
+        for organization in github_user.get_orgs()
+        if organization.login == github_login
+    ]
+    return organizations[0] if len(organizations) == 1 else github_user
+
+
+@beartype
 def setup_github_repository(
     repo: pygit2.repository.Repository,
     *,
     project_slug: str,
     github_token: str,
+    github_login: str,
     labels: pathlib.Path,
 ) -> None:
     """Create a repository on GitHub and push the local one.
@@ -147,13 +175,21 @@ def setup_github_repository(
         project_slug: a slug of the project name.
         github_token: a GitHub token with repository write, delete, workflows
             and packages authorizations.
+        github_login: the GitHub login name of the user or the organization
+            login.
         labels: a path to a yaml file containing a list of labels with their
             descriptions.
     """
     github_user = github.Github(github_token, retry=3).get_user()
-    github_repository = github_user.create_repo(project_slug)
 
-    repo.remotes.set_url("origin", github_repository.clone_url)
+    github_repository = _find_entity(
+        github_user, github_login=github_login
+    ).create_repo(project_slug)
+
+    repo.remotes.set_url(
+        "origin",
+        github_repository.clone_url,
+    )
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
 
     logger = logging.getLogger(__name__)
@@ -174,22 +210,40 @@ def setup_github_repository(
 
 @beartype
 def protect_repository(
-    project_slug: str,
+    repo: pygit2.repository.Repository,
     *,
+    project_slug: str,
     github_token: str,
+    github_login: str,
+    https_origin: bool,
 ) -> None:
     """Protect a Github repository.
 
     Args:
+        repo: the local repository.
         project_slug: a slug of the project name (Repository to delete).
         github_token: a GitHub token with repository writing authorization.
+        github_login: the GitHub login name of the user or the organization
+            login.
+        https_origin: force the origin to be an HTTPS URL.
     """
     github_user = github.Github(github_token, retry=3).get_user()
-    github_repository = github_user.get_repo(project_slug)
+    github_repository = _find_entity(
+        github_user, github_login=github_login
+    ).get_repo(project_slug)
+
     branch = github_repository.get_branch(INITIAL_HEAD_NAME)
     branch.edit_protection(
         strict=True, enforce_admins=True, require_code_owner_reviews=True
     )
+
+    # We do not test coverage here as it is too complex for little gains (e.g.
+    # it requires the creation of an SSH key for the test session).
+    if not https_origin:  # pragma: no cover
+        repo.remotes.set_url(
+            "origin",
+            github_repository.ssh_url,
+        )
 
 
 def delete_github_repository(

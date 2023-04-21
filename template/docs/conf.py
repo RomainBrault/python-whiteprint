@@ -4,7 +4,7 @@
 # pylint: disable=invalid-name,redefined-builtin
 
 
-project = "Python Whiteprint"
+project = "{{project_name}}"
 author = "{{author}}"
 copyright = "2018-{% now 'utc', '%Y' %}, {{author}}"
 myst_heading_anchors = 3
