@@ -167,6 +167,7 @@ def setup_github_repository(
     github_token: str,
     github_login: str,
     labels: pathlib.Path,
+    https_origin: bool,
 ) -> None:
     """Create a repository on GitHub and push the local one.
 
@@ -179,6 +180,7 @@ def setup_github_repository(
             login.
         labels: a path to a yaml file containing a list of labels with their
             descriptions.
+        https_origin: force the origin to be an HTTPS URL.
     """
     github_user = github.Github(github_token, retry=3).get_user()
 
@@ -186,7 +188,14 @@ def setup_github_repository(
         github_user, github_login=github_login
     ).create_repo(project_slug)
 
-    repo.remotes.set_url("origin", github_repository.clone_url)
+    repo.remotes.set_url(
+        "origin",
+        (
+            github_repository.clone_url
+            if https_origin
+            else github_repository.ssh_url
+        ),
+    )
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
 
     logger = logging.getLogger(__name__)
@@ -210,15 +219,21 @@ def protect_repository(
     project_slug: str,
     *,
     github_token: str,
+    github_login: str,
 ) -> None:
     """Protect a Github repository.
 
     Args:
         project_slug: a slug of the project name (Repository to delete).
         github_token: a GitHub token with repository writing authorization.
+        github_login: the GitHub login name of the user or the organization
+            login.
     """
     github_user = github.Github(github_token, retry=3).get_user()
-    github_repository = github_user.get_repo(project_slug)
+    github_repository = _find_entity(
+        github_user, github_login=github_login
+    ).get_repo(project_slug)
+
     branch = github_repository.get_branch(INITIAL_HEAD_NAME)
     branch.edit_protection(
         strict=True, enforce_admins=True, require_code_owner_reviews=True

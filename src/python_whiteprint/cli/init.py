@@ -190,6 +190,7 @@ def _post_processing(
     skip_tests: bool,
     python: Optional[str],
     github_token: Optional[str],
+    https_origin: bool,
 ) -> None:
     """Apply post processing steps after rendering the template wit Copier.
 
@@ -201,6 +202,7 @@ def _post_processing(
             processing.
         github_token: Github Token to push the newly created repository to
             Github. The token must have writing permissions.
+        https_origin: force the origin to be an HTTPS URL.
     """
     git = importlib.import_module(
         "python_whiteprint.git",
@@ -268,10 +270,12 @@ def _post_processing(
             github_token=github_token,
             github_login=copier_answers["github_user"],
             labels=destination / LABEL_FILE,
+            https_origin=https_origin,
         )
         git.protect_repository(
             project_slug=copier_answers["project_slug"],
             github_token=github_token,
+            github_login=copier_answers["github_user"],
         )
 
 
@@ -512,6 +516,12 @@ _option_github_token = params.Option(
     envvar="WHITEPRINT_GITHUB_TOKEN",
 )
 """see `python_whiteprint.cli.init.init` option `github_token`."""
+_option_https_origin = params.Option(
+    False,
+    "--https-origin",
+    help=_("Force the origin to be an https URL."),
+)
+"""see `python_whiteprint.cli.init.init` option `https_origin`."""
 
 
 @beartype
@@ -549,6 +559,7 @@ def init(  # pylint: disable=too-many-locals
     user_defaults: Optional[pathlib.Path] = _option_user_defaults,
     python: Optional[str] = _option_python,
     github_token: Optional[str] = _option_github_token,
+    https_origin: bool = _option_https_origin,
 ) -> None:
     """Initalize a new Python project.
 
@@ -584,6 +595,7 @@ def init(  # pylint: disable=too-many-locals
             processing.
         github_token: Github Token to push the newly created repository to
             Github. The token must have writing permissions.
+        https_origin: force the origin to be an HTTPS URL.
     """
     data_dict = {} if no_data or data is None else read_yaml(data)
     data_dict.update(
@@ -621,4 +633,5 @@ def init(  # pylint: disable=too-many-locals
         skip_tests=skip_tests,
         python=python,
         github_token=github_token,
+        https_origin=https_origin,
     )
