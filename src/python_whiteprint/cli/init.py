@@ -266,6 +266,7 @@ def _post_processing(
             repository,
             project_slug=copier_answers["project_slug"],
             github_token=github_token,
+            github_login=copier_answers["github_user"],
             labels=destination / LABEL_FILE,
         )
         git.protect_repository(

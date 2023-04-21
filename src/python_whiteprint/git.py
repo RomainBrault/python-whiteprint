@@ -12,7 +12,7 @@ import github
 import pygit2
 import yaml
 from beartype import beartype
-from beartype.typing import Iterable, Optional
+from beartype.typing import Iterable, Optional, Union
 
 
 HEAD: Final = "HEAD"
@@ -133,11 +133,29 @@ def init_and_commit(
 
 
 @beartype
+def _find_entity(
+    github_user: github.AuthenticatedUser.AuthenticatedUser,
+    *,
+    github_login: str,
+) -> Union[
+    github.AuthenticatedUser.AuthenticatedUser,
+    github.Organization.Organization,
+]:
+    organizations = [
+        organization
+        for organization in github_user.get_orgs()
+        if organization.login == github_login
+    ]
+    return organizations[0] if len(organizations) == 1 else github_user
+
+
+@beartype
 def setup_github_repository(
     repo: pygit2.repository.Repository,
     *,
     project_slug: str,
     github_token: str,
+    github_login: str,
     labels: pathlib.Path,
 ) -> None:
     """Create a repository on GitHub and push the local one.
@@ -151,7 +169,10 @@ def setup_github_repository(
             descriptions.
     """
     github_user = github.Github(github_token, retry=3).get_user()
-    github_repository = github_user.create_repo(project_slug)
+
+    github_repository = _find_entity(
+        github_user, github_login=github_login
+    ).create_repo(project_slug)
 
     repo.remotes.set_url("origin", github_repository.clone_url)
     repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")

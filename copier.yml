@@ -101,21 +101,6 @@ target_python_version:
     - "3.10"
     - "3.11"
 
-origin:
-  type: str
-  help: |
-    What is the remote repository address?
-
-    Use '.' to keep the project local otherwise use a github/gitlab URL.
-  default: |-
-    {%- if git_platform == 'github' -%}
-    git@github.com:{{github_user}}/{{project_slug.git}}.git
-    {%- elif git_platform == 'gitlab' -%}
-    git@gitlab.com:{{gitlab_user}}/{{project_slug.git}}.git
-    {%- elif git_platform == 'no_git_platform' -%}
-    .
-    {%- endif -%}
-
 _subdirectory: "template"
 _templates_suffix: ""
 _jinja_extensions:
