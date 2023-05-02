@@ -1752,20 +1752,6 @@ Invoke the command-line interface of your package:
 $ poetry run <project>
 ```
 
-## The Hypermodern Python blog
-
-The project setup is heavily inspired by the [Hypermodern Python] article
-series:
-
-- [Chapter 1: Setup][hypermodern python chapter 1]
-- [Chapter 2: Testing][hypermodern python chapter 2]
-- [Chapter 3: Linting][hypermodern python chapter 3]
-- [Chapter 4: Typing][hypermodern python chapter 4]
-- [Chapter 5: Documentation][hypermodern python chapter 5]
-- [Chapter 6: CI/CD][hypermodern python chapter 6]
-
-You can also read the articles on [this blog][hypermodern python blog].
-
 [pylint]: https://pylint.readthedocs.io/en/latest/
 [ruff]: https://beta.ruff.rs/docs/
 [Beartype]: https://beartype.readthedocs.io/en/latest/
