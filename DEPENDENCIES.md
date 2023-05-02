@@ -36,7 +36,6 @@
 | python-slugify         | 8.0.1       | MIT License                                                                                         | https://github.com/un33k/python-slugify                          |
 | pyyaml-include         | 1.3         | GNU General Public License v3 or later (GPLv3+)                                                     | https://github.com/tanbro/pyyaml-include                         |
 | questionary            | 1.10.0      | MIT License                                                                                         | https://github.com/tmbo/questionary                              |
-| r2pipe                 | 1.8.0       | MIT                                                                                                 | https://rada.re                                                  |
 | requests               | 2.28.2      | Apache Software License                                                                             | https://requests.readthedocs.io                                  |
 | rich                   | 13.3.4      | MIT License                                                                                         | https://github.com/Textualize/rich                               |
 | shellingham            | 1.5.0.post1 | ISC License (ISCL)                                                                                  | https://github.com/sarugaku/shellingham                          |
