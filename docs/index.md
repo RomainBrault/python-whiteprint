@@ -14,13 +14,15 @@ SPDX-License-Identifier: MIT
 
 ```{toctree}
 ---
-hidden:
+caption: Table of Contents
+name: mastertoc
 maxdepth: 1
 ---
 
 Quickstart <quickstart>
-Python Whiteprint User Guide <whiteprint>
-Project User Guide <guide>
+About this project <guide/index.md>
+Python Whiteprint User Guide <guide/whiteprint>
+Project User Guide <guide/project>
 Command Line Reference <usage>
 API Reference <autoapi/index>
 Contributing <contributing>
