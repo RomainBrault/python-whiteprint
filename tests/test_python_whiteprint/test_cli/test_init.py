@@ -18,6 +18,7 @@ from typer import testing
 
 from python_whiteprint import git
 from python_whiteprint.cli import entrypoint, init
+from tests.conftest import YAMLAutocomplete
 
 
 TEST_COPIER: Final = "test_copier"
@@ -302,56 +303,56 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def test_autocomplete(
-        tmp_path: pathlib.Path,
+        autocomplete_dir_yaml: YAMLAutocomplete,
     ) -> None:
         """Test yaml autocompletion."""
-        (autocomplete_dir := tmp_path / "autocomplete").mkdir()
-
-        yaml_files = ["test.yaml", "test.yml"]
-        non_yaml_files = ["test.txt", "yml", "yml.txt"]
-        for file in non_yaml_files + yaml_files:
-            (autocomplete_dir / file).unlink(missing_ok=True)
-            (autocomplete_dir / file).touch()
+        assert set(
+            init.autocomplete_yaml_file(
+                None,
+                None,
+                incomplete=str(autocomplete_dir_yaml["path"].resolve()),
+            )
+        ) == set(
+            autocomplete_dir_yaml["yaml_files"]
+        ), "Invalid autocompletion."
 
         assert set(
             init.autocomplete_yaml_file(
-                None, None, incomplete=str(autocomplete_dir.resolve())
+                None,
+                None,
+                incomplete=str(
+                    autocomplete_dir_yaml["path"].resolve() / "test"
+                ),
             )
-        ) == set(yaml_files), "Invalid autocompletion."
-
-        assert set(
-            init.autocomplete_yaml_file(
-                None, None, incomplete=str(autocomplete_dir.resolve() / "test")
-            )
-        ) == set(yaml_files), "Invalid autocompletion."
+        ) == set(
+            autocomplete_dir_yaml["yaml_files"]
+        ), "Invalid autocompletion."
 
     @staticmethod
     def test_autocomplete_with_suffix(
-        tmp_path: pathlib.Path,
+        autocomplete_dir_yaml: YAMLAutocomplete,
     ) -> None:
         """Test yaml autocompletion."""
-        (autocomplete_dir := tmp_path / "autocomplete").mkdir()
-
-        yaml_files = ["test.yaml", "test.yml"]
-        non_yaml_files = ["test.txt", "yml", "yml.txt"]
-        for file in non_yaml_files + yaml_files:
-            (autocomplete_dir / file).unlink(missing_ok=True)
-            (autocomplete_dir / file).touch()
-
         assert set(
             init.autocomplete_yaml_file(
                 None,
                 None,
-                incomplete=str(autocomplete_dir.resolve() / "test.y"),
+                incomplete=str(
+                    autocomplete_dir_yaml["path"].resolve() / "test.y"
+                ),
             )
-        ) == set(yaml_files), "Invalid autocompletion."
+        ) == set(
+            autocomplete_dir_yaml["yaml_files"]
+        ), "Invalid autocompletion."
 
         assert (
             set(
                 init.autocomplete_yaml_file(
                     None,
                     None,
-                    incomplete=str(autocomplete_dir.resolve() / "test.t"),
+                    incomplete=str(
+                        autocomplete_dir_yaml["path"].resolve() / "test.t"
+                    ),
                 )
             )
             == set()
@@ -359,21 +360,15 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def test_autocomplete_full(
-        tmp_path: pathlib.Path,
+        autocomplete_dir_yaml: YAMLAutocomplete,
     ) -> None:
         """Test yaml autocompletion."""
-        (autocomplete_dir := tmp_path / "autocomplete").mkdir()
-
-        yaml_files = ["test.yaml", "test.yml"]
-        non_yaml_files = ["test.txt", "yml", "yml.txt"]
-        for file in non_yaml_files + yaml_files:
-            (autocomplete_dir / file).unlink(missing_ok=True)
-            (autocomplete_dir / file).touch()
-
         assert set(
             init.autocomplete_yaml_file(
                 None,
                 None,
-                incomplete=str(autocomplete_dir.resolve() / "test.yaml"),
+                incomplete=str(
+                    autocomplete_dir_yaml["path"].resolve() / "test.yaml"
+                ),
             )
         ) == {"test.yaml"}, "Invalid autocompletion."
