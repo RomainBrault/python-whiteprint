@@ -2796,6 +2796,17 @@ prompt_toolkit = ">=2.0,<4.0"
 docs = ["Sphinx (>=3.3,<4.0)", "sphinx-autobuild (>=2020.9.1,<2021.0.0)", "sphinx-autodoc-typehints (>=1.11.1,<2.0.0)", "sphinx-copybutton (>=0.3.1,<0.4.0)", "sphinx-rtd-theme (>=0.5.0,<0.6.0)"]
 
 [[package]]
+name = "r2pipe"
+version = "1.8.0"
+description = "Pipe interface for radare2"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "r2pipe-1.8.0.tar.gz", hash = "sha256:4f5c38406d0a04f05e9044ddfa730d6ef3c5da680166043f8e159c3fdebde268"},
+]
+
+[[package]]
 name = "radon"
 version = "5.1.0"
 description = "Code Metrics in Python"
@@ -3866,4 +3877,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8, <3.12, !=3.11.0"  # scalene does not support 3.11.0
-content-hash = "7e67bc089ed35a59e4975c1581133a9edf340ab0629c4cef154ae9af976e6093"
+content-hash = "326e8ad5d052fa674ac2d4db8e4fd148a936f8157be114c221896aa5d1886441"

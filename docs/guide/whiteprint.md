@@ -6,44 +6,6 @@ SPDX-License-Identifier: MIT
 
 # Python Whiteprint User Guide
 
-:::{warning}
-This page is under construction
-:::
-
-This is the user guide for the [Python Whiteprint] a Python template based on
-the [Hypermodern Python] article series. If you're in a hurry, check out the
-[quickstart guide](quickstart) and the [tutorials](tutorials).
-
-## About this project
-
-**Python Whiteprint** is a general-purpose template for Python libraries and
-applications, released under the [MIT license] and hosted on [GitHub][python whiteprint].
-
-It follows the same goals as [Hypermodern Python Cookiecutter], but with
-different tools. The main objective of this project template is to enable
-current best practices through modern Python tooling. Our goals are to:
-
-- focus on simplicity and minimalism,
-- promote code quality through automation,
-- provide reliable and repeatable processes,
-
-all the way from local testing to publishing releases.
-
-Projects are created from the template using [Copier], a project
-scaffolding tool built on top of the [Jinja] template engine.
-
-The project template is centered around the following tools:
-
-- [Poetry] for packaging and dependency management
-- [Nox] for automation of checks and other development tasks
-- [GitHub Actions] for continuous integration and delivery
-
-## Version policy
-
-Python Whiteprint uses [Semantic Versioning].
-
-(installation)=
-
 ## Installation
 
 ### System requirements
@@ -246,8 +208,8 @@ $ whiteprint init <project_name> --github-token <github_token>
 
 ## How to use your Python Project once generated
 
-Check out the [Project User Guide](./guide) to see how to use your generated
-project!
+Check out the [Project User Guide](./project) to see how to use your
+generated project!
 
 [pylint]: https://pylint.readthedocs.io/en/latest/
 [ruff]: https://beta.ruff.rs/docs/
