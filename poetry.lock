@@ -2287,14 +2287,14 @@ test = ["pytest (>=3.4.0)"]
 
 [[package]]
 name = "pynvml"
-version = "11.4.1"
+version = "11.5.0"
 description = "Python Bindings for the NVIDIA Management Library"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "pynvml-11.4.1-py3-none-any.whl", hash = "sha256:d27be542cd9d06558de18e2deffc8022ccd7355bc7382255d477038e7e424c6c"},
-    {file = "pynvml-11.4.1.tar.gz", hash = "sha256:b2e4a33b80569d093b513f5804db0c7f40cfc86f15a013ae7a8e99c5e175d5dd"},
+    {file = "pynvml-11.5.0-py3-none-any.whl", hash = "sha256:5cce014ac01b098d08f06178f86c37be409b80b2e903a5a03ce15eed60f55e25"},
+    {file = "pynvml-11.5.0.tar.gz", hash = "sha256:d027b21b95b1088b9fc278117f9f61b7c67f8e33a787e9f83f735f0f71ac32d0"},
 ]
 
 [[package]]
