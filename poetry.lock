@@ -1836,14 +1836,14 @@ pip = "*"
 
 [[package]]
 name = "pip-audit"
-version = "2.5.4"
+version = "2.5.5"
 description = "A tool for scanning Python environments for known vulnerabilities"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pip_audit-2.5.4-py3-none-any.whl", hash = "sha256:bee3748030c895488b4dd8a6196fa44f484da000cfd52d8fc64dfa3a2e121624"},
-    {file = "pip_audit-2.5.4.tar.gz", hash = "sha256:a4cb03f9e2896d626f5b153973d3ac0d32fdb18594d78d393b153c83bb8089b6"},
+    {file = "pip_audit-2.5.5-py3-none-any.whl", hash = "sha256:ea9b51a63eb2d430a2d68cfab6cdb373b7f3823184e175cef9fa991f8fb412fc"},
+    {file = "pip_audit-2.5.5.tar.gz", hash = "sha256:4796ac09e2c5ab31a215c3180212a5a37fdaea651d7f3301c2912a322f53803e"},
 ]
 
 [package.dependencies]
@@ -1853,13 +1853,14 @@ html5lib = ">=1.1"
 packaging = ">=23.0.0"
 pip-api = ">=0.0.28"
 pip-requirements-parser = ">=32.0.0"
+requests = "<2.30"
 rich = ">=12.4"
 toml = ">=0.10"
 
 [package.extras]
 dev = ["build", "bump (>=1.3.2)", "pip-audit[doc,lint,test]"]
 doc = ["pdoc"]
-lint = ["black (>=22.3.0)", "interrogate", "isort", "mypy", "ruff (<0.0.260)", "types-html5lib", "types-requests", "types-toml"]
+lint = ["black (>=22.3.0)", "interrogate", "isort", "mypy", "ruff (<0.0.265)", "types-html5lib", "types-requests", "types-toml"]
 test = ["coverage[toml]", "pretend", "pytest", "pytest-cov"]
 
 [[package]]
