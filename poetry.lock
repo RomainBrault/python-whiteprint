@@ -3305,14 +3305,14 @@ test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
 
 [[package]]
 name = "tryceratops"
-version = "2.0.0"
+version = "2.3.2"
 description = "Prevent Exception Handling AntiPatterns"
 category = "dev"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "tryceratops-2.0.0-py3-none-any.whl", hash = "sha256:352572e3a08a8138eb9eba14cafb74a54d4dd7c4ccc47b873f200039fc6f5aa9"},
-    {file = "tryceratops-2.0.0.tar.gz", hash = "sha256:c549f3a6d4d1917280e8896878d55d59a26046e17b3d5a65ef2b537af61bcbc3"},
+    {file = "tryceratops-2.3.2-py3-none-any.whl", hash = "sha256:032fa3cf3659c9865a07b59057edf9efe9e38631e6b977fdae04064888cb62ba"},
+    {file = "tryceratops-2.3.2.tar.gz", hash = "sha256:e9d77811d8f7d886c4ceaeadccd2675c6f2d794344775463faf1cb969e49d865"},
 ]
 
 [package.dependencies]
