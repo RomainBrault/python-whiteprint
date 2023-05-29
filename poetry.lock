@@ -1294,21 +1294,21 @@ files = [
 
 [[package]]
 name = "license-expression"
-version = "30.1.0"
+version = "30.1.1"
 description = "license-expression is a comprehensive utility library to parse, compare, simplify and normalize license expressions (such as SPDX license expressions) using boolean logic."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "license-expression-30.1.0.tar.gz", hash = "sha256:943b1d2cde251bd30a166b509f78990fdd060be9750f3f1a324571e804857a53"},
-    {file = "license_expression-30.1.0-py3-none-any.whl", hash = "sha256:02c48c802b8f001c8b7bc8f3b9cf6a40e88ef95a897b0ff2c05f74c69855a492"},
+    {file = "license-expression-30.1.1.tar.gz", hash = "sha256:42375df653ad85e6f5b4b0385138b2dbea1f5d66360783d8625c3e4f97f11f0c"},
+    {file = "license_expression-30.1.1-py3-none-any.whl", hash = "sha256:8d7e5e2de0d04fc104a4f952c440e8f08a5ba63480a0dad015b294770b7e58ec"},
 ]
 
 [package.dependencies]
 "boolean.py" = ">=4.0"
 
 [package.extras]
-docs = ["Sphinx (>=3.3.1)", "doc8 (>=0.8.1)", "sphinx-rtd-theme (>=0.5.0)", "sphinxcontrib-apidoc (>=0.3.0)"]
+docs = ["Sphinx (==5.1.0)", "doc8 (>=0.8.1)", "sphinx-rtd-theme (>=0.5.0)", "sphinxcontrib-apidoc (>=0.3.0)"]
 testing = ["black", "isort", "pytest (>=6,!=7.0.0)", "pytest-xdist (>=2)", "twine"]
 
 [[package]]
