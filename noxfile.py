@@ -182,7 +182,6 @@ def pre_commit(session: nox_poetry.Session) -> None:
     session.poetry.installroot()
     install_poetry_groups(
         session,
-        "nox",
         "test",
         "lint",
         "type_check",

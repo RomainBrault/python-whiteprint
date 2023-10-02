@@ -5,22 +5,23 @@
 """Poetry."""
 
 import logging
-import pathlib
 import shutil
 import subprocess  # nosec
-
-from beartype import beartype
+from pathlib import Path
+from typing import Final
 
 from python_whiteprint import filesystem
 
 
-@beartype
+__all__: Final = ["PoetryNotFoundError", "lock"]
+"""Public module attributes."""
+
+
 class PoetryNotFoundError(RuntimeError):
     """poetry CLI is not found on the system."""
 
 
-@beartype
-def lock(destination: pathlib.Path) -> None:
+def lock(destination: Path) -> None:
     """Run poetry lock.
 
     Args:
@@ -32,12 +33,21 @@ def lock(destination: pathlib.Path) -> None:
         # requirement of the project
         raise PoetryNotFoundError
 
-    command = [poetry, "lock"]
+    command = [poetry, "lock", "--no-interaction"]
     logger = logging.getLogger(__name__)
-    logger.debug("Running command: '%s'", " ".join(command))
+    logger.debug("Starting process: '%s'", " ".join(command))
     with filesystem.working_directory(destination):
-        subprocess.run(  # nosec
+        completed_process = subprocess.run(  # nosec
             command,
             shell=False,
             check=True,
         )
+
+    logger.debug(
+        "Completed process: '%s' with return code %d. Captured stdout: %s."
+        " Captured stderr: %s",
+        completed_process.args,
+        completed_process.returncode,
+        completed_process.stdout,
+        completed_process.stderr,
+    )

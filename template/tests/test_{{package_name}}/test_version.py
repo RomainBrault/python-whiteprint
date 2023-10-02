@@ -3,17 +3,14 @@
 
 import re
 
-from beartype import beartype
-
 from {{package_name}} import version
 
 
-@beartype
 class TestVersion:
     """Test the __version__ variable."""
 
     @staticmethod
-    def is_canonical(version_number: str) -> bool:
+    def is_canonical(*, version_number: str) -> bool:
         """Determine if version number is well formed.
 
         Version numbers must respect PEP440
@@ -33,5 +30,5 @@ class TestVersion:
         Version numbers must respect PEP440
         """
         assert TestVersion.is_canonical(
-            version.__version__,
+            version_number=version.__version__,
         ), f"The version number {version.__version__} does not respect PEP440."
