@@ -57,7 +57,7 @@ repos:
       - id: pylint
         name: pylint
         description: "[Check] Lint issues"
-        entry: pylint --output-format=colorized --rcfile=pyproject.toml
+        entry: pylint --output-format=colorized --rcfile=pyproject.toml --disable=fixme
         language: system
         types: [python]
         require_serial: true

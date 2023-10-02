@@ -4,63 +4,49 @@
 
 """Initialize a new Python project."""
 
-import enum
 import importlib
 import logging
-import os
-import pathlib
 import shutil
+from pathlib import Path
+from typing import Final
 
-import platformdirs
-from beartype import beartype
-from beartype.typing import Any, Dict, List, Optional, Union
-from click import core, exceptions
+from beartype.typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+)
+from click import core
+from returns.maybe import Maybe
 from typer import params
-from typing_extensions import TypeGuard
+from typing_extensions import Annotated, TypeGuard
 
+from python_whiteprint.cli.environment import DEFAULTS
+from python_whiteprint.cli.exceptions import (
+    NotAValidYAMLError,
+    UnsupportedTypeInMappingError,
+)
+from python_whiteprint.cli.types import DefaultVenvBackend, Yaml
 from python_whiteprint.loc import _
 
 
-YAML_EXT = [".yaml", ".yml"]
-COPIER_ANSWER_FILE = ".copier-answers.yml"
-LABEL_FILE = ".github/labels.yml"
+__all__: Final = [
+    "YAML_EXT",
+    "COPIER_ANSWER_FILE",
+    "LABEL_FILE",
+    "read_yaml",
+    "autocomplete_yaml_file",
+    "init",
+]
+"""Public module attributes."""
 
 
-@beartype
-class UnsupportedTypeInMapping(exceptions.UsageError):
-    """The given type is not supported."""
-
-    def __init__(self) -> None:
-        """Initialize the exception."""
-        super().__init__("The mapping contains unsupported type")
+YAML_EXT: Final = [".yaml", ".yml"]
+COPIER_ANSWER_FILE: Final = ".copier-answers.yml"
+LABEL_FILE: Final = ".github/labels.yml"
 
 
-@beartype
-class NotAValidYAML(exceptions.UsageError):
-    """The YAML file is invalid."""
-
-    def __init__(self, path: pathlib.Path, error: str) -> None:
-        """Initialize the exception.
-
-        Args:
-            path: path to the invalid YAML file.
-            error: the parser error message.
-        """
-        super().__init__(f"{path} is not a valid YAML file, {error}.")
-
-
-class DefaultVenvBackend(str, enum.Enum):
-    """Nox's default virtual environments backend."""
-
-    NONE = "NONE"
-    VIRTUALENV = "VIRTUALENV"
-    CONDA = "CONDA"
-    MAMBA = "MAMBA"
-    VENV = "VENV"
-
-
-@beartype
-def read_yaml(data: pathlib.Path) -> Dict[str, Union[str, int]]:
+def read_yaml(data: Path) -> Yaml:
     """Read a yaml file.
 
     Use PyYAML `safe_load`.
@@ -79,16 +65,15 @@ def read_yaml(data: pathlib.Path) -> Dict[str, Union[str, int]]:
         try:
             copier_data = yaml.safe_load(data_file)
         except yaml.parser.ParserError as parser_error:
-            raise NotAValidYAML(data, str(parser_error)) from parser_error
+            raise NotAValidYAMLError(data, str(parser_error)) from parser_error
 
         if _check_dict(copier_data):
             return copier_data
 
-    raise UnsupportedTypeInMapping
+    raise UnsupportedTypeInMappingError
 
 
-@beartype
-def _copy_license_to_project_root(destination: pathlib.Path) -> None:
+def _copy_license_to_project_root(destination: Path) -> None:
     """Add the license to the COPYING file.
 
     Forward the license or copyright header from the LICENSE directory to the
@@ -108,9 +93,8 @@ def _copy_license_to_project_root(destination: pathlib.Path) -> None:
         )
 
 
-@beartype
 def _format_code(
-    destination: pathlib.Path,
+    destination: Path,
     *,
     default_venv_backend: DefaultVenvBackend,
     python: Optional[str],
@@ -127,13 +111,17 @@ def _format_code(
         "python_whiteprint.nox",
         __package__,
     )
-    try:
+    try:  # pragma: no cover
         nox.run(
             destination=destination,
             args=[
                 "--default-venv-backend",
                 default_venv_backend.value.lower(),
-                *(("--force-python", python) if python else ()),
+                *(
+                    Maybe.from_optional(python)
+                    .map(lambda _python: ("--force-python", _python))
+                    .value_or(())
+                ),
                 "--session",
                 "pre-commit",
             ],
@@ -146,9 +134,8 @@ def _format_code(
         )
 
 
-@beartype
 def _download_licenses(
-    destination: pathlib.Path,
+    destination: Path,
     *,
     default_venv_backend: DefaultVenvBackend,
     python: Optional[str],
@@ -170,7 +157,11 @@ def _download_licenses(
         args=[
             "--default-venv-backend",
             default_venv_backend.value.lower(),
-            *(("--force-python", python) if python else ()),
+            *(
+                Maybe.from_optional(python)
+                .map(lambda _python: ("--force-python", _python))
+                .value_or(())
+            ),
             "--session",
             "reuse",
             "--",
@@ -182,9 +173,8 @@ def _download_licenses(
     _copy_license_to_project_root(destination)
 
 
-@beartype
 def _post_processing(
-    destination: pathlib.Path,
+    destination: Path,
     *,
     default_venv_backend: DefaultVenvBackend,
     skip_tests: bool,
@@ -216,6 +206,7 @@ def _post_processing(
         "python_whiteprint.poetry",
         __package__,
     )
+    github = importlib.import_module("github")
 
     # Create poetry.lock
     poetry.lock(destination)
@@ -227,13 +218,18 @@ def _post_processing(
     )
     git.add_and_commit(repository, message="chore: 📃 download license(s).")
 
+    force_python = (
+        Maybe.from_optional(python)
+        .map(lambda _python: ("--force-python", _python))
+        .value_or(())
+    )
     # Generate the dependencies table.
     nox.run(
         destination=destination,
         args=[
             "--default-venv-backend",
             default_venv_backend.value.lower(),
-            *(("--force-python", python) if python else ()),
+            *force_python,
             "--session",
             "licenses",
             "--",
@@ -258,30 +254,33 @@ def _post_processing(
             args=[
                 "--default-venv-backend",
                 default_venv_backend.value.lower(),
-                *(("--force-python", python) if python else ()),
+                *force_python,
             ],
         )
 
-    if github_token:
+    if (
+        token := Maybe.from_optional(github_token)
+        .map(github.Auth.Token)
+        .value_or(False)
+    ):
         copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
         git.setup_github_repository(
             repository,
             project_slug=copier_answers["project_slug"],
-            github_token=github_token,
-            github_login=copier_answers["github_user"],
+            token=token,
+            login=copier_answers["github_user"],
             labels=destination / LABEL_FILE,
         )
         git.protect_repository(
             repository,
             project_slug=copier_answers["project_slug"],
-            github_token=github_token,
-            github_login=copier_answers["github_user"],
+            token=token,
+            login=copier_answers["github_user"],
             https_origin=https_origin,
         )
 
 
-@beartype
-def _autocomplete_suffix(incomplete: pathlib.Path) -> List[str]:
+def _autocomplete_suffix(incomplete: Path) -> List[str]:
     """Autocomplete by listing files with a YAML extension.
 
     Args:
@@ -300,7 +299,6 @@ def _autocomplete_suffix(incomplete: pathlib.Path) -> List[str]:
     ]
 
 
-@beartype
 def autocomplete_yaml_file(
     _ctx: Optional[core.Context],
     _param: Optional[core.Parameter],
@@ -316,7 +314,7 @@ def autocomplete_yaml_file(
     Returns:
         A list of completions.
     """
-    path = pathlib.Path(incomplete)
+    path = Path(incomplete)
     if path.suffix:
         return _autocomplete_suffix(path)
 
@@ -334,201 +332,7 @@ def autocomplete_yaml_file(
     return proposal
 
 
-_argument_destination = params.Argument(
-    ".",
-    exists=False,
-    file_okay=False,
-    dir_okay=True,
-    writable=True,
-    readable=False,
-    resolve_path=True,
-    metavar="DIRECTORY",
-    help=_("Destination path where to create the Python project."),
-)
-"""see `python_whiteprint.cli.init.init` argument `destination`."""
-_option_src_path = params.Option(
-    os.environ.get(
-        "WHITEPRINT_REPOSITORY",
-        "gh:RomainBrault/python-whiteprint.git",
-    ),
-    "--whiteprint-source",
-    "-w",
-    envvar="WHITEPRINT_REPOSITORY",
-    help=_(
-        "The location of the Python Whiteprint Git repository (string that"
-        " can be resolved to a template path, be it local or remote)."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `src_path`."""
-_option_vcs_ref = params.Option(
-    os.environ.get("WHITEPRINT_VCS_REF"),
-    "--vcs-ref",
-    "-v",
-    envvar="WHITEPRINT_VCS_REF",
-    help=_(
-        "Specify the VCS tag/commit to use in the Python Whiteprint Git"
-        " repository."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `vcs_ref`."""
-_option_exclude = params.Option(
-    (),
-    "--exclude",
-    "-x",
-    help=_(
-        "User-chosen additional file exclusion patterns. Can be repeated"
-        " to ignore multiple files."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `exclude`."""
-_option_use_prereleases = params.Option(
-    False,
-    "--use-prereleases",
-    "-P",
-    help=_(
-        "Consider prereleases when detecting the latest one. Useless if"
-        " specifying a --vcs-ref."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `use_prereleases`."""
-_option_skip_if_exists = params.Option(
-    (),
-    "--skip-if-exsists",
-    "-s",
-    help=_(
-        "User-chosen additional file skip patterns. Can be repeated to"
-        " ignore multiple files."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `skip_if_exists`."""
-_option_cleanup_on_error = params.Option(
-    False,
-    "--no-cleanup-on-error",
-    "-C",
-    help=_("Do NOT delete the destination DIRECTORY if there is an error."),
-)
-"""see `python_whiteprint.cli.init.init` option `cleanup_on_error`."""
-_option_defaults = params.Option(
-    False,
-    "--defaults",
-    "-D",
-    help=_(
-        "Use default answers to questions, which might be null if not"
-        " specified."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `defaults`."""
-_option_overwrite = params.Option(
-    False,
-    "--overwrite",
-    "-O",
-    help=_("When set, overwrite files that already exist, without asking."),
-)
-"""see `python_whiteprint.cli.init.init` option `overwrite`."""
-_option_pretend = params.Option(
-    False,
-    "--pretend",
-    "-P",
-    help=_("When set, produce no real rendering."),
-)
-"""see `python_whiteprint.cli.init.init` option `prepend`."""
-_option_quiet = params.Option(
-    False,
-    "--quiet",
-    "-Q",
-    help=_("When set, disable all output."),
-)
-"""see `python_whiteprint.cli.init.init` option `quiet`."""
-_option_default_venv_backend = params.Option(
-    os.environ.get("WHITEPRINT_DEFAULT_VENV_BACKEND", "VIRTUALENV"),
-    "--default-venv-backend",
-    "-b",
-    case_sensitive=False,
-    envvar="WHITEPRINT_DEFAULT_VENV_BACKEND",
-    help=_("Default virtual environment backend for Nox."),
-)
-"""see `python_whiteprint.cli.init.init` option `default_venv_backend`."""
-_option_skip_tests = params.Option(
-    os.environ.get("WHITEPRINT_SKIP_TESTS", False),
-    "--skip-tests",
-    "-S",
-    envvar="WHITEPRINT_SKIP_TESTS",
-    help=_("Skip tests after initializing the repository."),
-)
-"""see `python_whiteprint.cli.init.init` option `skip_tests`."""
-_option_user_defaults = params.Option(
-    os.environ.get("WHITEPRINT_USER_DEFAULTS"),
-    "--user-defaults",
-    exists=True,
-    file_okay=True,
-    dir_okay=False,
-    writable=False,
-    readable=True,
-    resolve_path=True,
-    shell_complete=autocomplete_yaml_file,
-    envvar="WHITEPRINT_USER_DEFAULTS",
-    help=_("User defaults choices."),
-)
-"""see `python_whiteprint.cli.init.init` option `user_defaults`."""
-_option_no_data = params.Option(
-    False,
-    "--no-data",
-    "-n",
-    help=_("Force not using --data."),
-)
-"""see `python_whiteprint.cli.init.init` option `no_data`."""
-_option_data = params.Option(
-    os.environ.get(
-        "WHITEPRINT_DATA",
-        (
-            pathlib.Path(platformdirs.user_config_dir("whiteprint"))
-            / "config.yml"
-        ),
-    ),
-    "--data",
-    exists=False,
-    file_okay=True,
-    dir_okay=False,
-    writable=False,
-    readable=True,
-    resolve_path=True,
-    shell_complete=autocomplete_yaml_file,
-    envvar="WHITEPRINT_DATA",
-    help=_("User data."),
-)
-"""see `python_whiteprint.cli.init.init` option `user_data`."""
-_option_python = params.Option(
-    os.environ.get("WHITEPRINT_PYTHON"),
-    "--python",
-    "-p",
-    envvar="WHITEPRINT_PYTHON",
-    help=_(
-        "force using the given python interpreter for the post processing."
-    ),
-)
-"""see `python_whiteprint.cli.init.init` option `python`."""
-_option_github_token = params.Option(
-    os.environ.get("WHITEPRINT_GITHUB_TOKEN"),
-    "--github-token",
-    help=_(
-        "Github Token to push the newly created repository to Github. The"
-        " token must have writing permissions."
-    ),
-    envvar="WHITEPRINT_GITHUB_TOKEN",
-)
-"""see `python_whiteprint.cli.init.init` option `github_token`."""
-_option_https_origin = params.Option(
-    os.environ.get("WHITEPRINT_HTTPS_ORIGIN", False),
-    "--https-origin",
-    "-H",
-    envvar="WHITEPRINT_HTTPS_ORIGIN",
-    help=_("Force the origin to be an https URL."),
-)
-"""see `python_whiteprint.cli.init.init` option `https_origin`."""
-
-
-@beartype
-def _check_dict(data: Dict[str, Any]) -> TypeGuard[Dict[str, Union[str, int]]]:
+def _check_dict(data: Dict[str, Any]) -> TypeGuard[Yaml]:
     """Check if the values type of a given dictionary are strings or integers.
 
     Args:
@@ -541,28 +345,217 @@ def _check_dict(data: Dict[str, Any]) -> TypeGuard[Dict[str, Union[str, int]]]:
     return all(isinstance(v, (str, int)) for v in data.values())
 
 
-@beartype
 def init(  # pylint: disable=too-many-locals
     *,
-    destination: pathlib.Path = _argument_destination,
-    src_path: str = _option_src_path,
-    vcs_ref: Optional[str] = _option_vcs_ref,
-    exclude: List[str] = _option_exclude,
-    use_prereleases: bool = _option_use_prereleases,
-    skip_if_exists: List[str] = _option_skip_if_exists,
-    cleanup_on_error: bool = _option_cleanup_on_error,
-    defaults: bool = _option_defaults,
-    overwrite: bool = _option_overwrite,
-    pretend: bool = _option_pretend,
-    quiet: bool = _option_quiet,
-    default_venv_backend: DefaultVenvBackend = _option_default_venv_backend,
-    skip_tests: bool = _option_skip_tests,
-    data: pathlib.Path = _option_data,
-    no_data: bool = _option_no_data,
-    user_defaults: Optional[pathlib.Path] = _option_user_defaults,
-    python: Optional[str] = _option_python,
-    github_token: Optional[str] = _option_github_token,
-    https_origin: bool = _option_https_origin,
+    destination: Annotated[
+        Path,
+        params.Argument(
+            exists=False,
+            file_okay=False,
+            dir_okay=True,
+            writable=True,
+            readable=False,
+            resolve_path=True,
+            metavar="DIRECTORY",
+            help=_("Destination path where to create the Python project."),
+        ),
+    ] = Path(),
+    src_path: Annotated[
+        str,
+        params.Option(
+            "--whiteprint-source",
+            "-w",
+            envvar="WHITEPRINT_REPOSITORY",
+            help=_(
+                "The location of the Python Whiteprint Git repository (string"
+                " that"
+                " can be resolved to a template path, be it local or remote)."
+            ),
+        ),
+    ] = DEFAULTS.copier.repository,
+    vcs_ref: Annotated[
+        Optional[str],
+        params.Option(
+            "--vcs-ref",
+            "-v",
+            envvar="WHITEPRINT_VCS_REF",
+            help=_(
+                "Specify the VCS tag/commit to use in the Python"
+                " Whiteprint Git"
+                " repository."
+            ),
+        ),
+    ] = DEFAULTS.copier.vcs_ref,
+    exclude: Annotated[
+        Optional[List[str]],
+        params.Option(
+            "--exclude",
+            "-x",
+            help=_(
+                "User-chosen additional file exclusion patterns. Can be"
+                " repeated to ignore multiple files."
+            ),
+        ),
+    ] = None,
+    use_prereleases: Annotated[
+        bool,
+        params.Option(
+            "--use-prereleases",
+            "-P",
+            help=_(
+                "Consider prereleases when detecting the latest one."
+                " Useless if specifying a --vcs-ref."
+            ),
+        ),
+    ] = False,
+    skip_if_exists: Annotated[
+        Optional[List[str]],
+        params.Option(
+            "--skip-if-exsists",
+            "-s",
+            help=_(
+                "User-chosen additional file skip patterns. Can be repeated to"
+                " ignore multiple files."
+            ),
+        ),
+    ] = None,
+    cleanup_on_error: Annotated[
+        bool,
+        params.Option(
+            "--no-cleanup-on-error",
+            "-C",
+            help=_(
+                "Do NOT delete the destination DIRECTORY if there is an error."
+            ),
+        ),
+    ] = False,
+    defaults: Annotated[
+        bool,
+        params.Option(
+            "--defaults",
+            "-D",
+            help=_(
+                "Use default answers to questions, which might be null if not"
+                " specified."
+            ),
+        ),
+    ] = False,
+    overwrite: Annotated[
+        bool,
+        params.Option(
+            "--overwrite",
+            "-O",
+            help=_(
+                "When set, overwrite files that already exist, without asking."
+            ),
+        ),
+    ] = False,
+    pretend: Annotated[
+        bool,
+        params.Option(
+            "--pretend",
+            "-P",
+            help=_("When set, produce no real rendering."),
+        ),
+    ] = False,
+    quiet: Annotated[
+        bool,
+        params.Option(
+            "--quiet",
+            "-Q",
+            help=_("When set, disable all output."),
+        ),
+    ] = False,
+    default_venv_backend: Annotated[
+        DefaultVenvBackend,
+        params.Option(
+            "--default-venv-backend",
+            "-b",
+            case_sensitive=False,
+            envvar="WHITEPRINT_DEFAULT_VENV_BACKEND",
+            help=_("Default virtual environment backend for Nox."),
+        ),
+    ] = DEFAULTS.post_processing.default_venv_backend,
+    skip_tests: Annotated[
+        bool,
+        params.Option(
+            "--skip-tests",
+            "-S",
+            envvar="WHITEPRINT_SKIP_TESTS",
+            help=_("Skip tests after initializing the repository."),
+        ),
+    ] = DEFAULTS.post_processing.skip_tests,
+    data: Annotated[
+        Path,
+        params.Option(
+            "--data",
+            exists=False,
+            file_okay=True,
+            dir_okay=False,
+            writable=False,
+            readable=True,
+            resolve_path=True,
+            shell_complete=autocomplete_yaml_file,
+            envvar="WHITEPRINT_DATA",
+            help=_("User data."),
+        ),
+    ] = DEFAULTS.copier.data,
+    no_data: Annotated[
+        bool,
+        params.Option(
+            "--no-data",
+            "-n",
+            help=_("Force not using --data."),
+        ),
+    ] = False,
+    user_defaults: Annotated[
+        Optional[Path],
+        params.Option(
+            "--user-defaults",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            writable=False,
+            readable=True,
+            resolve_path=True,
+            shell_complete=autocomplete_yaml_file,
+            envvar="WHITEPRINT_USER_DEFAULTS",
+            help=_("User defaults choices."),
+        ),
+    ] = DEFAULTS.copier.user_defaults,
+    python: Annotated[
+        Optional[str],
+        params.Option(
+            "--python",
+            "-p",
+            envvar="WHITEPRINT_PYTHON",
+            help=_(
+                "force using the given python interpreter for the post"
+                " processing."
+            ),
+        ),
+    ] = DEFAULTS.post_processing.python,
+    github_token: Annotated[
+        Optional[str],
+        params.Option(
+            "--github-token",
+            help=_(
+                "Github Token to push the newly created repository to"
+                " Github. The"
+                " token must have writing permissions."
+            ),
+            envvar="WHITEPRINT_GITHUB_TOKEN",
+        ),
+    ] = DEFAULTS.post_processing.github_token,
+    https_origin: Annotated[
+        bool,
+        params.Option(
+            "--https-origin",
+            "-H",
+            envvar="WHITEPRINT_HTTPS_ORIGIN",
+            help=_("Force the origin to be an https URL."),
+        ),
+    ] = DEFAULTS.post_processing.https_origin,
 ) -> None:
     """Initalize a new Python project.
 
@@ -600,18 +593,24 @@ def init(  # pylint: disable=too-many-locals
             Github. The token must have writing permissions.
         https_origin: force the origin to be an HTTPS URL.
     """
-    data_dict = {} if no_data or data is None else read_yaml(data)
+    data_dict: Yaml = (
+        {}
+        if no_data
+        else Maybe.from_optional(data).map(read_yaml).value_or({})
+    )
     data_dict.update(
         {
             "git_platform": (
-                "no_git_platform" if github_token is None else "github"
+                Maybe.from_optional(github_token)
+                .map(lambda _token: "github")
+                .value_or("no_git_platform")
             )
         }
     )
     user_defaults_dict = (
-        {"project_name": destination.name}
-        if user_defaults is None
-        else read_yaml(user_defaults)
+        Maybe.from_optional(user_defaults)
+        .map(read_yaml)
+        .value_or({"project_name": destination.name})
     )
     importlib.import_module("copier.main").Worker(
         src_path=src_path,
@@ -619,15 +618,16 @@ def init(  # pylint: disable=too-many-locals
         answers_file=COPIER_ANSWER_FILE,
         vcs_ref=vcs_ref,
         data=data_dict,
-        exclude=exclude,
+        exclude=Maybe.from_optional(exclude).value_or([]),
         use_prereleases=use_prereleases,
-        skip_if_exists=skip_if_exists,
+        skip_if_exists=Maybe.from_optional(skip_if_exists).value_or([]),
         cleanup_on_error=cleanup_on_error,
         defaults=defaults,
         user_defaults=user_defaults_dict,
         overwrite=overwrite,
         pretend=pretend,
         quiet=quiet,
+        unsafe=True,
     ).run_copy()
 
     _post_processing(

@@ -2,11 +2,13 @@
 """Callbacks for the CLI."""
 
 import importlib
+from typing import Final
 
-from beartype import beartype
+
+__all__: Final = ["cb_version"]
+"""Public module attributes."""
 
 
-@beartype
 def cb_version(*, value: bool) -> None:
     """A typer callback that prints the package's version.
 

@@ -9,4 +9,4 @@
 from python_whiteprint.cli import entrypoint
 
 
-entrypoint.app()
+entrypoint.__app__()
