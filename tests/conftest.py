@@ -5,12 +5,26 @@
 """Shared test configuration file."""
 
 import pathlib
+import platform
 
 import pygit2
 import pytest
 from beartype import beartype
 from beartype.typing import List, TypedDict
 from typer import testing
+
+
+@pytest.fixture()
+@beartype
+def python_version() -> str:
+    """Returns the Python version as string.
+
+    Only the Major and Minor version number are returned.
+
+    Returns:
+        the current Python version as string.
+    """
+    return ".".join(platform.python_version_tuple()[:2])
 
 
 @pytest.fixture(scope="class")
@@ -21,7 +35,7 @@ def cli_runner() -> testing.CliRunner:
     Returns:
         A CliRunner instance.
     """
-    return testing.CliRunner()
+    return testing.CliRunner(mix_stderr=False)
 
 
 @pytest.fixture()

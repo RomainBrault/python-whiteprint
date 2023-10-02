@@ -5,4 +5,4 @@
 from {{package_name}}.cli import entrypoint
 
 
-entrypoint.app()
+entrypoint.__app__()
