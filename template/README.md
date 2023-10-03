@@ -1,7 +1,13 @@
 {% include "jinja_template/license_header.md.j2" %}
+{% if documentation == "readthedocs" %}
 <h1 align="center">
-  <a href="https://{{project_slug}}.readthedocs.io/"><img src="https://raw.githubusercontent.com/{{github_user}}/{{project_slug}}/main/docs/images/logo.png" alt="python whiteprint"></a>
+  <a href="https://{{project_slug}}.readthedocs.io/"><img src="https://raw.githubusercontent.com/{{github_user}}/{{project_slug}}/main/docs/images/logo.png" alt="{{project_name}}"></a>
 </h1>
+{% else %}
+<h1 align="center">
+  <a href="index.html"><img src="_static/logo.png" alt="{{project_name}}"></a>
+</h1>
+{%- endif %}
 <p align="center">
     <em>{{project_name}}, lorem ipsum et dolor si amet, consectetur adipiscing elit.</em>
 </p>
@@ -42,16 +48,15 @@
 
 ---
 {% if documentation == "readthedocs" %}
-**Documentation**: <a href="https://{{project_slug}}.readthedocs.io/en/latest/" target="_blank">https://{{project_slug}}.readthedocs.io/en/latest/</a>
+<b>Documentation:</b> <a href="https://{{project_slug}}.readthedocs.io/en/latest/" target="_blank">https://{{project_slug}}.readthedocs.io/en/latest/</a>
+{%- else %}
+<b>Documentation:</b> <a href="index.html" target="_blank">index.html</a>
+{%- endif %}
+{% if git_platform == "github" %}
+<b>Source Code:</b> <a href="https://github.com/{{github_user}}/{{project_slug}}" target="_blank">https://github.com/{{github_user}}/{{project_slug}}</a>
 {%- endif %}
 
-**Source Code**: <a href="https://github.com/{{github_user}}/{{project_slug}}" target="_blank">https://github.com/{{github_user}}/{{project_slug}}</a>
-
 ---
-
-# {{project_name}}
-
-Welcome to {{project_name}}!
 
 # Features
 
