@@ -6,15 +6,21 @@
 
 import contextlib
 import os
-import pathlib
+from pathlib import Path
+from typing import Final
 
-from beartype import beartype
-from beartype.typing import Generator
+from beartype.typing import Generator, no_type_check
 
 
+__all__: Final = ["working_directory"]
+"""Public module attributes."""
+
+
+# TODO: remove @no_type_check when Python 3.10 reach EOL.
+# See https://github.com/beartype/beartype/issues/249.
+@no_type_check
 @contextlib.contextmanager
-@beartype
-def working_directory(path: pathlib.Path) -> Generator[None, None, None]:
+def working_directory(path: Path) -> Generator[None, None, None]:
     """Sets the current working directory (cwd) within the context.
 
     Args:
@@ -27,7 +33,7 @@ def working_directory(path: pathlib.Path) -> Generator[None, None, None]:
     # after the chdir function is called, the information about the current
     # directory is definitively lost, hence the absolute path of the current
     # directory must be known before.
-    origin = pathlib.Path().resolve()
+    origin = Path().resolve()
     try:
         os.chdir(path.resolve())
         yield

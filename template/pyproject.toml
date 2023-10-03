@@ -51,12 +51,17 @@ include = [
 # they support. Without also constraining the upper bound here, Poetry will not
 # select those versions and will result in an old version being
 # resolved/locked.
-python = ">={{target_python_version}}, <3.12"
+# Moreover we blacklist some known python versions incompatibe with other
+# packages.
+#  * scalene: != 3.11.0
+#  * returns: >= 3.8.1
+python = ">={{target_python_version}}, <3.12, !=3.11.0, >=3.8.1"
 rich = ">=12.5.0"
 typer = ">=0.7.0"
 colorama = ">=0.4.3"
 shellingham = ">=1.3.0"
-beartype = ">=0.12.0"
+beartype = ">=0.16.0"
+returns = ">=0.22.0"
 
 [tool.poetry.group.localization.dependencies]
 Babel = ">=2.12.0"
@@ -128,7 +133,7 @@ sphinxcontrib-napoleon = ">=0.7"
 sphinxcontrib-spelling = ">=8.0.0"
 
 [tool.poetry.scripts]
-{{project_slug}} = "{{package_name}}.cli.entrypoint:app"
+{{project_slug}} = "{{package_name}}.cli.entrypoint:__app__"
 
 [build-system]
 requires = ["poetry-core", "Babel"]
