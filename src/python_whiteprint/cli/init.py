@@ -209,7 +209,8 @@ def _post_processing(
     github = importlib.import_module("github")
 
     # Create poetry.lock
-    poetry.lock(destination)
+    poetry.robust_lock(destination)
+
     repository = git.init_and_commit(destination)
 
     # Download the required licenses.
