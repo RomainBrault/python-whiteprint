@@ -8,31 +8,31 @@ import os
 import pathlib
 import sys
 import uuid
-import warnings
 from typing import Final
 
 import pytest
 import yaml
-from beartype import beartype
+from github import Auth
 from typer import testing
 
 from python_whiteprint import git
-from python_whiteprint.cli import entrypoint, init
+from python_whiteprint.cli import entrypoint, exceptions, init
 from tests.conftest import YAMLAutocomplete
 
 
 TEST_COPIER: Final = "test_copier"
 
 
-@beartype
 class TestInit:  # pylint: disable=too-few-public-methods
     """Test the init command."""
 
     @staticmethod
     def test_default(
+        *,
         cli_runner: testing.CliRunner,
         whiteprint_repository: pathlib.Path,
         tmp_path: pathlib.Path,
+        python_version: str,
     ) -> None:
         """Check whether the CLI can be invoked with the default options."""
         # Note: we must use the --defaults flag to avoid interactive mode.
@@ -45,6 +45,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                     "project_name": "Test Whiteprint",
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
+                    "target_python_version": python_version,
                 },
                 defaults_file,
             )
@@ -52,7 +53,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
         (test_copier := tmp_path / TEST_COPIER).mkdir()
         initial_directory = pathlib.Path.cwd().resolve()
         result = cli_runner.invoke(
-            entrypoint.app,
+            entrypoint.__app__,
             [
                 "init",
                 "-w",
@@ -68,16 +69,20 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 sys.executable,
             ],
         )
-        assert result.exit_code == 0, "The CLI did not exit properly."
+        assert (
+            result.exit_code == 0
+        ), f"The CLI did not exit properly: {result.stderr}."
         assert (
             initial_directory == pathlib.Path.cwd().resolve()
         ), "Initial and final working directory differ"
 
     @staticmethod
     def test_skip_tests(
+        *,
         cli_runner: testing.CliRunner,
         whiteprint_repository: pathlib.Path,
         tmp_path: pathlib.Path,
+        python_version: str,
     ) -> None:
         """Check whether the tests can be skipped."""
         # Note: we must use the --defaults flag to avoid interactive mode.
@@ -90,6 +95,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                     "project_name": "Test Whiteprint",
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
+                    "target_python_version": python_version,
                 },
                 defaults_file,
             )
@@ -97,7 +103,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
         (test_copier := tmp_path / TEST_COPIER).mkdir()
         initial_directory = pathlib.Path.cwd().resolve()
         result = cli_runner.invoke(
-            entrypoint.app,
+            entrypoint.__app__,
             [
                 "init",
                 "-w",
@@ -114,7 +120,9 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 sys.executable,
             ],
         )
-        assert result.exit_code == 0, "The CLI did not exit properly."
+        assert (
+            result.exit_code == 0
+        ), f"The CLI did not exit properly: {result.stderr}."
         assert (
             initial_directory == pathlib.Path.cwd().resolve()
         ), "Initial and final working directory differ"
@@ -122,10 +130,12 @@ class TestInit:  # pylint: disable=too-few-public-methods
     @staticmethod
     @pytest.mark.parametrize("spdx_license", ["MIT", "None"])
     def test_licenses(
+        *,
         cli_runner: testing.CliRunner,
         whiteprint_repository: pathlib.Path,
         tmp_path: pathlib.Path,
         spdx_license: str,
+        python_version: str,
     ) -> None:
         """Check whether the tests can be skipped."""
         # Note: we must use the --defaults flag to avoid interactive mode.
@@ -139,6 +149,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
                     "spdx_license": spdx_license,
+                    "target_python_version": python_version,
                 },
                 defaults_file,
             )
@@ -146,7 +157,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
         (test_copier := tmp_path / TEST_COPIER).mkdir()
         initial_directory = pathlib.Path.cwd().resolve()
         result = cli_runner.invoke(
-            entrypoint.app,
+            entrypoint.__app__,
             [
                 "init",
                 "-w",
@@ -164,16 +175,20 @@ class TestInit:  # pylint: disable=too-few-public-methods
                 sys.executable,
             ],
         )
-        assert result.exit_code == 0, "The CLI did not exit properly."
+        assert (
+            result.exit_code == 0
+        ), f"The CLI did not exit properly: {result.stderr}."
         assert (
             initial_directory == pathlib.Path.cwd().resolve()
         ), "Initial and final working directory differ"
 
     @staticmethod
     def test_github(
+        *,
         cli_runner: testing.CliRunner,
         whiteprint_repository: pathlib.Path,
         tmp_path: pathlib.Path,
+        python_version: str,
     ) -> None:
         """Check GitHub integration."""
         with (defaults := tmp_path / "defaults.yml").open(
@@ -187,6 +202,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
                     "project_slug": project_slug,
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
+                    "target_python_version": python_version,
                 },
                 defaults_file,
             )
@@ -194,14 +210,8 @@ class TestInit:  # pylint: disable=too-few-public-methods
         (test_copier := tmp_path / TEST_COPIER).mkdir()
         initial_directory = pathlib.Path.cwd().resolve()
 
-        warnings.filterwarnings(
-            "ignore",
-            category=ResourceWarning,
-            message="unclosed.*<ssl.SSLSocket.*>",
-        )
-
         result = cli_runner.invoke(
-            entrypoint.app,
+            entrypoint.__app__,
             [
                 "init",
                 "-w",
@@ -224,22 +234,25 @@ class TestInit:  # pylint: disable=too-few-public-methods
         )
         git.delete_github_repository(
             project_slug,
-            github_token=os.environ["WHITEPRINT_TEST_GITHUB_TOKEN"],
+            token=Auth.Token(os.environ["WHITEPRINT_TEST_GITHUB_TOKEN"]),
         )
 
-        assert result.exit_code == 0, "The CLI did not exit properly."
+        assert (
+            result.exit_code == 0
+        ), f"The CLI did not exit properly: {result.stderr}."
         assert (
             initial_directory == pathlib.Path.cwd().resolve()
         ), "Initial and final working directory differ"
 
 
-@beartype
 class TestYAML:  # pylint: disable=too-few-public-methods
     """Test the init command."""
 
     @staticmethod
     def test_read_valid(
+        *,
         tmp_path: pathlib.Path,
+        python_version: str,
     ) -> None:
         """Check that it is possible to read a valid YAML file."""
         with (defaults := tmp_path / "defaults.yml").open(
@@ -251,6 +264,7 @@ class TestYAML:  # pylint: disable=too-few-public-methods
                     "project_name": "Test Whiteprint",
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
+                    "target_python_version": python_version,
                 },
                 defaults_file,
             )
@@ -259,7 +273,9 @@ class TestYAML:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def test_read_invalid_type(
+        *,
         tmp_path: pathlib.Path,
+        python_version: str,
     ) -> None:
         """Check that nested dict yaml raises."""
         with (defaults := tmp_path / "defaults.yml").open(
@@ -272,21 +288,23 @@ class TestYAML:  # pylint: disable=too-few-public-methods
                     "author": "Pytest Test",
                     "email": "test@pytest.com",
                     "invalid": {"invalid": "invalid"},
+                    "target_python_version": python_version,
                 },
                 defaults_file,
             )
 
-        with pytest.raises(init.UnsupportedTypeInMapping):
+        with pytest.raises(exceptions.UnsupportedTypeInMappingError):
             init.read_yaml(defaults)
 
     @staticmethod
     def test_read_parser_error(
+        *,
         tmp_path: pathlib.Path,
     ) -> None:
         """Check that reading an invalid YAML raises the proper exception."""
         (defaults := tmp_path / "defaults.yml").write_text(r"{")
 
-        with pytest.raises(init.NotAValidYAML):
+        with pytest.raises(exceptions.NotAValidYAMLError):
             init.read_yaml(defaults)
 
     @staticmethod
@@ -297,12 +315,12 @@ class TestYAML:  # pylint: disable=too-few-public-methods
         assert not data, "the dictionary is not empty"
 
 
-@beartype
 class TestAutocompletion:  # pylint: disable=too-few-public-methods
     """Test the init command."""
 
     @staticmethod
     def test_autocomplete(
+        *,
         autocomplete_dir_yaml: YAMLAutocomplete,
     ) -> None:
         """Test yaml autocompletion."""
@@ -330,6 +348,7 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def test_autocomplete_with_suffix(
+        *,
         autocomplete_dir_yaml: YAMLAutocomplete,
     ) -> None:
         """Test yaml autocompletion."""
@@ -360,6 +379,7 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def test_autocomplete_full(
+        *,
         autocomplete_dir_yaml: YAMLAutocomplete,
     ) -> None:
         """Test yaml autocompletion."""

@@ -1,5 +1,4 @@
 {% include "jinja_template/license_header.md.j2" %}
-
 <h1 align="center">
   <a href="https://{{project_slug}}.readthedocs.io/"><img src="https://raw.githubusercontent.com/{{github_user}}/{{project_slug}}/main/docs/images/logo.png" alt="python whiteprint"></a>
 </h1>
@@ -42,8 +41,7 @@
 </p>
 
 ---
-
-{%- if documentation == "readthedocs" %}
+{% if documentation == "readthedocs" %}
 **Documentation**: <a href="https://{{project_slug}}.readthedocs.io/en/latest/" target="_blank">https://{{project_slug}}.readthedocs.io/en/latest/</a>
 {%- endif %}
 

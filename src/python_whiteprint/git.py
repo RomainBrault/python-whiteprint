@@ -5,20 +5,40 @@
 """Git related functionalities."""
 
 import logging
-import pathlib
-from typing import Final
+from pathlib import Path
+from typing import Final, Optional
 
-import github
 import pygit2
 import yaml
-from beartype import beartype
-from beartype.typing import Iterable, Optional, Union
+from beartype.typing import Iterable, Union
+from github import (
+    Auth,
+    AuthenticatedUser,
+    Github,
+    GithubException,
+    Organization,
+)
+from returns.maybe import Maybe
 
+
+__all__: Final = [
+    "HEAD",
+    "INITIAL_HEAD_NAME",
+    "WHITEPRINT_SIGNATURE",
+    "init_repository",
+    "git_add_all",
+    "add_and_commit",
+    "init_and_commit",
+    "setup_github_repository",
+    "protect_repository",
+    "delete_github_repository",
+]
+"""Public module attributes."""
 
 HEAD: Final = "HEAD"
 """Git HEAD ref."""
 
-INITIAL_HEAD_NAME = "main"
+INITIAL_HEAD_NAME: Final = "main"
 """Git default branch."""
 
 WHITEPRINT_SIGNATURE: Final = pygit2.Signature(
@@ -32,8 +52,11 @@ Note:
 """
 
 
-@beartype
-def init_repository(destination: pathlib.Path) -> pygit2.repository.Repository:
+class FailedAuthenticationError(RuntimeError):
+    """Authentication failed."""
+
+
+def init_repository(destination: Path) -> pygit2.repository.Repository:
     """Run git init.
 
     The default branch is named "main".
@@ -50,7 +73,6 @@ def init_repository(destination: pathlib.Path) -> pygit2.repository.Repository:
     )
 
 
-@beartype
 def git_add_all(
     repo: pygit2.repository.Repository,
 ) -> pygit2.Oid:
@@ -67,7 +89,6 @@ def git_add_all(
     return repo.index.write_tree()
 
 
-@beartype
 def add_and_commit(
     repo: pygit2.repository.Repository,
     *,
@@ -88,25 +109,20 @@ def add_and_commit(
         parents: binary strings representing
             parents of the new commit. If none, use repository's head ref.
     """
-    if ref is None:
-        ref = repo.head.name
-
-    if parents is None:
-        parents = [repo.head.target]
-
     repo.create_commit(
-        ref,
+        Maybe.from_optional(ref).or_else_call(lambda: repo.head.name),
         author,
         committer,
         message,
         git_add_all(repo),
-        list(parents),
+        Maybe.from_optional(parents)
+        .map(list)
+        .or_else_call(lambda: [repo.head.target]),
     )
 
 
-@beartype
 def init_and_commit(
-    destination: pathlib.Path,
+    destination: Path,
     *,
     message: str = "chore: 🥇 inital commit.",
 ) -> pygit2.repository.Repository:
@@ -132,20 +148,16 @@ def init_and_commit(
     return repo
 
 
-@beartype
 def _find_entity(
-    github_user: github.AuthenticatedUser.AuthenticatedUser,
+    github_user: AuthenticatedUser.AuthenticatedUser,
     *,
-    github_login: str,
-) -> Union[
-    github.AuthenticatedUser.AuthenticatedUser,
-    github.Organization.Organization,
-]:
+    login: str,
+) -> Union[AuthenticatedUser.AuthenticatedUser, Organization.Organization,]:
     """Find and return an organization or user from the GitHub loging name.
 
     Args:
         github_user: an authenticated GitHub user.
-        github_login: the GitHub login name of the user or the organization
+        login: the GitHub login name of the user or the organization
             login.
 
     Returns:
@@ -154,109 +166,144 @@ def _find_entity(
     organizations = [
         organization
         for organization in github_user.get_orgs()
-        if organization.login == github_login
+        if organization.login == login
     ]
     return organizations[0] if len(organizations) == 1 else github_user
 
 
-@beartype
 def setup_github_repository(
     repo: pygit2.repository.Repository,
     *,
     project_slug: str,
-    github_token: str,
-    github_login: str,
-    labels: pathlib.Path,
+    token: Auth.Token,
+    login: str,
+    labels: Path,
+    retry: int = 3,
 ) -> None:
     """Create a repository on GitHub and push the local one.
 
     Args:
         repo: the local repository.
         project_slug: a slug of the project name.
-        github_token: a GitHub token with repository write, delete, workflows
+        token: a GitHub token with repository write, delete, workflows
             and packages authorizations.
-        github_login: the GitHub login name of the user or the organization
+        login: the GitHub login name of the user or the organization
             login.
         labels: a path to a yaml file containing a list of labels with their
             descriptions.
+        retry: number of retries to obtain the Github user.
     """
-    github_user = github.Github(github_token, retry=3).get_user()
+    # We ignore covering the case of a failed authentication **yet** as it is
+    # difficult to test for little benefits.
+    with Github(auth=token, retry=retry) as github:
+        if not isinstance(
+            github_user := github.get_user(),
+            AuthenticatedUser.AuthenticatedUser,
+        ):  # pragma: no cover
+            raise FailedAuthenticationError
 
-    github_repository = _find_entity(
-        github_user, github_login=github_login
-    ).create_repo(project_slug)
+        github_repository = _find_entity(github_user, login=login).create_repo(
+            project_slug
+        )
 
-    repo.remotes.set_url(
-        "origin",
-        github_repository.clone_url,
-    )
-    repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
+        repo.remotes.set_url(
+            "origin",
+            github_repository.clone_url,
+        )
+        repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
 
-    logger = logging.getLogger(__name__)
-    for label in yaml.safe_load(labels.read_text()):
-        try:
-            github_repository.create_label(**label)
-        except github.GithubException as github_exception:
-            logger.debug(github_exception)
+        logger = logging.getLogger(__name__)
+        for label in yaml.safe_load(labels.read_text()):
+            try:
+                github_repository.create_label(**label)
+            except GithubException as github_exception:
+                logger.debug(github_exception)
 
     logger.debug("Pushing ref %s", repo.head.target)
     repo.remotes["origin"].push(
         [f"refs/heads/{INITIAL_HEAD_NAME}"],
         callbacks=pygit2.RemoteCallbacks(
-            credentials=pygit2.UserPass("x-access-token", github_token)
+            credentials=pygit2.UserPass("x-access-token", token.token)
         ),
     )
 
 
-@beartype
 def protect_repository(
     repo: pygit2.repository.Repository,
     *,
     project_slug: str,
-    github_token: str,
-    github_login: str,
+    token: Auth.Token,
+    login: str,
     https_origin: bool,
+    retry: int = 3,
 ) -> None:
     """Protect a Github repository.
 
     Args:
         repo: the local repository.
         project_slug: a slug of the project name (Repository to delete).
-        github_token: a GitHub token with repository writing authorization.
-        github_login: the GitHub login name of the user or the organization
+        token: a GitHub token with repository writing authorization.
+        login: the GitHub login name of the user or the organization
             login.
         https_origin: force the origin to be an HTTPS URL.
+        retry: number of retries to obtain the Github user.
     """
-    github_user = github.Github(github_token, retry=3).get_user()
-    github_repository = _find_entity(
-        github_user, github_login=github_login
-    ).get_repo(project_slug)
+    # We ignore covering the case of a failed authentication **yet** as it is
+    # difficult to test for little benefits.
+    with Github(auth=token, retry=retry) as github:
+        github_user = github.get_user()
+        if not isinstance(
+            github_user := github.get_user(),
+            AuthenticatedUser.AuthenticatedUser,
+        ):  # pragma: no cover
+            raise FailedAuthenticationError
 
-    branch = github_repository.get_branch(INITIAL_HEAD_NAME)
-    branch.edit_protection(
-        strict=True, enforce_admins=True, require_code_owner_reviews=True
-    )
-
-    # We do not test coverage here as it is too complex for little gains (e.g.
-    # it requires the creation of an SSH key for the test session).
-    if not https_origin:  # pragma: no cover
-        repo.remotes.set_url(
-            "origin",
-            github_repository.ssh_url,
+        github_repository = _find_entity(github_user, login=login).get_repo(
+            project_slug
         )
+
+        branch = github_repository.get_branch(INITIAL_HEAD_NAME)
+        branch.edit_protection(
+            strict=True,
+            enforce_admins=True,
+            lock_branch=True,
+        )
+        branch.edit_required_pull_request_reviews(
+            require_code_owner_reviews=True
+        )
+        branch.edit_required_status_checks(strict=True)
+
+        # We do not test coverage here as it is too complex for little gains
+        # (e.g. it requires the creation of an SSH key for the test session).
+        if not https_origin:  # pragma: no cover
+            repo.remotes.set_url(
+                "origin",
+                github_repository.ssh_url,
+            )
 
 
 def delete_github_repository(
     project_slug: str,
     *,
-    github_token: str,
+    token: Auth.Token,
+    retry: int = 3,
 ) -> None:
     """Delete a GitHub repository.
 
     Args:
         project_slug: a slug of the project name (Repository to delete).
-        github_token: a GitHub token with repository writing authorization.
+        token: a GitHub token with repository writing authorization.
+        retry: number of retries to obtain the Github user.
     """
-    github_user = github.Github(github_token, retry=3).get_user()
-    github_repository = github_user.get_repo(project_slug)
-    github_repository.delete()
+    with Github(auth=token, retry=retry) as github:
+        github_user = github.get_user()
+
+        # We ignore covering the case of a failed repository creation **yet**
+        # as it is difficult to test for little benefits.
+        try:
+            github_repository = github_user.get_repo(project_slug)
+        except GithubException as github_exception:  # pragma: no cover
+            logger = logging.getLogger(__name__)
+            logger.debug(github_exception)
+        else:
+            github_repository.delete()

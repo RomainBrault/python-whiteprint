@@ -1,10 +1,11 @@
-# SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
-#
-# SPDX-License-Identifier: MIT
-
+{% include "jinja_template/license_header.py.j2" %}
 """Types for the CLI."""
 
 import enum
+from typing import Final
+
+
+__all__: Final = ["LogLevel"]
 
 
 class LogLevel(str, enum.Enum):
@@ -20,3 +21,11 @@ class LogLevel(str, enum.Enum):
     INFO = "INFO"
     DEBUG = "DEBUG"
     NOTSET = "NOTSET"
+
+    def __str__(self) -> str:
+        """Force good enum format when printing help.
+
+        See Also:
+            https://github.com/tiangolo/typer/issues/290
+        """
+        return self.value
