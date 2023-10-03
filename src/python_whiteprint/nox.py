@@ -5,30 +5,32 @@
 """Git related functionalities."""
 
 import logging
-import pathlib
 import shutil
 import subprocess  # nosec
+from pathlib import Path
+from typing import Final
 
-from beartype import beartype
 from beartype.typing import List
 
 from python_whiteprint import filesystem
 from python_whiteprint.loc import _
 
 
-_NOX_SIGINT_EXIT = 130
+__all__: Final = ["NoxNotFoundError", "NoxError", "run"]
+"""Public module attributes."""
+
+
+_NOX_SIGINT_EXIT: Final = 130
 """Nox return code when a SIGINT (ctl+c) is captured."""
 
-_NOX_SUCCESS = 0
+_NOX_SUCCESS: Final = 0
 """Nox success return code."""
 
 
-@beartype
 class NoxNotFoundError(RuntimeError):
     """poetry CLI is not found on the system."""
 
 
-@beartype
 class NoxError(RuntimeError):
     """A Nox error occured.
 
@@ -45,8 +47,7 @@ class NoxError(RuntimeError):
         super().__init__(_("Nox exit code: {}").format(self.exit_code))
 
 
-@beartype
-def run(destination: pathlib.Path, *, args: List[str]) -> None:
+def run(destination: Path, *, args: List[str]) -> None:
     """Run a Nox command.
 
     Args:
@@ -65,13 +66,24 @@ def run(destination: pathlib.Path, *, args: List[str]) -> None:
 
     command = [nox, *args]
     logger = logging.getLogger(__name__)
-    logger.debug("Running command: '%s'", " ".join(command))
+    logger.debug("Starting process: '%s'", " ".join(command))
     with filesystem.working_directory(destination):
-        exit_code = subprocess.run(  # nosec
+        completed_process = subprocess.run(  # nosec
             command, shell=False, check=False
-        ).returncode
+        )
 
-    if exit_code == _NOX_SIGINT_EXIT:  # pragma: no cover
+    logger.debug(
+        "Completed process: '%s' with return code %d. Captured stdout: %s."
+        " Captured stderr: %s",
+        completed_process.args,
+        completed_process.returncode,
+        completed_process.stdout,
+        completed_process.stderr,
+    )
+
+    if (
+        exit_code := completed_process.returncode
+    ) == _NOX_SIGINT_EXIT:  # pragma: no cover
         # We ignore covering the SIGINT case **yet** as it is difficult to test
         # for little benefits.
         # To test this case, we need to run the function in a different

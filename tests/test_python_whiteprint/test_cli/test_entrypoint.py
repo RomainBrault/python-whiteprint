@@ -4,14 +4,12 @@
 
 """Test the main CLI."""
 
-from beartype import beartype
 from typer import testing
 
 from python_whiteprint import version
 from python_whiteprint.cli import entrypoint
 
 
-@beartype
 class TestCLI:
     """Test the CLI."""
 
@@ -19,7 +17,7 @@ class TestCLI:
     def test_version(cli_runner: testing.CliRunner) -> None:
         """Check if the version printed by the CLI match the API one."""
         result = cli_runner.invoke(
-            entrypoint.app,
+            entrypoint.__app__,
             ["--version"],
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
@@ -32,7 +30,7 @@ class TestCLI:
     def test_help_flag_exists(cli_runner: testing.CliRunner) -> None:
         """Check if the version printed by the CLI match the API one."""
         result = cli_runner.invoke(
-            entrypoint.app,
+            entrypoint.__app__,
             ["--help"],
         )
         assert result.exit_code == 0, "The CLI did not exit properly."
@@ -45,5 +43,5 @@ class TestCLI:
             cli_runner: the CLI test runner provided by typer.testing or a
                 fixture.
         """
-        result = cli_runner.invoke(entrypoint.app)
+        result = cli_runner.invoke(entrypoint.__app__)
         assert result.exit_code == 0, "The CLI did not exit properly."
