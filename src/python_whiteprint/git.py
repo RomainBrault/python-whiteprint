@@ -55,10 +55,6 @@ Note:
 class FailedAuthenticationError(RuntimeError):
     """Authentication failed."""
 
-    def __init__(self) -> None:
-        """Instantiate the exception."""
-        super().__init__("Authentication Failed")
-
 
 def init_repository(destination: Path) -> pygit2.repository.Repository:
     """Run git init.
