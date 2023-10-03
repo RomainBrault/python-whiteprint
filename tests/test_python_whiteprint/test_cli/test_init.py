@@ -183,7 +183,6 @@ class TestInit:  # pylint: disable=too-few-public-methods
         ), "Initial and final working directory differ"
 
     @staticmethod
-    @pytest.mark.filterwarnings("ignore::DeprecationWarning")
     def test_github(
         *,
         cli_runner: testing.CliRunner,
