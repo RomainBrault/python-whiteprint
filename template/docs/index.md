@@ -21,5 +21,7 @@ Code of Conduct <code_of_conduct>
 Copying <copying>
 Security <security>
 Dependencies <dependencies>
+{% if git_platform == "github" -%}
 Changelog <https://github.com/{{github_user}}/{{project_slug}}/releases>
+{%- endif %}
 ```

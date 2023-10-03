@@ -3,17 +3,17 @@
 | Deprecated             | 1.2.14    | MIT License                                                                                         | https://github.com/tantale/deprecated                            |
 | Jinja2                 | 3.1.2     | BSD License                                                                                         | https://palletsprojects.com/p/jinja/                             |
 | MarkupSafe             | 2.1.3     | BSD License                                                                                         | https://palletsprojects.com/p/markupsafe/                        |
-| PyGithub               | 1.59.1    | GNU Library or Lesser General Public License (LGPL)                                                 | https://github.com/pygithub/pygithub                             |
+| PyGithub               | 2.1.1     | GNU Library or Lesser General Public License (LGPL)                                                 | https://github.com/pygithub/pygithub                             |
 | PyJWT                  | 2.8.0     | MIT License                                                                                         | https://github.com/jpadilla/pyjwt                                |
 | PyNaCl                 | 1.5.0     | Apache License 2.0                                                                                  | https://github.com/pyca/pynacl/                                  |
 | PyYAML                 | 6.0.1     | MIT License                                                                                         | https://pyyaml.org/                                              |
 | Pygments               | 2.16.1    | BSD License                                                                                         | https://pygments.org                                             |
 | annotated-types        | 0.5.0     | MIT License                                                                                         | UNKNOWN                                                          |
-| arrow                  | 1.2.3     | Apache Software License                                                                             | https://arrow.readthedocs.io                                     |
+| arrow                  | 1.3.0     | Apache Software License                                                                             | https://github.com/arrow-py/arrow                                |
 | beartype               | 0.16.2    | MIT License                                                                                         | https://beartype.readthedocs.io                                  |
 | certifi                | 2023.7.22 | Mozilla Public License 2.0 (MPL 2.0)                                                                | https://github.com/certifi/python-certifi                        |
-| cffi                   | 1.15.1    | MIT License                                                                                         | http://cffi.readthedocs.org                                      |
-| charset-normalizer     | 3.2.0     | MIT License                                                                                         | https://github.com/Ousret/charset_normalizer                     |
+| cffi                   | 1.16.0    | MIT License                                                                                         | http://cffi.readthedocs.org                                      |
+| charset-normalizer     | 3.3.0     | MIT License                                                                                         | https://github.com/Ousret/charset_normalizer                     |
 | click                  | 8.1.7     | BSD License                                                                                         | https://palletsprojects.com/p/click/                             |
 | colorama               | 0.4.6     | BSD License                                                                                         | https://github.com/tartley/colorama                              |
 | copier                 | 8.3.0     | MIT License                                                                                         | https://github.com/copier-org/copier                             |
@@ -26,13 +26,13 @@
 | jinja2-time            | 0.2.0     | MIT License                                                                                         | https://github.com/hackebrot/jinja2-time                         |
 | markdown-it-py         | 3.0.0     | MIT License                                                                                         | https://github.com/executablebooks/markdown-it-py                |
 | mdurl                  | 0.1.2     | MIT License                                                                                         | https://github.com/executablebooks/mdurl                         |
-| packaging              | 23.1      | Apache Software License; BSD License                                                                | https://github.com/pypa/packaging                                |
+| packaging              | 23.2      | Apache Software License; BSD License                                                                | https://github.com/pypa/packaging                                |
 | pathspec               | 0.11.2    | Mozilla Public License 2.0 (MPL 2.0)                                                                | UNKNOWN                                                          |
-| platformdirs           | 3.10.0    | MIT License                                                                                         | https://github.com/platformdirs/platformdirs                     |
+| platformdirs           | 3.11.0    | MIT License                                                                                         | https://github.com/platformdirs/platformdirs                     |
 | plumbum                | 1.8.2     | MIT License                                                                                         | https://github.com/tomerfiliba/plumbum                           |
 | prompt-toolkit         | 3.0.36    | BSD License                                                                                         | https://github.com/prompt-toolkit/python-prompt-toolkit          |
 | pycparser              | 2.21      | BSD License                                                                                         | https://github.com/eliben/pycparser                              |
-| pydantic               | 2.4.1     | MIT License                                                                                         | https://github.com/pydantic/pydantic                             |
+| pydantic               | 2.4.2     | MIT License                                                                                         | https://github.com/pydantic/pydantic                             |
 | pydantic_core          | 2.10.1    | MIT License                                                                                         | https://github.com/pydantic/pydantic-core                        |
 | pygit2                 | 1.13.1    | GPLv2 with linking exception                                                                        | https://github.com/libgit2/pygit2                                |
 | python-dateutil        | 2.8.2     | Apache Software License; BSD License                                                                | https://github.com/dateutil/dateutil                             |
@@ -41,11 +41,12 @@
 | questionary            | 2.0.1     | MIT License                                                                                         | https://github.com/tmbo/questionary                              |
 | requests               | 2.31.0    | Apache Software License                                                                             | https://requests.readthedocs.io                                  |
 | returns                | 0.22.0    | BSD License                                                                                         | https://returns.readthedocs.io                                   |
-| rich                   | 13.5.3    | MIT License                                                                                         | https://github.com/Textualize/rich                               |
+| rich                   | 13.6.0    | MIT License                                                                                         | https://github.com/Textualize/rich                               |
 | shellingham            | 1.5.3     | ISC License (ISCL)                                                                                  | https://github.com/sarugaku/shellingham                          |
 | six                    | 1.16.0    | MIT License                                                                                         | https://github.com/benjaminp/six                                 |
 | text-unidecode         | 1.3       | Artistic License; GNU General Public License (GPL); GNU General Public License v2 or later (GPLv2+) | https://github.com/kmike/text-unidecode/                         |
 | typer                  | 0.9.0     | MIT License                                                                                         | https://github.com/tiangolo/typer                                |
+| types-python-dateutil  | 2.8.19.14 | Apache Software License                                                                             | https://github.com/python/typeshed                               |
 | typing_extensions      | 4.8.0     | Python Software Foundation License                                                                  | https://github.com/python/typing_extensions                      |
-| urllib3                | 2.0.5     | MIT License                                                                                         | https://github.com/urllib3/urllib3/blob/main/CHANGES.rst         |
+| urllib3                | 2.0.6     | MIT License                                                                                         | https://github.com/urllib3/urllib3/blob/main/CHANGES.rst         |
 | wrapt                  | 1.15.0    | BSD License                                                                                         | https://github.com/GrahamDumpleton/wrapt                         |

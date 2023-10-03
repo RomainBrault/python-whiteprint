@@ -125,13 +125,21 @@ ARG REVISION
 ARG TAG
 
 LABEL org.opencontainers.image.authors='{{author}} <{{email}}>' \
+{%- if git_platform == "github" %}
       org.opencontainers.image.url='https://github.com/{{github_user}}/{{project_slug}}/pkgs/container/{{project_slug}}' \
+{%- else %}
+      org.opencontainers.image.url='' \
+{%- endif %}
 {%- if documentation == "readthedocs" %}
       org.opencontainers.image.documentation='https://{{project_slug}}.readthedocs.io/en/latest/' \
 {%- else %}
       org.opencontainers.image.documentation='' \
 {%- endif %}
+{%- if git_platform == "github" %}
       org.opencontainers.image.source='https://github.com/{{github_user}}/{{project_slug}}.git' \
+{%- else %}
+      org.opencontainers.image.source='' \
+{%- endif %}
       org.opencontainers.image.vendor='{{author}}' \
       org.opencontainers.image.licenses='{{spdx_license}}' \
       org.opencontainers.image.version=${VERSION} \
