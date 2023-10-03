@@ -165,7 +165,7 @@ This will allow a chance to talk it over with the owners and validate your appro
 {% elif ci == "gitlab" %}
 {% else %}
 {% endif -%}
-{% endif %}
+{% endif -%}
 <!-- github-only -->
 
 [code of conduct]: CODE_OF_CONDUCT.md

@@ -3,7 +3,7 @@
 
 ```{eval-rst}
 
-.. click:: {{package_name}}.cli._click_app:click_app
+.. click:: {{package_name}}.cli._click_app:__click_app__
     :prog: Python Whiteprint
     :nested: full
 ```

@@ -3,11 +3,16 @@
 # SPDX-License-Identifier: MIT
 
 """Manage a global rich console."""
+from typing import Final
 
 from rich import console
 
 
-DEFAULT = console.Console()
+__all__: Final = ["DEFAULT"]
+"""Public module attributes."""
+
+
+DEFAULT: Final = console.Console()
 """A high level console interface instance.
 
 See Also:
