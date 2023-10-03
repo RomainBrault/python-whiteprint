@@ -3,17 +3,22 @@
 
 import gettext
 import pathlib
+from typing import Final
 
 
-LOCALE_DIRECTORY = pathlib.Path(__file__).parent / "locale"
+__all__: Final = ["LOCALE_DIRECTORY", "TRANSLATION", "_"]
+"""Public module attributes."""
+
+
+LOCALE_DIRECTORY: Final = pathlib.Path(__file__).parent / "locale"
 """Path to the directory containing the locales."""
 
-TRANSLATION = gettext.translation(
+TRANSLATION: Final = gettext.translation(
     "messages",
     LOCALE_DIRECTORY,
     fallback=True,
 )
 """A Gettext translation."""
 
-_ = TRANSLATION.gettext
+_: Final = TRANSLATION.gettext
 """Convenient access to gettext."""

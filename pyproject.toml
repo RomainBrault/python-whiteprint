@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "python_whiteprint"
-version = "0.8.1"
+version = "0.9.0"
 description = "Generating Python projects using best practices"
 authors = [
     "Romain Brault <mail@romainbrault.com>",
@@ -46,12 +46,16 @@ include = [
 # they support. Without also constraining the upper bound here, Poetry will not
 # select those versions and will result in an old version being
 # resolved/locked.
-python = ">=3.8, <3.12, !=3.11.0"  # scalene does not support 3.11.0
+# Moreover we blacklist some known python versions incompatibe with other
+# packages.
+#  * scalene: != 3.11.0
+#  * returns: >= 3.8.1
+python = ">=3.8.1, <3.12, !=3.11.0, >=3.8.1"
 rich = ">=12.5.0"
 typer = ">=0.7.0"
 colorama = ">=0.4.3"
 shellingham = ">=1.3.0"
-beartype = ">=0.13.0"
+beartype = ">=0.15.1"
 copier = ">=7.1.0"
 jinja2-time = ">=0.2.0"
 pygit2 = ">=1.11.1"
@@ -59,6 +63,7 @@ python-slugify = ">=8.0.1"
 typing-extensions = ">=4.5.0"
 platformdirs = ">=3.2.0"
 pygithub = ">=1.58.1"
+returns = ">=0.22.0"
 
 [tool.poetry.group.localization.dependencies]
 Babel = ">=2.12.0"
@@ -129,7 +134,7 @@ sphinxcontrib-napoleon = ">=0.7"
 sphinxcontrib-spelling = ">=8.0.0"
 
 [tool.poetry.scripts]
-whiteprint = "python_whiteprint.cli.entrypoint:app"
+whiteprint = "python_whiteprint.cli.entrypoint:__app__"
 
 [build-system]
 requires = ["poetry-core", "Babel"]
@@ -142,6 +147,7 @@ skips = ["*_test.py", "*/test_*.py"]
 # If certain strict config options are too pedantic for a project,
 # disable them selectively here by setting to false.
 python_version = "3.8"
+plugins = ["returns.contrib.mypy.returns_plugin"]
 exclude = [
     "noxfile.py",
     "gen_ref_pages.py",
@@ -215,6 +221,9 @@ filterwarnings = [
     # Add additional warning supressions as needed here. For example, if a
     # third-party library is throwing a deprecation warning that needs to be
     # fixed upstream:
+    "ignore:`FieldValidationInfo` is deprecated, use `ValidationInfo` instead.:DeprecationWarning",
+    # TODO: remove the filter when
+    # https://github.com/copier-org/copier/issues/1341 is solved
 ]
 
 [tool.coverage.paths]

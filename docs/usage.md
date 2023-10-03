@@ -8,7 +8,7 @@ SPDX-License-Identifier: MIT
 
 ```{eval-rst}
 
-.. click:: python_whiteprint.cli._click_app:click_app
+.. click:: python_whiteprint.cli._click_app:__click_app__
     :prog: whiteprint
     :nested: full
 ```
