@@ -94,7 +94,7 @@ line_length:
 target_python_version:
   type: str
   help: What is the oldest supported python version?
-  default: "3.8"
+  default: "3.11"
   choices:
     - "3.8"
     - "3.9"
