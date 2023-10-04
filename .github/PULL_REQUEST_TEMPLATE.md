@@ -1,10 +1,6 @@
-<!--
-SPDX-FileCopyrightText: © 2023 Romain Brault <mail@romainbrault.com>
+We are happy to accept contributions from our users 🚀.
 
-SPDX-License-Identifier: MIT
--->
-
-We are happy to accept contributions from our users 🚀. For more details on how to contribute see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
+For more details on how to contribute see [here](https://github.com/RomainBrault/python-whiteprint/blob/main/CONTRIBUTING.md).
 
 # Checklist:
 
@@ -27,5 +23,5 @@ Fixes # (issue)
 Please describe the tests that you ran to verify your changes. Please also note
 any relevant details for your test configuration.
 
-- [ ] Test A
-- [ ] Test B
+- Test A
+- Test B

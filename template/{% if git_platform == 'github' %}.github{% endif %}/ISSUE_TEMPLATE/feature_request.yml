@@ -2,7 +2,7 @@
 
 ---
 name: 🛠️ Feature Request
-description: Suggest an idea to help us improve W&B
+description: Suggest an idea to help us improve {{project_name}}
 title: "feat: "
 labels:
   - "enhancement"
