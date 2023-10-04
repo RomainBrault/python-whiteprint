@@ -1,5 +1,6 @@
-{% include "jinja_template/license_header.md.j2" %}
-We are happy to accept contributions from our users 🚀. For more details on how to contribute see [here](https://github.com/{{github_user}}/{{project_slug}}/blob/main/CONTRIBUTING.md).
+We are happy to accept contributions from our users 🚀.
+
+For more details on how to contribute see [here](https://github.com/{{github_user}}/{{project_slug}}/blob/main/CONTRIBUTING.md).
 
 # Checklist:
 
@@ -22,5 +23,5 @@ Fixes # (issue)
 Please describe the tests that you ran to verify your changes. Please also note
 any relevant details for your test configuration.
 
-- [ ] Test A
-- [ ] Test B
+- Test A
+- Test B
