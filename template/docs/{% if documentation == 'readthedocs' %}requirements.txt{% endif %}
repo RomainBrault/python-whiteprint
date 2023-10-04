@@ -1,9 +1,9 @@
 {% include "jinja_template/license_header.config.j2" %}
-furo==2023.3.27
-myst-parser==1.0.1
-sphinx-autoapi==2.1.0
-sphinx-autobuild==2021.3.14
-sphinx-click==4.4.0
-sphinx==6.1.3
+furo==2023.3
+myst-parser==2.0
+sphinx-autoapi==2.1
+sphinx-autobuild==2021.3
+sphinx-click==4.4
+sphinx==6.1
 sphinxcontrib-napoleon==0.7
-sphinxcontrib-spelling==8.0.0
+sphinxcontrib-spelling==8.0

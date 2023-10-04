@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 2
 
       - name: Set up Python
-        uses: actions/setup-python@v4.7.0
+        uses: actions/setup-python@v4.7.1
         id: setup-python
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -52,7 +52,7 @@ jobs:
       - name: Detect and tag new version
         id: check-version
         if: steps.check-parent-commit.outputs.sha
-        uses: salsify/action-detect-and-tag-new-version@v2.0.3
+        uses: salsify/action-detect-and-tag-new-version@v2.0
         with:
           version-command: poetry version --short
 
@@ -70,21 +70,21 @@ jobs:
 
       - name: Publish package on PyPI
         if: steps.check-version.outputs.tag
-        uses: pypa/gh-action-pypi-publish@v1.8.8
+        uses: pypa/gh-action-pypi-publish@v1.8
         with:
           user: __token__
           password: "${{ secrets.PYPI_TOKEN }}"
 
       - name: Publish package on TestPyPI
         if: "! steps.check-version.outputs.tag"
-        uses: pypa/gh-action-pypi-publish@v1.8.8
+        uses: pypa/gh-action-pypi-publish@v1.8
         with:
           user: __token__
           password: "${{ secrets.TEST_PYPI_TOKEN }}"
           repository_url: https://test.pypi.org/legacy/
 
       - name: Publish the release notes
-        uses: release-drafter/release-drafter@v5.24.0
+        uses: release-drafter/release-drafter@v5.24
         with:
           publish: "${{ steps.check-version.outputs.tag != '' }}"
           tag: "${{ steps.check-version.outputs.tag }}"
