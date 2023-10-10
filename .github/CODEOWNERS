@@ -2,4 +2,10 @@
 #
 # SPDX-License-Identifier: MIT
 
+# Default
 * @RomainBrault
+
+# Dependencies
+poetry.lock @RomainBrault @dependabot
+docs/requirements.txt @RomainBrault @dependabot
+.github/workflows/ @RomainBrault @dependabot

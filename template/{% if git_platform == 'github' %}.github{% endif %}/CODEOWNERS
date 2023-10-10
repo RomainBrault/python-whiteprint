@@ -6,4 +6,10 @@
 #
 # See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
+# Default
 * @{{github_user}}
+
+# Dependencies
+poetry.lock @{{github_user}} @dependabot
+docs/requirements.txt @{{github_user}} @dependabot
+.github/workflows/ @{{github_user}} @dependabot
