@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: CC0-1.0
 
 nox==2023.04.22
-nox-poetry==1.0
+nox-poetry==1.0.3
 pip==23.2
 poetry==1.6
