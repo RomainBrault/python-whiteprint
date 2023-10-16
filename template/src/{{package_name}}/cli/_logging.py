@@ -9,7 +9,7 @@ from beartype.typing import Optional
 from returns.maybe import Maybe
 
 from {{package_name}} import console
-from {{package_name}}.cli.types import LogLevel
+from {{package_name}}.cli.cli_types import LogLevel
 from {{package_name}}.loc import _
 
 

@@ -12,7 +12,7 @@ from beartype.typing import Optional
 from returns.maybe import Maybe
 
 from python_whiteprint import console
-from python_whiteprint.cli.types import LogLevel
+from python_whiteprint.cli.cli_types import LogLevel
 from python_whiteprint.loc import _
 
 
