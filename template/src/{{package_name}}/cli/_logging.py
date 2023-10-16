@@ -9,7 +9,7 @@ from beartype.typing import Optional
 from returns.maybe import Maybe
 
 from {{package_name}} import console
-from {{package_name}}.cli.types import LogLevel
+from {{package_name}}.cli.cli_types import LogLevel
 from {{package_name}}.loc import _
 
 
@@ -35,7 +35,7 @@ def configure_logging(
         date_format: The log date format.
 
     Example:
-        >>> from {{package_name}}.cli.types import LogLevel
+        >>> from {{package_name}}.cli.cli_types import LogLevel
         >>>
         >>> configure_logging(LogLevel.INFO)
         None

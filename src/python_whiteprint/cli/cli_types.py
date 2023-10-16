@@ -47,3 +47,11 @@ class DefaultVenvBackend(str, enum.Enum):
     CONDA = "CONDA"
     MAMBA = "MAMBA"
     VENV = "VENV"
+
+    def __str__(self) -> str:
+        """Force good enum format when printing help.
+
+        See Also:
+            https://github.com/tiangolo/typer/issues/290
+        """
+        return self.value

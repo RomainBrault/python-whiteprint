@@ -21,12 +21,12 @@ from returns.maybe import Maybe
 from typer import params
 from typing_extensions import Annotated, TypeGuard
 
+from python_whiteprint.cli.cli_types import DefaultVenvBackend, Yaml
 from python_whiteprint.cli.environment import DEFAULTS
 from python_whiteprint.cli.exceptions import (
     NotAValidYAMLError,
     UnsupportedTypeInMappingError,
 )
-from python_whiteprint.cli.types import DefaultVenvBackend, Yaml
 from python_whiteprint.loc import _
 
 

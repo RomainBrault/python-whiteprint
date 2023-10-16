@@ -13,11 +13,11 @@ import platformdirs
 from beartype.typing import Optional, Union
 from returns.maybe import Maybe
 
+from python_whiteprint.cli.cli_types import DefaultVenvBackend, LogLevel
 from python_whiteprint.cli.exceptions import (
     BOOLEAN_STRING,
     NotAValidBooleanError,
 )
-from python_whiteprint.cli.types import DefaultVenvBackend, LogLevel
 
 
 __all__: Final = ["DEFAULTS", "str2bool"]

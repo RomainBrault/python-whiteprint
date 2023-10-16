@@ -10,7 +10,7 @@ from typing import Final
 from beartype.typing import Optional, Union
 from returns.maybe import Maybe
 
-from {{package_name}}.cli.types import LogLevel
+from {{package_name}}.cli.cli_types import LogLevel
 
 
 __all__: Final = ["DEFAULTS"]

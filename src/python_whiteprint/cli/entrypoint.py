@@ -13,8 +13,8 @@ from typer import main, params
 from typing_extensions import Annotated
 
 from python_whiteprint.cli import _callback, init
+from python_whiteprint.cli.cli_types import LogLevel
 from python_whiteprint.cli.environment import DEFAULTS
-from python_whiteprint.cli.types import LogLevel
 from python_whiteprint.loc import _
 
 

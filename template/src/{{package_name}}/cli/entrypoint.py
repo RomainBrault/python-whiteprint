@@ -10,8 +10,8 @@ from typer import main, params
 from typing_extensions import Annotated
 
 from {{package_name}}.cli._callback import cb_version
+from {{package_name}}.cli.cli_types import LogLevel
 from {{package_name}}.cli.environment import DEFAULTS
-from {{package_name}}.cli.types import LogLevel
 from {{package_name}}.loc import _
 
 

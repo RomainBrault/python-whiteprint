@@ -12,7 +12,7 @@ from beartype.typing import Optional
 from returns.maybe import Maybe
 
 from python_whiteprint import console
-from python_whiteprint.cli.types import LogLevel
+from python_whiteprint.cli.cli_types import LogLevel
 from python_whiteprint.loc import _
 
 
@@ -38,7 +38,7 @@ def configure_logging(
         date_format: The log date format.
 
     Example:
-        >>> from python_whiteprint.cli.types import LogLevel
+        >>> from python_whiteprint.cli.cli_types import LogLevel
         >>>
         >>> configure_logging(LogLevel.INFO)
         None
