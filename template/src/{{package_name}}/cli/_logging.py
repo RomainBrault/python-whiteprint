@@ -35,7 +35,7 @@ def configure_logging(
         date_format: The log date format.
 
     Example:
-        >>> from {{package_name}}.cli.types import LogLevel
+        >>> from {{package_name}}.cli.cli_types import LogLevel
         >>>
         >>> configure_logging(LogLevel.INFO)
         None
