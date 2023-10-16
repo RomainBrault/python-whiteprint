@@ -793,13 +793,13 @@ files = [
 
 [[package]]
 name = "docstring-to-markdown"
-version = "0.12"
+version = "0.13"
 description = "On the fly conversion of Python docstrings to markdown"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "docstring-to-markdown-0.12.tar.gz", hash = "sha256:40004224b412bd6f64c0f3b85bb357a41341afd66c4b4896709efa56827fb2bb"},
-    {file = "docstring_to_markdown-0.12-py3-none-any.whl", hash = "sha256:7df6311a887dccf9e770f51242ec002b19f0591994c4783be49d24cdc1df3737"},
+    {file = "docstring-to-markdown-0.13.tar.gz", hash = "sha256:3025c428638ececae920d6d26054546a20335af3504a145327e657e7ad7ce1ce"},
+    {file = "docstring_to_markdown-0.13-py3-none-any.whl", hash = "sha256:aa487059d0883e70e54da25c7b230e918d9e4d40f23d6dfaa2b73e4225b2d7dd"},
 ]
 
 [[package]]
