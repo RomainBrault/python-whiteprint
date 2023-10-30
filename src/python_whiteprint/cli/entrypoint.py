@@ -32,7 +32,7 @@ __app__ = main.Typer(
     no_args_is_help=True,
     epilog=_("Each sub-command has its own --help."),
     help=_(
-        "Thank you for using {}, a tool to generate minimal Python projects."
+        "Thank you for using {}, a tool to generate minimal Python projects.",
     ).format(__app_name__),
 )
 """The Typer app.
@@ -72,7 +72,7 @@ def callback(
             resolve_path=True,
             help=_(
                 "A file in which to write the log. If None, logs are"
-                " written on the standard output."
+                " written on the standard output.",
             ),
             envvar="WHITEPRINT_LOG_FILE",
         ),
@@ -86,7 +86,7 @@ def callback(
             is_eager=True,
             help=_(
                 "Print the version number of the application to the standard"
-                " output and exit."
+                " output and exit.",
             ),
         ),
     ] = False,
@@ -111,7 +111,7 @@ def callback(
 __app__.command(
     epilog=_(
         "This command mostly forwards copier's CLI. For more details see"
-        " https://copier.readthedocs.io/en/stable/reference/cli/#copier.cli.CopierApp."
+        " https://copier.readthedocs.io/en/stable/reference/cli/#copier.cli.CopierApp.",
     ),
     help=_("Initalize a new Python project."),
 )(init.init)

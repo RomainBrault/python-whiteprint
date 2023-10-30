@@ -73,4 +73,4 @@ def configure_logging(
         datefmt=date_format,
         style="{",
     )
-    logging.captureWarnings(True)
+    logging.captureWarnings(capture=True)

@@ -31,7 +31,7 @@ def cb_version(*, value: bool) -> None:
         importlib.import_module(
             "python_whiteprint.version",
             __package__,
-        ).__version__
+        ).__version__,
     )
 
     raise importlib.import_module("click.exceptions").Exit

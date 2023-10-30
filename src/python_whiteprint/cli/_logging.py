@@ -24,7 +24,7 @@ def configure_logging(
     *,
     filename: Optional[Path] = None,
     log_format: str = _(
-        "[{process}:{thread}] [{pathname}:{funcName}:{lineno}]\n{message}"
+        "[{process}:{thread}] [{pathname}:{funcName}:{lineno}]\n{message}",
     ),
     date_format: str = _("[%Y-%m-%dT%H:%M:%S]"),
 ) -> None:
@@ -54,7 +54,7 @@ def configure_logging(
                 lambda filename: {
                     "filename": str(filename.resolve()),
                     "format": "{asctime} " + log_format,
-                }
+                },
             )
             .or_else_call(
                 lambda: {
@@ -69,11 +69,11 @@ def configure_logging(
                         ),
                     ],
                     "format": log_format,
-                }
+                },
             )
         ),
         level=level.value.upper(),
         datefmt=date_format,
         style="{",
     )
-    logging.captureWarnings(True)
+    logging.captureWarnings(capture=True)

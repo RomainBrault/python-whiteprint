@@ -215,7 +215,9 @@ def _post_processing(
 
     # Download the required licenses.
     _download_licenses(
-        destination, default_venv_backend=default_venv_backend, python=python
+        destination,
+        default_venv_backend=default_venv_backend,
+        python=python,
     )
     git.add_and_commit(repository, message="chore: 📃 download license(s).")
 
@@ -244,7 +246,9 @@ def _post_processing(
 
     # Fixes with pre-commit.
     _format_code(
-        destination, default_venv_backend=default_venv_backend, python=python
+        destination,
+        default_venv_backend=default_venv_backend,
+        python=python,
     )
     git.add_and_commit(repository, message="chore: 🔨 format code.")
 
@@ -259,11 +263,8 @@ def _post_processing(
             ],
         )
 
-    if (
-        token := Maybe.from_optional(github_token)
-        .map(github.Auth.Token)
-        .value_or(False)
-    ):
+    if github_token is not None:
+        token = github.Auth.Token(github_token)
         copier_answers = read_yaml(destination / COPIER_ANSWER_FILE)
         git.setup_github_repository(
             repository,
@@ -370,7 +371,7 @@ def init(  # pylint: disable=too-many-locals
             help=_(
                 "The location of the Python Whiteprint Git repository (string"
                 " that"
-                " can be resolved to a template path, be it local or remote)."
+                " can be resolved to a template path, be it local or remote).",
             ),
         ),
     ] = DEFAULTS.copier.repository,
@@ -383,7 +384,7 @@ def init(  # pylint: disable=too-many-locals
             help=_(
                 "Specify the VCS tag/commit to use in the Python"
                 " Whiteprint Git"
-                " repository."
+                " repository.",
             ),
         ),
     ] = DEFAULTS.copier.vcs_ref,
@@ -394,7 +395,7 @@ def init(  # pylint: disable=too-many-locals
             "-x",
             help=_(
                 "User-chosen additional file exclusion patterns. Can be"
-                " repeated to ignore multiple files."
+                " repeated to ignore multiple files.",
             ),
         ),
     ] = None,
@@ -405,7 +406,7 @@ def init(  # pylint: disable=too-many-locals
             "-P",
             help=_(
                 "Consider prereleases when detecting the latest one."
-                " Useless if specifying a --vcs-ref."
+                " Useless if specifying a --vcs-ref.",
             ),
         ),
     ] = False,
@@ -416,7 +417,7 @@ def init(  # pylint: disable=too-many-locals
             "-s",
             help=_(
                 "User-chosen additional file skip patterns. Can be repeated to"
-                " ignore multiple files."
+                " ignore multiple files.",
             ),
         ),
     ] = None,
@@ -426,7 +427,8 @@ def init(  # pylint: disable=too-many-locals
             "--no-cleanup-on-error",
             "-C",
             help=_(
-                "Do NOT delete the destination DIRECTORY if there is an error."
+                "Do NOT delete the destination DIRECTORY if there is an"
+                " error.",
             ),
         ),
     ] = False,
@@ -437,7 +439,7 @@ def init(  # pylint: disable=too-many-locals
             "-D",
             help=_(
                 "Use default answers to questions, which might be null if not"
-                " specified."
+                " specified.",
             ),
         ),
     ] = False,
@@ -447,7 +449,8 @@ def init(  # pylint: disable=too-many-locals
             "--overwrite",
             "-O",
             help=_(
-                "When set, overwrite files that already exist, without asking."
+                "When set, overwrite files that already exist, without"
+                " asking.",
             ),
         ),
     ] = False,
@@ -532,7 +535,7 @@ def init(  # pylint: disable=too-many-locals
             envvar="WHITEPRINT_PYTHON",
             help=_(
                 "force using the given python interpreter for the post"
-                " processing."
+                " processing.",
             ),
         ),
     ] = DEFAULTS.post_processing.python,
@@ -543,7 +546,7 @@ def init(  # pylint: disable=too-many-locals
             help=_(
                 "Github Token to push the newly created repository to"
                 " Github. The"
-                " token must have writing permissions."
+                " token must have writing permissions.",
             ),
             envvar="WHITEPRINT_GITHUB_TOKEN",
         ),
@@ -605,8 +608,8 @@ def init(  # pylint: disable=too-many-locals
                 Maybe.from_optional(github_token)
                 .map(lambda _token: "github")
                 .value_or("no_git_platform")
-            )
-        }
+            ),
+        },
     )
     user_defaults_dict = (
         Maybe.from_optional(user_defaults)
