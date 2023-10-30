@@ -152,7 +152,10 @@ def _find_entity(
     github_user: AuthenticatedUser.AuthenticatedUser,
     *,
     login: str,
-) -> Union[AuthenticatedUser.AuthenticatedUser, Organization.Organization,]:
+) -> Union[
+    AuthenticatedUser.AuthenticatedUser,
+    Organization.Organization,
+]:
     """Find and return an organization or user from the GitHub loging name.
 
     Args:
