@@ -382,9 +382,8 @@ def init(  # pylint: disable=too-many-locals
             "-v",
             envvar="WHITEPRINT_VCS_REF",
             help=_(
-                "Specify the VCS tag/commit to use in the Python"
-                " Whiteprint Git"
-                " repository.",
+                "Specify the VCS tag/commit to use in the Python Whiteprint"
+                " Git repository.",
             ),
         ),
     ] = DEFAULTS.copier.vcs_ref,
