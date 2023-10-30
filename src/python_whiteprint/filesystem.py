@@ -17,7 +17,8 @@ __all__: Final = ["working_directory"]
 
 
 # TODO(RomainBrault): remove @no_type_check when Python 3.10 reach EOL.
-# See https://github.com/beartype/beartype/issues/249.
+# Some context: https://github.com/beartype/beartype/issues/249.
+# https://github.com/RomainBrault/python-whiteprint/issues/412
 @no_type_check
 @contextlib.contextmanager
 def working_directory(path: Path) -> Generator[None, None, None]:

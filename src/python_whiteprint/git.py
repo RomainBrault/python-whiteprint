@@ -216,11 +216,11 @@ def setup_github_repository(
         repo.remotes.add_fetch("origin", "+refs/heads/*:refs/remotes/origin/*")
 
         logger = logging.getLogger(__name__)
-        try:
-            for label in yaml.safe_load(labels.read_text()):
+        for label in yaml.safe_load(labels.read_text()):
+            try:
                 github_repository.create_label(**label)
-        except GithubException as github_exception:
-            logger.debug(github_exception)
+            except GithubException as github_exception:
+                logger.debug(github_exception)
 
     logger.debug("Pushing ref %s", repo.head.target)
     repo.remotes["origin"].push(
