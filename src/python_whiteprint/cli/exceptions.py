@@ -42,7 +42,7 @@ class NotAValidBooleanError(UsageError):
         super().__init__(
             f"{value} is not a valid boolean.  It should be one of"
             f" {BOOLEAN_STRING.true} to represent a true value or one of"
-            f" {BOOLEAN_STRING.false} to represent a false value."
+            f" {BOOLEAN_STRING.false} to represent a false value.",
         )
 
 

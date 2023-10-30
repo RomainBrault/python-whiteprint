@@ -6,11 +6,11 @@
 
 import logging
 from pathlib import Path
-from typing import Final, Optional
+from typing import Final
 
 import pygit2
 import yaml
-from beartype.typing import Iterable, Union
+from beartype.typing import Iterable, Optional, Union
 from github import (
     Auth,
     AuthenticatedUser,
@@ -152,7 +152,10 @@ def _find_entity(
     github_user: AuthenticatedUser.AuthenticatedUser,
     *,
     login: str,
-) -> Union[AuthenticatedUser.AuthenticatedUser, Organization.Organization,]:
+) -> Union[
+    AuthenticatedUser.AuthenticatedUser,
+    Organization.Organization,
+]:
     """Find and return an organization or user from the GitHub loging name.
 
     Args:
@@ -203,7 +206,7 @@ def setup_github_repository(
             raise FailedAuthenticationError
 
         github_repository = _find_entity(github_user, login=login).create_repo(
-            project_slug
+            project_slug,
         )
 
         repo.remotes.set_url(
@@ -223,7 +226,7 @@ def setup_github_repository(
     repo.remotes["origin"].push(
         [f"refs/heads/{INITIAL_HEAD_NAME}"],
         callbacks=pygit2.RemoteCallbacks(
-            credentials=pygit2.UserPass("x-access-token", token.token)
+            credentials=pygit2.UserPass("x-access-token", token.token),
         ),
     )
 
@@ -259,7 +262,7 @@ def protect_repository(
             raise FailedAuthenticationError
 
         github_repository = _find_entity(github_user, login=login).get_repo(
-            project_slug
+            project_slug,
         )
 
         branch = github_repository.get_branch(INITIAL_HEAD_NAME)
@@ -269,7 +272,7 @@ def protect_repository(
             lock_branch=True,
         )
         branch.edit_required_pull_request_reviews(
-            require_code_owner_reviews=True
+            require_code_owner_reviews=True,
         )
         branch.edit_required_status_checks(strict=True)
 

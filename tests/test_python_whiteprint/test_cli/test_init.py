@@ -229,7 +229,7 @@ class TestInit:  # pylint: disable=too-few-public-methods
             env={
                 "WHITEPRINT_GITHUB_TOKEN": os.environ[
                     "WHITEPRINT_TEST_GITHUB_TOKEN"
-                ]
+                ],
             },
         )
         git.delete_github_repository(
@@ -329,9 +329,9 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
                 None,
                 None,
                 incomplete=str(autocomplete_dir_yaml["path"].resolve()),
-            )
+            ),
         ) == set(
-            autocomplete_dir_yaml["yaml_files"]
+            autocomplete_dir_yaml["yaml_files"],
         ), "Invalid autocompletion."
 
         assert set(
@@ -339,11 +339,11 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
                 None,
                 None,
                 incomplete=str(
-                    autocomplete_dir_yaml["path"].resolve() / "test"
+                    autocomplete_dir_yaml["path"].resolve() / "test",
                 ),
-            )
+            ),
         ) == set(
-            autocomplete_dir_yaml["yaml_files"]
+            autocomplete_dir_yaml["yaml_files"],
         ), "Invalid autocompletion."
 
     @staticmethod
@@ -357,11 +357,11 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
                 None,
                 None,
                 incomplete=str(
-                    autocomplete_dir_yaml["path"].resolve() / "test.y"
+                    autocomplete_dir_yaml["path"].resolve() / "test.y",
                 ),
-            )
+            ),
         ) == set(
-            autocomplete_dir_yaml["yaml_files"]
+            autocomplete_dir_yaml["yaml_files"],
         ), "Invalid autocompletion."
 
         assert (
@@ -370,9 +370,9 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
                     None,
                     None,
                     incomplete=str(
-                        autocomplete_dir_yaml["path"].resolve() / "test.t"
+                        autocomplete_dir_yaml["path"].resolve() / "test.t",
                     ),
-                )
+                ),
             )
             == set()
         ), "Invalid autocompletion."
@@ -388,7 +388,7 @@ class TestAutocompletion:  # pylint: disable=too-few-public-methods
                 None,
                 None,
                 incomplete=str(
-                    autocomplete_dir_yaml["path"].resolve() / "test.yaml"
+                    autocomplete_dir_yaml["path"].resolve() / "test.yaml",
                 ),
-            )
+            ),
         ) == {"test.yaml"}, "Invalid autocompletion."

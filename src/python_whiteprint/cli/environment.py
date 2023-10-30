@@ -117,18 +117,18 @@ DEFAULTS: Final = _Defaults(
                     Path(platformdirs.user_config_dir("whiteprint"))
                     / "config.yml"
                 ),
-            )
+            ),
         ),
     ),
     post_processing=_DefaultsPostProcessing(
         default_venv_backend=DefaultVenvBackend(
-            os.environ.get("WHITEPRINT_DEFAULT_VENV_BACKEND", "VIRTUALENV")
+            os.environ.get("WHITEPRINT_DEFAULT_VENV_BACKEND", "VIRTUALENV"),
         ),
         skip_tests=str2bool(os.environ.get("WHITEPRINT_SKIP_TESTS", False)),
         python=os.environ.get("WHITEPRINT_PYTHON"),
         github_token=os.environ.get("WHITEPRINT_GITHUB_TOKEN"),
         https_origin=str2bool(
-            os.environ.get("WHITEPRINT_HTTPS_ORIGIN", False)
+            os.environ.get("WHITEPRINT_HTTPS_ORIGIN", False),
         ),
     ),
 )

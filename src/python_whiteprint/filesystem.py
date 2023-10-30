@@ -16,8 +16,9 @@ __all__: Final = ["working_directory"]
 """Public module attributes."""
 
 
-# TODO: remove @no_type_check when Python 3.10 reach EOL.
-# See https://github.com/beartype/beartype/issues/249.
+# TODO(RomainBrault): remove @no_type_check when Python 3.10 reach EOL.
+# Some context: https://github.com/beartype/beartype/issues/249.
+# https://github.com/RomainBrault/python-whiteprint/issues/412
 @no_type_check
 @contextlib.contextmanager
 def working_directory(path: Path) -> Generator[None, None, None]:
@@ -33,7 +34,7 @@ def working_directory(path: Path) -> Generator[None, None, None]:
     # after the chdir function is called, the information about the current
     # directory is definitively lost, hence the absolute path of the current
     # directory must be known before.
-    origin = Path().resolve()
+    origin = Path.cwd()
     try:
         os.chdir(path.resolve())
         yield

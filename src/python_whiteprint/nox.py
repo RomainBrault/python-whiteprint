@@ -69,7 +69,9 @@ def run(destination: Path, *, args: List[str]) -> None:
     logger.debug("Starting process: '%s'", " ".join(command))
     with filesystem.working_directory(destination):
         completed_process = subprocess.run(  # nosec
-            command, shell=False, check=False
+            command,
+            shell=False,
+            check=False,
         )
 
     logger.debug(
