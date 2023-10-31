@@ -55,7 +55,7 @@ include = [
 # packages.
 #  * scalene: != 3.11.0
 #  * returns: >= 3.8.1
-python = ">={{target_python_version}}, <3.12, !=3.11.0, >=3.8.1"
+python = ">={{target_python_version}}, <3.13, !=3.11.0, >=3.8.1"
 rich = ">=12.5.0"
 typer = ">=0.7.0"
 colorama = ">=0.4.3"

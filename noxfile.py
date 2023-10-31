@@ -23,7 +23,7 @@ CONSOLE = console.Console()
 
 
 PYTHON_VERSIONS = sorted(
-    ["3.8", "3.9", "3.10", "3.11"],
+    ["3.8", "3.9", "3.10", "3.11", "3.12"],
     key=packaging.version.Version,
 )
 WORKING_PYTHON_VERSION = PYTHON_VERSIONS[-1]
