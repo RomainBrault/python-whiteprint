@@ -1,7 +1,7 @@
 {% include "jinja_template/license_header.container.j2" %}
 
 ARG PYTHON_VERSION={{target_python_version}}
-ARG BASE_OS=alpine3.17
+ARG BASE_OS=alpine3.18
 
 ARG PYTHONDONTWRITEBYTECODE=1
 ARG PYTHONBUFFERED=1

@@ -100,6 +100,7 @@ target_python_version:
     - "3.9"
     - "3.10"
     - "3.11"
+    - "3.12"
 
 _subdirectory: "template"
 _templates_suffix: ""
