@@ -974,3 +974,6 @@ redefining-builtins-modules = [
 enabled = true
 live_mode = true
 strict = true
+
+[tool.python-lsp-balck]
+enabled = true
